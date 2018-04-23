@@ -1,14 +1,53 @@
-<ion-header>
+<!-- <ion-header>
   <ion-navbar>
     <ion-title>
       Ionic Blank
     </ion-title>
   </ion-navbar>
-</ion-header>
+</ion-header> -->
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+
+  <!-- Text Buffer -->
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-10>
+        <ion-item>
+          <ion-input type="text" value="{{message}}"> </ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button block (click)='removeLastWord()'>Delete</button>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button block (click)='speak()'>Speak</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Word prediction -->
+
+  <ion-grid *ngIf="wordPrediction">
+    <ion-row>
+        <ion-col col-2>
+            <button ion-button block>Block Button</button>
+        </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Communication board -->
+
+  <ion-grid *ngFor="let board of boards">
+    <ion-row *ngFor="let row of grid">
+      <ion-col *ngFor="let col of row" >
+
+        <button ion-button block (click)='addWord("text")'> {{col}}</button>
+
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+
 </ion-content>
