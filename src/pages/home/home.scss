@@ -1,3 +1,49 @@
 page-home {
 
+  [ion-fixed] {
+    height: 100%;
+    width: 100%;
+    max-height: 100%;
+    display: grid;
+    grid-template-rows: 12% 12% auto;
+  }
+
+  .grid--prediction{
+    grid-template-rows: 12% 12% auto;
+  }
+
+  ion-grid{
+    height: 100% !important;
+
+  }
+  ion-row{
+    height: 100%;
+  }
+
+  .board-button{
+    height: 100%;
+    width: 100%;
+    border-radius: 6px;
+  }
+
+  .board-button__img{
+
+  }
+
+  .button-inner{
+    display: grid;
+  }
+
+  .board{
+    background: #ECEFF1;
+  }
+
+  .prediction{
+    background: #B0BEC5;
+  }
+
+
+
+
+
 }

@@ -7,7 +7,7 @@
 </ion-header> -->
 
 <ion-content padding>
-
+  <div ion-fixed>
   <!-- Text Buffer -->
 
   <ion-grid>
@@ -28,7 +28,7 @@
 
   <!-- Word prediction -->
 
-  <ion-grid *ngIf="wordPrediction">
+  <ion-grid class="prediction"  *ngIf="wordPrediction">
     <ion-row>
         <ion-col col-2>
             <button ion-button block>Block Button</button>
@@ -38,16 +38,27 @@
 
   <!-- Communication board -->
 
-  <ion-grid *ngFor="let board of boards">
-    <ion-row *ngFor="let row of grid">
-      <ion-col *ngFor="let col of row" >
+  <ion-grid class="board">
+    <ion-row *ngFor="let row of this.currentBoard">
+      <ion-col *ngFor="let button of row" >
 
-        <button ion-button block (click)='addWord("text")'> {{col}}</button>
+        <div *ngIf="button.load_board; then directory else word"></div>
+        <ng-template #directory>
+
+            <button class="board-button" [ngStyle]="{'background': button.background_color}" ion-button>
+                <ion-img class="board-button__img" [cache]="true" src="{{button.image_url}}"></ion-img>
+                {{button.label}}
+            </button>
+        </ng-template>
+
+        <ng-template #word>
+            <button class="board-button" [ngStyle]="{'background': button.background_color}" ion-button (click)='addWord(button.label)'> {{button.label}}</button>
+        </ng-template>
 
       </ion-col>
     </ion-row>
 
   </ion-grid>
 
-
+  </div>
 </ion-content>
