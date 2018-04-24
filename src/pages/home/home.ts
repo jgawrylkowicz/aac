@@ -31,8 +31,8 @@ export class HomePage {
   constructor(public navCtrl: NavController,
     public plt: Platform,
     public file: File,
-    private zip:Zip,
-    public http:Http) {
+    private zip: Zip,
+    public http: Http) {
 
       this.boards = new Array<any>();
       this.currentBoard = new Array<any>();

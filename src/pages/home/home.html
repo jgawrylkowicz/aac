@@ -14,7 +14,7 @@
     <ion-row>
       <ion-col col-10>
         <ion-item>
-          <ion-input type="text" value="{{message}}"> </ion-input>
+          <ion-input class="textfield" type="text" value="{{message}}"> </ion-input>
         </ion-item>
       </ion-col>
       <ion-col col-1>
@@ -44,15 +44,24 @@
 
         <div *ngIf="button.load_board; then directory else word"></div>
         <ng-template #directory>
+          <button class="board-button" [ngStyle]="{'background': button.background_color}" ion-button>
+              <div class="board-button__img" >
+                  <ion-img [cache]="true" src="{{button.image_url}}"></ion-img>
+              </div>
+              <div class="board-button__label" > {{button.label}} </div>
+              <div class="board-button__dir"> </div>
 
-            <button class="board-button" [ngStyle]="{'background': button.background_color}" ion-button>
-                <ion-img class="board-button__img" [cache]="true" src="{{button.image_url}}"></ion-img>
-                {{button.label}}
-            </button>
+          </button>
         </ng-template>
 
         <ng-template #word>
-            <button class="board-button" [ngStyle]="{'background': button.background_color}" ion-button (click)='addWord(button.label)'> {{button.label}}</button>
+          <button class="board-button" [ngStyle]="{'background': button.background_color}" ion-button (click)='addWord(button.label)'>
+            <div class="board-button__img" >
+                <ion-img [cache]="true" src="{{button.image_url}}"></ion-img>
+            </div>
+            <div class="board-button__label" > {{button.label}} </div>
+
+          </button>
         </ng-template>
 
       </ion-col>

@@ -20,6 +20,13 @@ page-home {
     height: 100%;
   }
 
+  ion-input{
+    background: #FFFFFF;
+    //box-shadow: 0 2px 4px 0 rgba(0,0,0,0.12);
+    //border-radius: 8px;
+    //border: none !important;
+  }
+
   .board-button{
     height: 100%;
     width: 100%;
@@ -27,11 +34,33 @@ page-home {
   }
 
   .board-button__img{
+    height: 50%;
+    width: 50%;
+    margin: 0 auto;
+  }
+
+  .board-button__label{
+    text-transform: none;
+    color: black;
+  }
+
+  .board-button .button-inner{
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 100%;
 
   }
 
-  .button-inner{
-    display: grid;
+  .board-button__dir{
+    position: absolute;
+    height: 0;
+    width: 0;
+    top: 0;
+    right: 0;
+    border-top: 2em solid black;
+    border-bottom: 2em solid transparent;
+    border-left: 2em solid transparent ;
   }
 
   .board{
@@ -42,8 +71,13 @@ page-home {
     background: #B0BEC5;
   }
 
+  .item-md.item-block .item-inner{
+    //border: none;
+  }
 
-
+  .textfield.item_inner{
+    //border: none;
+  }
 
 
 }
