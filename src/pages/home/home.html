@@ -8,49 +8,44 @@
 
 <ion-content padding>
   <div ion-fixed>
-  <!-- Text Buffer -->
 
-  <ion-grid>
-    <ion-row>
-      <ion-col col-10>
-        <ion-item>
-          <ion-input class="textfield" type="text" value="{{message}}"> </ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col col-1>
-        <button ion-button block (click)='removeLastWord()'>Delete</button>
-      </ion-col>
-      <ion-col col-1>
-        <button ion-button block (click)='speak()'>Speak</button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    <!-- Text Buffer -->
+  <div class="textfield">
+    <div class="textfield__message">
+      <div class="textfield__content">{{message}}</div>
+      <ion-icon class="textfield__btn" (click)='speak()' name="mic"></ion-icon>
+      <ion-icon class="textfield__btn" (click)='removeLastWord()' name="backspace"></ion-icon>
+    </div>
+    <div class="textfield__menu">
+      <ion-icon class="textfield__btn" (click)='clearMessage()' name="trash"></ion-icon>
+    </div>
+  </div>
 
   <!-- Word prediction -->
+  <div class="prediction"  *ngIf="wordPrediction">
+    <button *ngFor="let i of [0,1,2]" class="board-button" ion-button>
+        <div class="board-button__img" >
+            <ion-img [cache]="true" ></ion-img>
+        </div>
+        <div class="board-button__label" >  testß </div>
+    </button>
 
-  <ion-grid class="prediction"  *ngIf="wordPrediction">
-    <ion-row>
-        <ion-col col-2>
-            <button ion-button block>Block Button</button>
-        </ion-col>
-    </ion-row>
-  </ion-grid>
+  </div>
+
+
 
   <!-- Communication board -->
-
-  <ion-grid class="board">
-    <ion-row *ngFor="let row of this.currentBoard">
+  <ion-grid *ngIf="currentBoard.getGrid().length > 0" class="board">
+    <ion-row *ngFor="let row of currentBoard.getGrid()">
       <ion-col *ngFor="let button of row" >
-
         <div *ngIf="button.load_board; then directory else word"></div>
         <ng-template #directory>
-          <button class="board-button" [ngStyle]="{'background': button.background_color}" ion-button>
+          <button class="board-button" [ngStyle]="{'background': button.background_color}" ion-button (click)='changeBoard(button.load_board.id)'>
               <div class="board-button__img" >
                   <ion-img [cache]="true" src="{{button.image_url}}"></ion-img>
               </div>
               <div class="board-button__label" > {{button.label}} </div>
               <div class="board-button__dir"> </div>
-
           </button>
         </ng-template>
 
@@ -63,7 +58,6 @@
 
           </button>
         </ng-template>
-
       </ion-col>
     </ion-row>
 

@@ -4,6 +4,8 @@ import { Platform } from 'ionic-angular';
 import { BoardsProvider } from '../../providers/boards/boards';
 //import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
+import { BoardModel } from '../../models/board-model';
+import { isRightSide } from 'ionic-angular/util/util';
 
 @Component({
   selector: 'page-home',
@@ -12,55 +14,41 @@ import 'rxjs/add/operator/map';
 export class HomePage {
 
   wordPrediction:boolean;
-  message: string;
-  native:boolean;
+  isfromDirectory:boolean;
 
-  boards:Array<any>;
-  currentBoard:Array<any>;
-  // grid and boards need a refractor
-  // grid is used to draw the 2d communication board and contains all the buttons in the right order
-  // boards is an array of communication boards
-  // currentboard needs to be implemented
+  message: string;
+  boards:Array<BoardModel>;
+  currentBoard:BoardModel;
 
   constructor(public navCtrl: NavController,
     public plt: Platform,
     public boardsProvider: BoardsProvider) {
 
-      this.boards = new Array<any>();
-      this.currentBoard = new Array<any>();
+      // both of these file have to be defined otherwise their memeber functions can't be accessed
+      this.boards = new Array<BoardModel>();
+      this.currentBoard = new BoardModel();
+      this.isfromDirectory = false;
 
   }
 
   ionViewDidLoad() {
     this.loadSettings();
+
   }
 
-  loadSettings(){
+  async loadSettings(){
     this.message = '';
-    this.wordPrediction = true;
-    this.native = false;
-    this.getBoards();
-  }
-
-  async getBoards(){
+    this.wordPrediction = false;
     this.boards = await this.boardsProvider.getBoards();
-    //console.log(this.boards);
-    this.setBoardAsActive(0);
+    await console.log("boards", this.boards);
+    await this.setBoardAsActive(0);
   }
 
-  // need an interface for settings later
-  private getBoardSettings():Promise<Array<string>>{
-    return this.boardsProvider.getBoardSettings();
-  }
-
-  getBoard(filename:string):Promise<string>{
-    return this.boardsProvider.getBoard(filename);
-  }
-
+  // sets a board from the array as the current one
+  // 0 is the index of the root board
   setBoardAsActive(id:number){
     if (this.boards && this.boards.length > 0){
       this.currentBoard = this.boards[id];
-      console.log("currentBoard",this.currentBoard);
     } else console.log("Error: No boards loaded.")
   }
 
@@ -75,6 +63,9 @@ export class HomePage {
       this.message += " " + word;
     }
 
+    // go back to the root board
+    if (this.isfromDirectory) this.setBoardAsActive(0);
+
   }
 
   removeLastWord(){
@@ -88,37 +79,18 @@ export class HomePage {
 
   }
 
+  clearMessage(){
+    this.message = '';
+  }
 
-     // let url:string = '../../assets/boards/';
-    // let dir:string = 'cache';
-
-    // // create a new directory
-    // if (this.native) this.file.createDir(url, dir, false);
-
-    // // unzip the obz file
-    // if (this.native){
-    //   this.plt.ready().then((readySource) => {
-
-    //     this.zip.unzip(url + 'communikate-20.obz', url + dir, (progress) => console.log('Unzipping, ' + Math.round((progress.loaded / progress.total) * 100) + '%'))
-    //     .then((result) => {
-    //       if(result === 0) console.log('SUCCESS');
-    //       if(result === -1) console.log('FAILED');
-    //     });
-
-    //   });
-    // }
-
-    // this.plt.ready().then((readySource) => {
-
-    //   let data:any = this.file.readAsText('assets/cache/communikate-20', 'manifest.json' )
-    //   .then(_ => console.log('File exists'))
-    //   .catch(err => console.log("Err:" + err));
-
-    //   console.log('data', data);
-    // });
-
-    //let data = this.http.get('assets/cache/communikate-20/manifest.json');
-    //console.log(data);
+  changeBoard(id:string){
+    for (let board of this.boards){
+      if (board.id === id){
+        this.currentBoard = board;
+        this.isfromDirectory = true;
+      }
+    }
+  }
 
 
 
