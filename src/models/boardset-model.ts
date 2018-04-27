@@ -9,7 +9,7 @@ export class BoardSetModel{
   constructor(name?: string, path?:string, boards?:Array<BoardModel> ){
     this.name = name;
     this.path = path;
-    this.boards = boards;
+    this.boards = (boards) ? boards : new Array<BoardModel>();
   }
 
   public getName():string{
@@ -25,6 +25,10 @@ export class BoardSetModel{
     if (index <= this.boards.length){
       return this.boards[index];
     }
+  }
+
+  public isEmpty():boolean{
+    return (this.boards.length == 0);
   }
   public getBoardByID(id:string):BoardModel{
     for (let board of this.boards){

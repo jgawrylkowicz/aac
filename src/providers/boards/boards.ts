@@ -28,24 +28,21 @@ export class BoardsProvider {
 
   public async getBoardSet():Promise<BoardSetModel>{
 
-
-
-    try {
-      if (this.boardSet && this.boardSet.getBoards().length == 0){
-        if (await this.loadFromStorage() !== undefined)
-          this.boardSet = await this.loadBoardSet();
+    if (this.native){
+      let boardSet = await this.loadFromStorage();
+      if (boardSet !== undefined) this.boardSet = boardSet;
+    } else {
+      if (this.boardSet.isEmpty()){
+        this.boardSet = await this.loadBoardSet();
+        if (this.native) {
+          this.saveToStorage(this.boardSet);
+        }
       }
-      return new Promise<BoardSetModel> (resolve => {
-        resolve(this.boardSet);
-      });
-    } catch{
-      return new Promise<BoardSetModel> (reject => {
-        reject();
-      });
     }
-
+    return new Promise<BoardSetModel> (resolve => {
+      resolve(this.boardSet);
+    });
   }
-
 
   private saveToStorage(boardSet:BoardSetModel){
     this.nativeStorage.setItem('boardSet', boardSet )
@@ -64,8 +61,6 @@ export class BoardsProvider {
     );
     return boardSet;
   }
-
-
 
   public getBoardSettings():Promise<Array<string>>{
 
