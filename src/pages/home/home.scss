@@ -27,8 +27,9 @@ page-home {
   .textfield{
     display: grid;
     grid-template-columns: auto 7%;
-    margin: 10px 10px;
+    padding: 10px;
     grid-gap: 5px;
+    background: #f5f5f5;
   }
 
   .textfield__menu{
@@ -59,10 +60,18 @@ page-home {
   }
 
   .board{
-    background: #ECEFF1;
+    background: #E1E2E1;
     height: 100% !important;
     box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.2);
     z-index: 10;
+    display: grid;
+    grid-template: repeat(4, 1fr) / repeat(5, 1fr);
+    grid-gap: 5px;
+    padding: 10px;
+  }
+
+  .board > template{
+    display: contents !important;
   }
 
   .board > ion-row{
@@ -85,6 +94,18 @@ page-home {
     text-transform: none;
     color: black;
     font-size: 1.75rem;
+    max-width: 80%;
+    position: absolute;
+    display: inline-block;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: normal;
+    line-break: strict;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+    bottom: .5rem;
   }
 
   .board-button .button-inner{
@@ -92,6 +113,7 @@ page-home {
     flex-direction: column;
     margin: 0 auto;
     width: 100%;
+
 
   }
 

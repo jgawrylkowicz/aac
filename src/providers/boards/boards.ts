@@ -3,38 +3,69 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { File } from '@ionic-native/file'
 import { Zip } from '@ionic-native/zip';
+import { NativeStorage } from '@ionic-native/native-storage';
 import { BoardModel } from '../../models/board-model';
+import { BoardSetModel } from '../../models/boardset-model';
 
-/*
-  Generated class for the BoardsProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 
 @Injectable()
 export class BoardsProvider {
 
   settings:any;
-  boards:Array<any>;
+  boardSet:BoardSetModel;
   path:string; // path to the unzipped board with all the assets
-
   native:boolean;
+  currentBoardName:string;
 
   constructor(public http: Http,
     public file: File,
-    private zip: Zip) {
+    private zip: Zip,
+    private nativeStorage: NativeStorage) {
 
-    this.boards = new Array<BoardModel>();
+    this.boardSet = new BoardSetModel();
     this.native = false;
   }
 
-  public async getBoards():Promise<Array<BoardModel>>{
-    this.boards = await this.loadBoards();
-    return new Promise<Array<BoardModel>> (resolve => {
-      resolve(this.boards);
-    });
+  public async getBoardSet():Promise<BoardSetModel>{
+
+
+
+    try {
+      if (this.boardSet && this.boardSet.getBoards().length == 0){
+        if (await this.loadFromStorage() !== undefined)
+          this.boardSet = await this.loadBoardSet();
+      }
+      return new Promise<BoardSetModel> (resolve => {
+        resolve(this.boardSet);
+      });
+    } catch{
+      return new Promise<BoardSetModel> (reject => {
+        reject();
+      });
+    }
+
   }
+
+
+  private saveToStorage(boardSet:BoardSetModel){
+    this.nativeStorage.setItem('boardSet', boardSet )
+    .then(
+      () => console.log('Stored item!'),
+      error => console.error('Error storing item', error)
+    );
+  }
+
+  private loadFromStorage(){
+    let boardSet = undefined;
+    this.nativeStorage.getItem('boardSet')
+    .then(
+      data => boardSet = JSON.parse(data),
+      error => console.error(error)
+    );
+    return boardSet;
+  }
+
+
 
   public getBoardSettings():Promise<Array<string>>{
 
@@ -43,6 +74,7 @@ export class BoardsProvider {
 
     // url is need to get images later on
     this.path = url;
+
 
     return new Promise(resolve => {
        this.http.get(url + file)
@@ -64,11 +96,9 @@ export class BoardsProvider {
     });
   }
 
-  private async loadBoards():Promise<Array<BoardModel>>{
-    // at the time only for the root board
-    let boards:Array<BoardModel> = new Array<BoardModel>();
-    this.settings = await this.getBoardSettings();
+  private async loadBoardSet():Promise<BoardSetModel>{
 
+    this.settings = await this.getBoardSettings();
     let rawBoards = new Array<any>();
 
     for (let value of Object.keys(this.settings.paths.boards)){
@@ -79,14 +109,18 @@ export class BoardsProvider {
     }
     console.log("Number of boards loaded: ", rawBoards.length);
 
-    return new Promise<Array<BoardModel>> ((resolve, reject) => {
-
-      for (let board of rawBoards){
-        let transformedBoard = new BoardModel(board, this.path);
-        boards.push(transformedBoard);
+    return new Promise<BoardSetModel> ((resolve, reject) => {
+      try{
+        let boards = new Array<BoardModel>();
+        for (let board of rawBoards){
+          let transformedBoard = new BoardModel(board, this.path, this.settings);
+          if (transformedBoard !== undefined) boards.push(transformedBoard);
+        }
+        let boardSet:BoardSetModel = new BoardSetModel('', this.path, boards);
+        resolve(boardSet);
+      } catch {
+        console.log("Error: Unzipping of a boardset was interrupted.")
       }
-
-      resolve(boards);
     });
   }
 

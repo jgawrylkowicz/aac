@@ -1,19 +1,14 @@
 export class BoardModel{
 
   public id: string;
-  public localPath: string;
   public grid: Array<any>;
 
-  // add classes for buttons
-
-  constructor(board?:any, path?:string){
+  constructor(board?:any, path?:string, settings?: any){
 
     if (board){
-      this.localPath = path;
       this.id = board.id;
-      this.grid = BoardModel.transform(board, this.localPath);
+      this.grid = BoardModel.transform(board, path, settings);
     } else {
-      this.localPath = undefined;
       this.id = undefined;
       this.grid = new Array<any>();
     }
@@ -24,7 +19,7 @@ export class BoardModel{
     return this.grid;
   }
 
-  private static transform(board, path):Array<any>{
+  private static transform(board, path, settings):Array<any>{
     let grid = new Array<any>();
     if (board.grid && board.grid.order){
 
@@ -35,11 +30,19 @@ export class BoardModel{
           let index = board.grid.order[i][j];
           let button = BoardModel.getButtonByID(board,index);
           // some boards may have empty buttons
-          if (button !== undefined){
-            button.image_url = (button.image_id) ? (path + 'images/' + 'image_' + button.image_id + ".png") : " ";
-            grid[i].push(button);
+          if (button !== undefined && settings !== undefined){
+
+            try {
+              let image_url = settings.paths.images[button.image_id];
+              if (image_url !== undefined)
+                button.image_url = (button.image_id) ? (path + image_url) : "";
+            } catch {
+              console.log("Error: The image with id " + button.image_id + "could not be loaded.")
+            }
           }
+          grid[i].push(button);
         }
+
       }
       return grid;
     }

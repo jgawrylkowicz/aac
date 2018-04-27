@@ -5,7 +5,7 @@ import { BoardsProvider } from '../../providers/boards/boards';
 //import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { BoardModel } from '../../models/board-model';
-import { isRightSide } from 'ionic-angular/util/util';
+import { BoardSetModel } from '../../models/boardset-model';
 
 @Component({
   selector: 'page-home',
@@ -17,15 +17,15 @@ export class HomePage {
   isfromDirectory:boolean;
 
   message: string;
-  boards:Array<BoardModel>;
+  boardSet:BoardSetModel;
   currentBoard:BoardModel;
 
   constructor(public navCtrl: NavController,
     public plt: Platform,
     public boardsProvider: BoardsProvider) {
 
-      // both of these file have to be defined otherwise their memeber functions can't be accessed
-      this.boards = new Array<BoardModel>();
+      // both of these file have to be defined otherwise their member functions can't be accessed
+      this.boardSet = new BoardSetModel();
       this.currentBoard = new BoardModel();
       this.isfromDirectory = false;
 
@@ -39,17 +39,25 @@ export class HomePage {
   async loadSettings(){
     this.message = '';
     this.wordPrediction = false;
-    this.boards = await this.boardsProvider.getBoards();
-    await console.log("boards", this.boards);
-    await this.setBoardAsActive(0);
+    try {
+      this.boardSet = await this.boardsProvider.getBoardSet();
+      await console.log("boards", this.boardSet);
+      await this.setBoardAsActive(0);
+    } catch {
+      console.log("Error: A problem occured while loading the boards from the storage. ")
+    }
   }
 
   // sets a board from the array as the current one
   // 0 is the index of the root board
   setBoardAsActive(id:number){
-    if (this.boards && this.boards.length > 0){
-      this.currentBoard = this.boards[id];
-    } else console.log("Error: No boards loaded.")
+    try {
+      if (this.boardSet.getBoards() && this.boardSet.getBoards().length > 0){
+        this.currentBoard = this.boardSet.getBoardByIndex(id);
+      } else console.log("Error: No boards loaded.")
+    } catch {
+      console.log("Error: No boards loaded.")
+    }
   }
 
   addWord(text: string){
@@ -84,11 +92,14 @@ export class HomePage {
   }
 
   changeBoard(id:string){
-    for (let board of this.boards){
-      if (board.id === id){
-        this.currentBoard = board;
+
+    if (this.boardSet){
+      this.currentBoard = this.boardSet.getBoardByID(id);
+      if (this.currentBoard !== undefined){
         this.isfromDirectory = true;
       }
+    }else {
+      console.log("Error: The board set is empty.")
     }
   }
 

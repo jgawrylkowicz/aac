@@ -9,7 +9,7 @@
 <ion-content padding>
   <div ion-fixed>
 
-    <!-- Text Buffer -->
+  <!-- Text Buffer -->
   <div class="textfield">
     <div class="textfield__message">
       <div class="textfield__content">{{message}}</div>
@@ -29,39 +29,36 @@
         </div>
         <div class="board-button__label" >  testß </div>
     </button>
-
   </div>
 
-
-
   <!-- Communication board -->
-  <ion-grid *ngIf="currentBoard.getGrid().length > 0" class="board">
-    <ion-row *ngFor="let row of currentBoard.getGrid()">
-      <ion-col *ngFor="let button of row" >
+  <div *ngIf="currentBoard.getGrid().length > 0" class="board">
+    <template *ngFor="let row of currentBoard.getGrid()">
+      <div *ngFor="let button of row" >
         <div *ngIf="button.load_board; then directory else word"></div>
         <ng-template #directory>
           <button class="board-button" [ngStyle]="{'background': button.background_color}" ion-button (click)='changeBoard(button.load_board.id)'>
-              <div class="board-button__img" >
-                  <ion-img [cache]="true" src="{{button.image_url}}"></ion-img>
-              </div>
-              <div class="board-button__label" > {{button.label}} </div>
-              <div class="board-button__dir"> </div>
+            <div class="board-button__img" >
+                <ion-img [cache]="true" src="{{button.image_url}}"></ion-img>
+            </div>
+            <span class="board-button__label" > {{button.label}} </span>
+            <div class="board-button__dir"> </div>
           </button>
         </ng-template>
 
         <ng-template #word>
           <button class="board-button" [ngStyle]="{'background': button.background_color}" ion-button (click)='addWord(button.label)'>
             <div class="board-button__img" >
-                <ion-img [cache]="true" src="{{button.image_url}}"></ion-img>
+              <ion-img [cache]="true" src="{{button.image_url}}"></ion-img>
             </div>
             <div class="board-button__label" > {{button.label}} </div>
 
           </button>
         </ng-template>
-      </ion-col>
-    </ion-row>
 
-  </ion-grid>
+      </div>
+    </template>
+  </div>
 
   </div>
 </ion-content>
