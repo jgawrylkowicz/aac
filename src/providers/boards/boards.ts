@@ -4,6 +4,7 @@ import { Http } from '@angular/http';
 import { File } from '@ionic-native/file'
 import { Zip } from '@ionic-native/zip';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { Storage } from '@ionic/storage';
 import { BoardModel } from '../../models/board-model';
 import { BoardSetModel } from '../../models/boardset-model';
 
@@ -20,45 +21,60 @@ export class BoardsProvider {
   constructor(public http: Http,
     public file: File,
     private zip: Zip,
-    private nativeStorage: NativeStorage) {
+    private nativeStorage: NativeStorage,
+    private storage: Storage
+    ) {
 
-    this.boardSet = new BoardSetModel();
+    this.boardSet = undefined;
     this.native = false;
   }
 
   public async getBoardSet():Promise<BoardSetModel>{
 
-    if (this.native){
-      let boardSet = await this.loadFromStorage();
-      if (boardSet !== undefined) this.boardSet = boardSet;
-    } else {
-      if (this.boardSet.isEmpty()){
-        this.boardSet = await this.loadBoardSet();
-        if (this.native) {
-          this.saveToStorage(this.boardSet);
-        }
-      }
+
+    let boardSet = await this.loadFromStorage();
+    if (boardSet != undefined ) this.boardSet = boardSet;
+
+    if (boardSet == undefined){
+      this.boardSet = await this.loadBoardSet();
+      //console.log(this.boardSet);
+      this.saveToStorage(this.boardSet);
     }
+
     return new Promise<BoardSetModel> (resolve => {
       resolve(this.boardSet);
     });
   }
 
   private saveToStorage(boardSet:BoardSetModel){
-    this.nativeStorage.setItem('boardSet', boardSet )
-    .then(
-      () => console.log('Stored item!'),
-      error => console.error('Error storing item', error)
-    );
+
+    if (this.native){
+      this.nativeStorage.setItem('boardSet', boardSet )
+      .then(
+        () => console.log('Stored item!'),
+        error => console.error('Error storing item', error)
+      );
+    } else {
+      this.storage.set('board', boardSet);
+      console.log("Saved.");
+    }
   }
 
   private loadFromStorage(){
-    let boardSet = undefined;
+
+   let boardSet = undefined;
+   if (this.native){
     this.nativeStorage.getItem('boardSet')
-    .then(
-      data => boardSet = JSON.parse(data),
-      error => console.error(error)
-    );
+    .then((data) => {
+        return JSON.parse(data);
+      });
+   } else {
+    this.storage.get('boardSet').then((data) => {
+      if (data !== null){
+       return JSON.parse(data);
+      }
+    });
+   }
     return boardSet;
   }
 

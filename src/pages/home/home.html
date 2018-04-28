@@ -31,34 +31,34 @@
     </button>
   </div>
 
-  <!-- Communication board -->
-  <div *ngIf="currentBoard.getGrid().length > 0" class="board">
+  <div *ngIf="!currentBoard.isEmpty()" class="board">
     <template *ngFor="let row of currentBoard.getGrid()">
       <div *ngFor="let button of row" >
-        <div *ngIf="button.load_board; then directory else word"></div>
+        <div *ngIf="button.isDirectory(); then directory else phrase"></div>
+
         <ng-template #directory>
-          <button class="board-button" [ngStyle]="{'background': button.background_color}" ion-button (click)='changeBoard(button.load_board.id)'>
+          <button class="board-button" [ngStyle]="{'background': button.getBackgroundColor()}" ion-button (click)='changeBoard(button.getLinkedBoardID())'>
             <div class="board-button__img" >
-                <ion-img [cache]="true" src="{{button.image_url}}"></ion-img>
+                <ion-img [cache]="true" src="{{button.getImageURL()}}"></ion-img>
             </div>
-            <span class="board-button__label" > {{button.label}} </span>
+            <span class="board-button__label" > {{button.getLabel()}} </span>
             <div class="board-button__dir"> </div>
           </button>
         </ng-template>
 
-        <ng-template #word>
-          <button class="board-button" [ngStyle]="{'background': button.background_color}" ion-button (click)='addWord(button.label)'>
+        <ng-template #phrase>
+          <button class="board-button" [ngStyle]="{'background': button.getBackgroundColor()}" ion-button (click)='addWord(button.getLabel())'>
             <div class="board-button__img" >
-              <ion-img [cache]="true" src="{{button.image_url}}"></ion-img>
+              <ion-img [cache]="true" src="{{button.getImageURL()}}"></ion-img>
             </div>
-            <div class="board-button__label" > {{button.label}} </div>
-
+            <div class="board-button__label" > {{button.getLabel()}} </div>
           </button>
         </ng-template>
 
       </div>
     </template>
   </div>
+
 
   </div>
 </ion-content>

@@ -28,7 +28,11 @@ export class BoardSetModel{
   }
 
   public isEmpty():boolean{
-    return (this.boards.length == 0);
+
+    if (this.boards != undefined){
+      return (this.boards.length == 0);
+    } else return false;
+
   }
   public getBoardByID(id:string):BoardModel{
     for (let board of this.boards){

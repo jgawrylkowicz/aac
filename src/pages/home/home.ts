@@ -52,8 +52,9 @@ export class HomePage {
   // 0 is the index of the root board
   setBoardAsActive(id:number){
     try {
-      if (this.boardSet.getBoards() && this.boardSet.getBoards().length > 0){
+      if (!this.boardSet.isEmpty()){
         this.currentBoard = this.boardSet.getBoardByIndex(id);
+        console.log("currentBoard", this.currentBoard);
       } else console.log("Error: No boards loaded.")
     } catch {
       console.log("Error: No boards loaded.")

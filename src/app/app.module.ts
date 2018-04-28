@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { File } from '@ionic-native/file';
 import { Zip } from '@ionic-native/zip';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { IonicStorageModule } from '@ionic/storage';
 
 import {HttpModule} from '@angular/http';
 
@@ -14,6 +15,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { BoardsProvider } from '../providers/boards/boards';
 //import { BoardModel } from '../models/board-model';
+
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import { BoardsProvider } from '../providers/boards/boards';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
     HttpModule
   ],
   bootstrap: [IonicApp],

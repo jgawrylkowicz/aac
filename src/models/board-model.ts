@@ -1,7 +1,11 @@
+import { ButtonModel } from "./button-model";
+import { DirectoryModel } from "./button-model";
+import { PhraseModel } from "./button-model";
+
 export class BoardModel{
 
   public id: string;
-  public grid: Array<any>;
+  public grid: Array<ButtonModel>;
 
   constructor(board?:any, path?:string, settings?: any){
 
@@ -10,16 +14,16 @@ export class BoardModel{
       this.grid = BoardModel.transform(board, path, settings);
     } else {
       this.id = undefined;
-      this.grid = new Array<any>();
+      this.grid = new Array<ButtonModel>();
     }
 
   }
 
-  public getGrid(){
+  public getGrid():Array<ButtonModel>{
     return this.grid;
   }
 
-  private static transform(board, path, settings):Array<any>{
+  private static transform(board, path, settings):Array<ButtonModel>{
     let grid = new Array<any>();
     if (board.grid && board.grid.order){
 
@@ -28,32 +32,41 @@ export class BoardModel{
 
         for(let j = 0; j < board.grid.order[i].length; j++){
           let index = board.grid.order[i][j];
-          let button = BoardModel.getButtonByID(board,index);
+          let button:ButtonModel = BoardModel.createButton(board,index,path,settings);
           // some boards may have empty buttons
-          if (button !== undefined && settings !== undefined){
-
-            try {
-              let image_url = settings.paths.images[button.image_id];
-              if (image_url !== undefined)
-                button.image_url = (button.image_id) ? (path + image_url) : "";
-            } catch {
-              console.log("Error: The image with id " + button.image_id + "could not be loaded.")
-            }
+          if (button !== undefined){
+            grid[i].push(button);
           }
-          grid[i].push(button);
         }
-
       }
       return grid;
     }
   }
 
-  private static getButtonByID(board, id:number){
+  private static createButton(board, id:number, path, settings):ButtonModel{
     if (board.buttons && board.buttons.length){
       for (let button of board.buttons){
-        if (button.id === id) return button;
+        if (button.id === id) {
+          try {
+            let image_url = settings.paths.images[button.image_id];
+
+            if (button.load_board){
+              return new DirectoryModel(button.id, image_url, button.label, button.border_color, button.background_color,button.load_board.id );
+            } else {
+              return new PhraseModel(button.id, image_url, button.label, button.border_color, button.background_color);
+            }
+          } catch {
+            console.log("Error: The image with id " + button.image_id + "could not be loaded.")
+          }
+        }
       }
     } else console.log("Error: This board does not contain any buttons.")
+  }
+
+  public isEmpty():boolean{
+    if (this.grid != undefined){
+      return (this.grid.length == 0);
+    } else return false;
   }
 
 }
