@@ -39,7 +39,7 @@
         <ng-template #directory>
           <button class="board-button" [ngStyle]="{'background': button.getBackgroundColor()}" ion-button (click)='changeBoard(button.getLinkedBoardID())'>
             <div class="board-button__img" >
-                <ion-img [cache]="true" src="{{button.getImageURL()}}"></ion-img>
+                <img src="{{button.getImageURL()}}">
             </div>
             <span class="board-button__label" > {{button.getLabel()}} </span>
             <div class="board-button__dir"> </div>
@@ -49,7 +49,7 @@
         <ng-template #phrase>
           <button class="board-button" [ngStyle]="{'background': button.getBackgroundColor()}" ion-button (click)='addWord(button.getLabel())'>
             <div class="board-button__img" >
-              <ion-img [cache]="true" src="{{button.getImageURL()}}"></ion-img>
+                <img src="{{button.getImageURL()}}">
             </div>
             <div class="board-button__label" > {{button.getLabel()}} </div>
           </button>

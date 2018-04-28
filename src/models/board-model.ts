@@ -51,9 +51,9 @@ export class BoardModel{
             let image_url = settings.paths.images[button.image_id];
 
             if (button.load_board){
-              return new DirectoryModel(button.id, image_url, button.label, button.border_color, button.background_color,button.load_board.id );
+              return new DirectoryModel(button.id, path + image_url, button.label, button.border_color, button.background_color,button.load_board.id );
             } else {
-              return new PhraseModel(button.id, image_url, button.label, button.border_color, button.background_color);
+              return new PhraseModel(button.id, path + image_url, button.label, button.border_color, button.background_color);
             }
           } catch {
             console.log("Error: The image with id " + button.image_id + "could not be loaded.")
