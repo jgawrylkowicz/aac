@@ -41,7 +41,7 @@ export class HomePage {
     this.wordPrediction = false;
     try {
       this.boardSet = await this.boardsProvider.getBoardSet();
-      //await console.log("boards", this.boardSet);
+      await console.log("boards", this.boardSet);
       await this.setBoardAsActive(0);
     } catch {
       console.log("Error: A problem occured while loading the boards from the storage. ")
@@ -54,7 +54,7 @@ export class HomePage {
     try {
       if (!this.boardSet.isEmpty()){
         this.currentBoard = this.boardSet.getBoardByIndex(id);
-        //console.log("currentBoard", this.currentBoard);
+        console.log("currentBoard", this.currentBoard);
       } else console.log("Error: No boards loaded.")
     } catch {
       console.log("Error: No boards loaded.")
@@ -96,6 +96,7 @@ export class HomePage {
 
     if (this.boardSet){
       this.currentBoard = this.boardSet.getBoardByID(id);
+      console.log("chnaged to", this.currentBoard);
       if (this.currentBoard !== undefined){
         this.isfromDirectory = true;
       }

@@ -10,16 +10,23 @@
   <div ion-fixed>
 
   <!-- Text Buffer -->
-  <div class="textfield">
-    <div class="textfield__message">
-      <div class="textfield__content">{{message}}</div>
-      <ion-icon class="textfield__btn" (click)='speak()' name="mic"></ion-icon>
-      <ion-icon class="textfield__btn" (click)='removeLastWord()' name="backspace"></ion-icon>
-    </div>
-    <div class="textfield__menu">
-      <ion-icon class="textfield__btn" (click)='clearMessage()' name="trash"></ion-icon>
-    </div>
-  </div>
+  <ion-grid class="textfield">
+    <ion-row>
+      <ion-col col-11>
+        <div class="textfield__message">
+          <div class="textfield__content">{{message}}</div>
+          <ion-icon class="textfield__btn" (click)='speak()' name="mic"></ion-icon>
+          <ion-icon class="textfield__btn" (click)='removeLastWord()' name="backspace"></ion-icon>
+        </div>
+      </ion-col>
+      <ion-col col-1>
+        <div class="textfield__menu">
+          <ion-icon class="textfield__btn" (click)='clearMessage()' name="trash"></ion-icon>
+        </div>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
 
   <!-- Word prediction -->
   <div class="prediction"  *ngIf="wordPrediction">
@@ -31,33 +38,42 @@
     </button>
   </div>
 
-  <div *ngIf="!currentBoard.isEmpty()" class="board">
-    <template *ngFor="let row of currentBoard.getGrid()">
-      <div *ngFor="let button of row" >
-        <div *ngIf="button.isDirectory(); then directory else phrase"></div>
+  <ion-grid *ngIf="!currentBoard.isEmpty()" class="board">
+    <ion-row *ngFor="let row of currentBoard.getGrid()">
+      <ion-col *ngFor="let button of row">
 
-        <ng-template #directory>
-          <button class="board-button" [ngStyle]="{'background': button.getBackgroundColor()}" ion-button (click)='changeBoard(button.getLinkedBoardID())'>
-            <div class="board-button__img" >
-                <img src="{{button.getImageURL()}}">
-            </div>
-            <span class="board-button__label" > {{button.getLabel()}} </span>
-            <div class="board-button__dir"> </div>
-          </button>
+        <div *ngIf="button !== null; then functionalButton else blankButton"></div>
+        <ng-template #functionalButton>
+
+          <div *ngIf="button.isDirectory(); then directory else phrase"></div>
+          <ng-template #directory>
+            <button class="board-button" [ngStyle]="{'background': button.getBackgroundColor()}" ion-button (click)='changeBoard(button.getLinkedBoardID())'>
+              <img class="board-button__img" src="{{button.getImageURL()}}">
+              <div class="board-button__label" > {{button.getLabel()}} </div>
+              <div class="board-button__dir"> </div>
+            </button>
+          </ng-template>
+
+          <ng-template #phrase>
+            <button class="board-button" [ngStyle]="{'background': button.getBackgroundColor()}" ion-button (click)='addWord(button.getLabel())'>
+              <div class="button__container" ></div>
+                <img class="board-button__img" src="{{button.getImageURL()}}">
+                <div class="board-button__label" > {{button.getLabel()}} </div>
+            </button>
+          </ng-template>
+
+        </ng-template>
+        <ng-template #blankButton>
+          <div></div>
         </ng-template>
 
-        <ng-template #phrase>
-          <button class="board-button" [ngStyle]="{'background': button.getBackgroundColor()}" ion-button (click)='addWord(button.getLabel())'>
-            <div class="board-button__img" >
-                <img src="{{button.getImageURL()}}">
-            </div>
-            <div class="board-button__label" > {{button.getLabel()}} </div>
-          </button>
-        </ng-template>
 
-      </div>
-    </template>
-  </div>
+
+
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 
   </div>

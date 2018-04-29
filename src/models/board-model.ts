@@ -5,7 +5,7 @@ import { PhraseModel } from "./button-model";
 export class BoardModel{
 
   public id: string;
-  public grid: Array<ButtonModel>;
+  public grid: Array<Array<ButtonModel>>;
 
   constructor(board?:any, path?:string, settings?: any){
 
@@ -14,29 +14,39 @@ export class BoardModel{
       this.grid = BoardModel.transform(board, path, settings);
     } else {
       this.id = undefined;
-      this.grid = new Array<ButtonModel>();
+      this.grid = new Array<Array<ButtonModel>>();
     }
 
   }
 
-  public getGrid():Array<ButtonModel>{
+  public getGrid():Array<Array<ButtonModel>>{
     return this.grid;
   }
 
-  private static transform(board, path, settings):Array<ButtonModel>{
-    let grid = new Array<any>();
+  private static transform(board, path, settings):Array<Array<ButtonModel>>{
+    let grid = new Array<Array<ButtonModel>>();
     if (board.grid && board.grid.order){
 
+      if (board.id == "1_248") console.log(board);
+
       for (let i = 0; i < board.grid.order.length; i++){
-        grid.push(new Array<any>());
+        grid.push(new Array<ButtonModel>());
 
         for(let j = 0; j < board.grid.order[i].length; j++){
           let index = board.grid.order[i][j];
-          let button:ButtonModel = BoardModel.createButton(board,index,path,settings);
-          // some boards may have empty buttons
-          if (button !== undefined){
-            grid[i].push(button);
+          if (index !== null){
+            let button:ButtonModel = BoardModel.createButton(board,index,path,settings);
+            if (button !== undefined){
+              grid[i].push(button);
+            }
+          } else {
+            // some boards may have empty buttons
+            // front-end will take care of the rest
+            // no need for another class just for blank buttons
+            // console.log("Empty button");
+            grid[i].push(null);
           }
+
         }
       }
       return grid;
