@@ -96,7 +96,7 @@ export class HomePage {
 
     if (this.boardSet){
       this.currentBoard = this.boardSet.getBoardByID(id);
-      console.log("chnaged to", this.currentBoard);
+      console.log("changed to", this.currentBoard);
       if (this.currentBoard !== undefined){
         this.isfromDirectory = true;
       }

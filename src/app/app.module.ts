@@ -4,6 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { Zip } from '@ionic-native/zip';
 import { NativeStorage } from '@ionic-native/native-storage';
@@ -37,6 +38,8 @@ import { BoardsProvider } from '../providers/boards/boards';
   ],
   providers: [
     StatusBar,
+    FileTransfer,
+    FileTransferObject,
     File,
     Zip,
     NativeStorage,

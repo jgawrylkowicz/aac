@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "5.2.10",
     "@ionic-native/core": "4.7.0",
     "@ionic-native/file": "^4.7.0",
+    "@ionic-native/file-transfer": "^4.7.0",
     "@ionic-native/http": "^4.7.0",
     "@ionic-native/native-storage": "^4.7.0",
     "@ionic-native/splash-screen": "4.7.0",
@@ -35,6 +36,7 @@
     "cordova-plugin-advanced-http": "^1.11.1",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-file": "^6.0.1",
+    "cordova-plugin-file-transfer": "^1.7.1",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^1.2.1",
     "cordova-plugin-nativestorage": "^2.3.1",
@@ -67,7 +69,8 @@
       "cordova-plugin-statusbar": {},
       "cordova-plugin-advanced-http": {},
       "cordova-plugin-nativestorage": {},
-      "cordova-sqlite-storage": {}
+      "cordova-sqlite-storage": {},
+      "cordova-plugin-file-transfer": {}
     },
     "platforms": [
       "browser",

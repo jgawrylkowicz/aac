@@ -27,8 +27,6 @@ export class BoardModel{
     let grid = new Array<Array<ButtonModel>>();
     if (board.grid && board.grid.order){
 
-      if (board.id == "1_248") console.log(board);
-
       for (let i = 0; i < board.grid.order.length; i++){
         grid.push(new Array<ButtonModel>());
 
