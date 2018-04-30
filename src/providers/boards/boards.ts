@@ -1,5 +1,5 @@
 //import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, ReflectiveInjector } from '@angular/core';
 import { Http } from '@angular/http';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
@@ -251,15 +251,29 @@ export class BoardsProvider {
 
 
 
-  public async getRawBoard(filename:string):Promise<any>{
+  public async getRawBoard(filename:string):Promise<Array<any>>{
 
-    let url:string = this.path;
     //check if the file exists
-    return new Promise<any>(resolve => {
-      this.http.get(url + filename)
-      .map(res => res.json()).subscribe(data => {
-        resolve(data) }
-      );
+    return new Promise<Array<any>>((resolve,reject) => {
+      if (filename && this.path){
+        if (this.platform.is("cordova")){
+          this.file.readAsBinaryString(this.path, filename)
+          .then( data => resolve(JSON.parse(data)) )
+          .catch(err => console.log("Error while reading the data from the board settings file"));
+        } else {
+          this.http.get(this.path + filename)
+          .map(res =>
+            res.json()).subscribe(data => {
+              console.log(data);
+              resolve(data);
+            }
+          );
+        }
+      } else {
+        console.log("Error while reading the data from the board settings file. File or path are not defined");
+        reject();
+      }
+
     });
   }
 
@@ -271,12 +285,12 @@ export class BoardsProvider {
       try {
         // TODO this loop does not work for iOS
 
-        // for (let value of Object.keys(this.settings.paths.boards)){
-        //   // get all the boards from by calling all keys
-        //   let boardName = this.settings.paths.boards[value];
-        //   let rawBoard:any = await this.getRawBoard(boardName);
-        //   rawBoards.push(rawBoard);
-        // }
+        for (let value of Object.keys(this.settings.paths.boards)){
+          // get all the boards from by calling all keys
+           let boardName = this.settings.paths.boards[value];
+           let rawBoard:any = await this.getRawBoard(boardName);
+           rawBoards.push(rawBoard);
+        }
         console.log("Number of boards loaded: ", rawBoards.length);
       } catch {
         console.log("Error occured while creating the raw boards");

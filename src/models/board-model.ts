@@ -52,12 +52,14 @@ export class BoardModel{
   }
 
   private static createButton(board, id:number, path, settings):ButtonModel{
+
     if (board.buttons && board.buttons.length){
       for (let button of board.buttons){
         if (button.id === id) {
           try {
-            let image_url = settings.paths.images[button.image_id];
 
+            let image_url = settings.paths.images[button.image_id];
+            console.log(path + image_url);
             if (button.load_board){
               return new DirectoryModel(button.id, path + image_url, button.label, button.border_color, button.background_color,button.load_board.id );
             } else {
