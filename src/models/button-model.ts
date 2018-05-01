@@ -7,7 +7,7 @@ export class ButtonModel{
   private backgroundColor:string
 
 
-  public constructor(id:number, imageURL:string, label:string, borderColor:string, backgroundColor:string){
+  public constructor(id?:number, imageURL?:string, label?:string, borderColor?:string, backgroundColor?:string){
 
     this.id = id;
     this.imageURL = imageURL;

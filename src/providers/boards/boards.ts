@@ -11,10 +11,62 @@ import { Platform } from 'ionic-angular';
 import { BoardModel } from '../../models/board-model';
 import { BoardSetModel } from '../../models/boardset-model';
 import { PreferencesProvider } from '../preferences/preferences';
+import { ButtonModel, DirectoryModel, PhraseModel } from '../../models/button-model';
 
 
 // TODO refractor the code
 // iOS images dont show
+
+class SerializationHelper{
+
+  static toInstance<T>(obj: T, json:any):any{
+
+    if (obj instanceof BoardSetModel){
+
+      let name:string = json.name;
+      var path:string = json.path;
+      let boards = Array<BoardModel>();
+
+      for (let board of json.boards){
+        boards.push( SerializationHelper.toInstance(new BoardModel(), board))
+      }
+      return new BoardSetModel(name, path, boards);
+
+    } else if (obj instanceof BoardModel){
+
+      let id:string = json.id;
+      let grid = new Array();
+      for(var i = 0; i < json.grid.length; i++){
+        grid[i] = new Array<ButtonModel>();
+        for(var j = 0; j < json.grid[i].length; j++){
+          if (json.grid[i][j] === null) {
+            grid[i].push(null);
+          } else {
+            grid[i][j] = SerializationHelper.toInstance(new ButtonModel(), json.grid[i][j]);
+          }
+        }
+      }
+      let board = new BoardModel();
+      board.setGrid(grid);
+      board.setID(id);
+
+      return board;
+
+    } else if (obj instanceof ButtonModel) {
+
+      let id:number = json.id;
+      let imageURL:string = json.imageURL;
+      let label:string = json.label;
+      let borderColor:string = json.borderColor;
+      let backgroundColor:string = json.backgroundColor;
+      let linkedBoardID:string = (json.linkedBoardID) ? json.linkedBoardID : undefined;
+
+      if (linkedBoardID !== undefined) {
+        return new DirectoryModel(id,imageURL,label,borderColor,backgroundColor, linkedBoardID);
+      } else return new PhraseModel(id,imageURL,label,borderColor,backgroundColor);
+    }
+  }
+}
 
 @Injectable()
 export class BoardsProvider {
@@ -153,14 +205,15 @@ export class BoardsProvider {
           return new Promise<BoardSetModel>((resolve, reject) => {
             if (savedBoardSets !== undefined && savedBoardSets.length > 0){
               for (let savedBoardSet of savedBoardSets){
-
-                if (savedBoardSet.getName() == boardSetName) resolve(savedBoardSet);
+                if (savedBoardSet.getName() == boardSetName) {
+                  resolve(SerializationHelper.toInstance(new BoardSetModel(), savedBoardSet));
+                }
               }
             }
             reject();
            });
         } catch {
-          console.log("Error while attempting to load all board sets from the storage")
+          console.log("Error while attempting to load all board sets from the storage");
         }
       }
     } else {
@@ -168,18 +221,15 @@ export class BoardsProvider {
       if (await this.storage.ready()){
         try {
           let savedBoardSets:Array<any> = JSON.parse(await this.storage.get('boardSets'));
-          // TODO
-          // The funtion getName() does not exist, because the object is not of the BoardSetModel class
-          // need to create a BoardSetModel object first
-          // need to RECREATE every object
-          // https://stackoverflow.com/questions/22875636/how-do-i-cast-a-json-object-to-a-typescript-class
+          // The function getName() does not exist,
+          // because the object is not of the BoardSetModel class
+          // Cast into classes is needed
 
           return new Promise<BoardSetModel>((resolve, reject) => {
             if (savedBoardSets !== undefined && savedBoardSets.length > 0){
               for (let savedBoardSet of savedBoardSets){
                 if (savedBoardSet.name == boardSetName) {
-                  let boards:Array<BoardModel> = savedBoardSet.boards;
-                  resolve(new BoardSetModel(savedBoardSet.name, savedBoardSet.path, boards));
+                  resolve(SerializationHelper.toInstance(new BoardSetModel(), savedBoardSet));
                 }
               }
             }
@@ -202,7 +252,14 @@ export class BoardsProvider {
           let savedBoardSets:Array<BoardSetModel> = JSON.parse( await this.nativeStorage.getItem('boardSets'));
 
           return new Promise<Array<BoardSetModel>>((resolve, reject) => {
-            if (savedBoardSets !== undefined) resolve(savedBoardSets);
+            if (savedBoardSets !== undefined){
+
+              let serializedBoardSets = new Array<BoardSetModel>();
+              for (let savedBoardSet of savedBoardSets){
+                serializedBoardSets.push(SerializationHelper.toInstance(new BoardSetModel(), savedBoardSet));
+              }
+              resolve(serializedBoardSets);
+            }
             else reject()
            });
         } catch {
@@ -213,9 +270,16 @@ export class BoardsProvider {
       // for web browser
       if (await this.storage.ready()){
         try {
-          let savedBoardSets:Array<BoardSetModel> = JSON.parse(await this.storage.get('boardSets'));
+          let savedBoardSets:Array<any> = JSON.parse(await this.storage.get('boardSets'));
           return new Promise<Array<BoardSetModel>>((resolve, reject) => {
-            if (savedBoardSets !== undefined) resolve(savedBoardSets);
+            if (savedBoardSets !== undefined){
+
+              let serializedBoardSets = new Array<BoardSetModel>();
+              for (let savedBoardSet of savedBoardSets){
+                serializedBoardSets.push(SerializationHelper.toInstance(new BoardSetModel(), savedBoardSet));
+              }
+              resolve(serializedBoardSets);
+            }
             else reject()
           });
         } catch {

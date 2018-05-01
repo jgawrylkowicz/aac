@@ -23,6 +23,14 @@ export class BoardModel{
     return this.grid;
   }
 
+  public setGrid(grid:Array<Array<ButtonModel>>){
+    this.grid = grid;
+  }
+
+  public setID(id:string){
+    this.id = id;
+  }
+
   private static transform(board, path, settings):Array<Array<ButtonModel>>{
     let grid = new Array<Array<ButtonModel>>();
     if (board.grid && board.grid.order){
