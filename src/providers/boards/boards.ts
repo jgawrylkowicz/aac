@@ -1,25 +1,32 @@
-//import { HttpClient } from '@angular/common/http';
 import { Injectable, ReflectiveInjector } from '@angular/core';
 import { Http } from '@angular/http';
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { Zip } from '@ionic-native/zip';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { Storage } from '@ionic/storage';
 import { Platform } from 'ionic-angular';
+
 import { BoardModel } from '../../models/board-model';
 import { BoardSetModel } from '../../models/boardset-model';
+import { PreferencesProvider } from '../preferences/preferences';
 
+
+// TODO refractor the code
+// iOS images dont show
 
 @Injectable()
 export class BoardsProvider {
 
-  settings:any;
-  boardSet:BoardSetModel;
+  boardSets:Array<BoardSetModel>;
+  currentBoardSet:BoardSetModel;
   path:string; // path to the unzipped board with all the assets
+
   currentBoardName:string;
 
   constructor(public http: Http,
+    public prfProvider: PreferencesProvider,
     public platform: Platform,
     public transfer: FileTransfer,
     public file: File,
@@ -28,75 +35,219 @@ export class BoardsProvider {
     private storage: Storage
     ) {
 
-    this.boardSet = undefined;
-    this.settings = undefined;
+    this.currentBoardSet = undefined;
   }
 
-  public async getBoardSet():Promise<BoardSetModel>{
+  public async getBoardSet(name?:string):Promise<BoardSetModel>{
 
-
-    //let boardSet = await this.loadFromStorage();
-    let boardSet = undefined;
-    if (boardSet != undefined ) this.boardSet = boardSet;
-
-    if (boardSet == undefined){
-      this.boardSet = await this.loadBoardSet();
-      //console.log(this.boardSet);
-      //this.saveToStorage(this.boardSet);
+    if (!name) {
+      // name of the default board
+      name = await this.prfProvider.getDefaultBoardSet();
     }
 
-    return new Promise<BoardSetModel> (resolve => {
-      resolve(this.boardSet);
+    let boardSet = await this.loadBoardSetFromStorage(name);
+    //let boardSet = undefined;
+    if (boardSet !== undefined ) this.currentBoardSet = boardSet;
+
+    if (boardSet === undefined){
+      console.log("Fallback initialized, trying to create a new board object from the storage.")
+      this.currentBoardSet = await this.loadBoardSet();
+      //console.log(this.currentBoardSet);
+      this.saveBoardSetToStorage(this.currentBoardSet, true);
+    }
+
+    return new Promise<BoardSetModel> ((resolve, reject )=> {
+
+      if (this.currentBoardSet){
+        console.log("Fallback successful");
+        resolve(this.currentBoardSet)
+      }
+      else{
+        console.log("Fallback failed");
+        reject();
+      }
     });
   }
 
-  private async saveToStorage(boardSet:BoardSetModel){
+  // saves a board set to the storage
+  private async saveBoardSetToStorage(boardSet:BoardSetModel, override?:boolean){
 
-    if (this.platform.is("ios")){
-      // not implemented
-      return undefined;
+    if (override === undefined || override === null) override = false;
 
-    } else if (this.platform.is("android")) {
+    let savedBoardSets:Array<BoardSetModel>;
 
-      await this.nativeStorage.setItem('boardSet', JSON.stringify(boardSet))
-      .then(
-        () => console.log("The boardset has been saved."),
-        error => console.error('Error storing the boardset', error)
-      );
-
-    } else {
-
-      if (await this.storage.ready()){
-        await this.storage.set('board', JSON.stringify(boardSet));
-        console.log("The boardset has been saved.");
+    try {
+      savedBoardSets = await this.getAllBoardSetsFromStorage();
+      if (savedBoardSets.length > 0){
+        let index:number = await this.existsInStorage(savedBoardSets, boardSet.getName());
+        // override or not
+        if (index >= 0 && override){
+          savedBoardSets.slice(index, 0);
+          savedBoardSets.push(boardSet);
+        }
       }
+    } catch {
+      console.log("No boards to load");
+      savedBoardSets = new Array<BoardSetModel>();
     }
 
+    if (await this.platform.ready()) {
+      if (this.platform.is("cordova")){
+
+        try {
+          await this.nativeStorage.setItem('boardSets', JSON.stringify(savedBoardSets));
+          this.setCurrentBoardSet(boardSet.getName());
+          console.log("The boardset has been saved.")
+        } catch {
+          console.error('Error while attempting to store the boardsets');
+        }
+
+      } else {
+        if (await this.storage.ready()){
+          try {
+            savedBoardSets.push(boardSet);
+            await this.storage.set('boardSets', JSON.stringify(savedBoardSets));
+            this.setCurrentBoardSet(boardSet.getName());
+            console.log("The boardset has been saved.");
+          } catch {
+            console.error('Error while attempting to store the boardsets');
+          }
+        }
+      }
+    }
   }
 
-  private async loadFromStorage(){
+  // return the index
+  // returns -1 if the board does not exist
+  private async existsInStorage(boardSets, boardSetName:string):Promise<number>{
 
-    if (this.platform.is("ios")){
-      // not implemented
-      return undefined;
+    return new Promise<number>((resolve, reject) => {
+      if (boardSets && boardSetName){
+        if (boardSets.length === 0) resolve(-1);
+        if (boardSets.length === 1) resolve(0);
 
-    } else if (this.platform.is("android")) {
-
-      await this.nativeStorage.getItem('boardSet')
-      .then((data) => {
-          return JSON.parse(data);
-        });
-
-    } else {
-      // web browser
-      if (await this.storage.ready()){
-        await this.storage.get('boardSet').then((data) => {
-          if (data !== null){
-            console.log("The boardset has been loaded from the storage", data);
-            return JSON.parse(data);
+        for (let boardSet of boardSets){
+          if (boardSet.getName() === boardSetName){
+            resolve(boardSets.indexOf(boardSet));
           }
-        });
+        }
       }
+      resolve(-1);
+    });
+  }
+
+  // loads a board set from the storage
+  private async loadBoardSetFromStorage(boardSetName):Promise<BoardSetModel>{
+
+    if (boardSetName === undefined || boardSetName === null) {
+      console.log("The check for errors failed, fallback intitialized");
+      return null;
+    }
+
+    if (this.platform.is("cordova")){
+      // for native devices
+      if (await this.platform.ready()) {
+        try {
+          let savedBoardSets:Array<BoardSetModel> = JSON.parse( await this.nativeStorage.getItem('boardSets'));
+
+          return new Promise<BoardSetModel>((resolve, reject) => {
+            if (savedBoardSets !== undefined && savedBoardSets.length > 0){
+              for (let savedBoardSet of savedBoardSets){
+
+                if (savedBoardSet.getName() == boardSetName) resolve(savedBoardSet);
+              }
+            }
+            reject();
+           });
+        } catch {
+          console.log("Error while attempting to load all board sets from the storage")
+        }
+      }
+    } else {
+      // for web browser
+      if (await this.storage.ready()){
+        try {
+          let savedBoardSets:Array<any> = JSON.parse(await this.storage.get('boardSets'));
+          // TODO
+          // The funtion getName() does not exist, because the object is not of the BoardSetModel class
+          // need to create a BoardSetModel object first
+          // need to RECREATE every object
+          // https://stackoverflow.com/questions/22875636/how-do-i-cast-a-json-object-to-a-typescript-class
+
+          return new Promise<BoardSetModel>((resolve, reject) => {
+            if (savedBoardSets !== undefined && savedBoardSets.length > 0){
+              for (let savedBoardSet of savedBoardSets){
+                if (savedBoardSet.name == boardSetName) {
+                  let boards:Array<BoardModel> = savedBoardSet.boards;
+                  resolve(new BoardSetModel(savedBoardSet.name, savedBoardSet.path, boards));
+                }
+              }
+            }
+            reject();
+           });
+
+        } catch {
+          console.log("Error while attempting to load all board sets from the storage")
+        }
+      }
+    }
+  }
+
+  private async getAllBoardSetsFromStorage():Promise<Array<BoardSetModel>>{
+
+    if (this.platform.is("cordova")){
+      // for native devices
+      if (await this.platform.ready()) {
+        try {
+          let savedBoardSets:Array<BoardSetModel> = JSON.parse( await this.nativeStorage.getItem('boardSets'));
+
+          return new Promise<Array<BoardSetModel>>((resolve, reject) => {
+            if (savedBoardSets !== undefined) resolve(savedBoardSets);
+            else reject()
+           });
+        } catch {
+          console.log("Error while attempting to load all board sets from the storage")
+        }
+      }
+    } else {
+      // for web browser
+      if (await this.storage.ready()){
+        try {
+          let savedBoardSets:Array<BoardSetModel> = JSON.parse(await this.storage.get('boardSets'));
+          return new Promise<Array<BoardSetModel>>((resolve, reject) => {
+            if (savedBoardSets !== undefined) resolve(savedBoardSets);
+            else reject()
+          });
+        } catch {
+          console.log("Error while attempting to load all board sets from the storage")
+        }
+      }
+    }
+  }
+
+  private getBoardSetByNameFromStorage(name):BoardSetModel{
+    if (this.boardSets !== undefined){
+      for (let boardSet of this.boardSets){
+        if (boardSet.getName() === name) return boardSet;
+      }
+    }
+  }
+
+  // Saves the name of the current board set for later loading
+  // The saved set will be set as default
+  private setCurrentBoardSet(name:string):void{
+    this.prfProvider.setCurrentBoardSet(name);
+  }
+
+  // Returns the name of the current board set
+  private async getCurrentBoardSet(){
+    let data;
+    try {
+      data = await this.prfProvider.getCurrentBoardSet()
+      return new Promise<string>(resolve => resolve(data));
+    } catch {
+      console.log("Error while loading the board set from the storage")
+      return new Promise<string>(reject => reject());
     }
 
   }
@@ -105,17 +256,17 @@ export class BoardsProvider {
   // console.log('dataDir',this.file.dataDirectory); file://persistent
   // unzip the board and return its settings file
   // download the file from assets to the native storage and unpack it there
-  public async getBoardSettings(file?:string):Promise<Array<string>>{
+  public async getBoardSettings(file?:string):Promise<any>{
 
     if (file === undefined) file = 'communikate-20.obz';
     let settingsFile:string = 'manifest.json';
     let url:string;
     try {
       url = await this.getBoardSettingsURL(file);
-      console.log("url", url);
+      console.log("The path to the settings has been succesfully resolved", url);
       if ( url  && settingsFile ) {
         this.path = url; // url is need to get images later on
-        return new Promise<Array<string>>(resolve => {
+        return new Promise<any>(resolve => {
 
           if (this.platform.is("cordova")){
             this.file.readAsBinaryString(url, settingsFile)
@@ -125,7 +276,6 @@ export class BoardsProvider {
             this.http.get(url + settingsFile)
             .map(res =>
               res.json()).subscribe(data => {
-                console.log(data);
                 resolve(data);
               }
             );
@@ -147,7 +297,7 @@ export class BoardsProvider {
 
       let fileName = file.substr(0, file.lastIndexOf('.'));
 
-      if (this.platform.is("cordova"))  {
+      if (this.platform.is("android") || this.platform.is("ios"))  {
 
         this.platform.ready().then(() => {
 
@@ -194,61 +344,14 @@ export class BoardsProvider {
         // the web browser cannot access the native funtionality to unzip object
         resolve('assets/cache/communikate-20/');
       }
+
+
+      //Fallback for browser
+
+
    })
 
   }
-
-
-  // private async unzipBoard(dir:string, zipFile:string):Promise<string>{
-
-  //   try {
-  //     if ( await this.zip.unzip(dir + zipFile, dir) === 0){
-  //       await this.file.removeFile(dir, zipFile);
-  //       return new Promise<string>(resolve => {
-  //         resolve(dir)
-  //       });
-  //     }
-  //   } catch {
-  //     console.log("Unzipping failed");
-  //     return new Promise<string>(reject => {
-  //       reject();
-  //     });
-  //   }
-  // }
-
-
-  // private async moveBoardToStorage(){
-
-  //   if (this.platform.is("cordova"))  {
-
-  //     this.platform.ready().then(() => {
-
-  //       this.file.createDir(this.file.dataDirectory, fileName, true)
-  //       .then( dirEntry => {
-
-  //         // Path for Android and iOS
-  //         let sourceFile:string = this.file.applicationDirectory + 'www/assets/boards/' + file;
-  //         let destinationDir:string = this.file.dataDirectory + '/' + fileName + '/';
-
-  //         const zipFile:string = fileName + '.zip';
-  //         const fileTransfer: FileTransferObject = this.transfer.create();
-
-  //         fileTransfer.download(sourceFile, destinationDir + zipFile)
-  //         .then( entry => {
-
-  //           if (await file.checkFile(destinationDir , zipFile)) {
-  //             let dir = await this.unzipBoard(destinationDir, zipFile);
-  //           }
-
-  //           })
-  //           .catch(err => {console.log("File does not exist", err);});
-  //         })
-  //         .catch( err => {console.log("Download failed", err)} );
-  //       });
-  //     });
-  //   }
-  // }
-
 
 
   public async getRawBoard(filename:string):Promise<Array<any>>{
@@ -264,7 +367,7 @@ export class BoardsProvider {
           this.http.get(this.path + filename)
           .map(res =>
             res.json()).subscribe(data => {
-              console.log(data);
+              //console.log(data);
               resolve(data);
             }
           );
@@ -279,19 +382,17 @@ export class BoardsProvider {
 
   private async loadBoardSet():Promise<BoardSetModel>{
 
-    this.settings = await this.getBoardSettings();
-    if (this.settings !== undefined){
+    let boardSettings:any = await this.getBoardSettings();
+    if (boardSettings !== undefined){
       let rawBoards = new Array<any>();
       try {
-        // TODO this loop does not work for iOS
-
-        for (let value of Object.keys(this.settings.paths.boards)){
+        for (let value of Object.keys(boardSettings.paths.boards)){
           // get all the boards from by calling all keys
-           let boardName = this.settings.paths.boards[value];
+           let boardName = boardSettings.paths.boards[value];
            let rawBoard:any = await this.getRawBoard(boardName);
            rawBoards.push(rawBoard);
         }
-        console.log("Number of boards loaded: ", rawBoards.length);
+        console.log("Number of loaded boards", rawBoards.length);
       } catch {
         console.log("Error occured while creating the raw boards");
       }
@@ -300,10 +401,11 @@ export class BoardsProvider {
         try{
           let boards = new Array<BoardModel>();
           for (let board of rawBoards){
-            let transformedBoard = new BoardModel(board, this.path, this.settings);
+            let transformedBoard = new BoardModel(board, this.path, boardSettings);
             if (transformedBoard !== undefined) boards.push(transformedBoard);
           }
-          let boardSet:BoardSetModel = new BoardSetModel('', this.path, boards);
+
+          let boardSet:BoardSetModel = new BoardSetModel(this.extractNameFromPath(), this.path, boards);
           resolve(boardSet);
         } catch {
           console.log("Error: Unzipping of a boardset was interrupted.")
@@ -312,6 +414,17 @@ export class BoardsProvider {
       });
     }
 
+  }
+
+  private extractNameFromPath(){
+    if (! this.path) return null;
+
+    let boardSetName = this.path;
+
+    if (boardSetName.charAt(boardSetName.length - 1) === "/" || boardSetName.charAt(boardSetName.length - 1) === "/" ){
+      boardSetName = boardSetName.slice(0, -1);
+    }
+    return  boardSetName.replace(/^.*[\\\/]/, '');
   }
 
 

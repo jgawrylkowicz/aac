@@ -25,7 +25,7 @@ export class HomePage {
     public boardsProvider: BoardsProvider) {
 
       // both of these file have to be defined otherwise their member functions can't be accessed
-      this.boardSet = new BoardSetModel();
+      //this.boardSet = new BoardSetModel();
       this.currentBoard = new BoardModel();
       this.isfromDirectory = false;
 
@@ -39,13 +39,13 @@ export class HomePage {
   async loadSettings(){
     this.message = '';
     this.wordPrediction = false;
-    try {
+    //try {
       this.boardSet = await this.boardsProvider.getBoardSet();
-      await console.log("boards", this.boardSet);
+      await console.log("The board set has been successfully loaded from the BoardsProvider", this.boardSet);
       await this.setBoardAsActive(0);
-    } catch {
-      console.log("Error: A problem occured while loading the boards from the storage. ")
-    }
+    //} catch {
+     // console.log("Error: A problem occured while loading the boards from the BoardsProvider")
+    //}
   }
 
   // sets a board from the array as the current one
@@ -54,7 +54,7 @@ export class HomePage {
     try {
       if (!this.boardSet.isEmpty()){
         this.currentBoard = this.boardSet.getBoardByIndex(id);
-        console.log("currentBoard", this.currentBoard);
+        //console.log("currentBoard", this.currentBoard);
       } else console.log("Error: No boards loaded.")
     } catch {
       console.log("Error: No boards loaded.")

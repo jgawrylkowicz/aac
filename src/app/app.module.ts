@@ -4,11 +4,12 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { Zip } from '@ionic-native/zip';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { IonicStorageModule } from '@ionic/storage';
+import { AppPreferences } from '@ionic-native/app-preferences';
 
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,7 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { BoardsProvider } from '../providers/boards/boards';
-//import { BoardModel } from '../models/board-model';
+import { PreferencesProvider } from '../providers/preferences/preferences';
 
 
 @NgModule({
@@ -42,10 +43,12 @@ import { BoardsProvider } from '../providers/boards/boards';
     FileTransferObject,
     File,
     Zip,
+    AppPreferences,
     NativeStorage,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    BoardsProvider
+    BoardsProvider,
+    PreferencesProvider
   ]
 })
 export class AppModule {}

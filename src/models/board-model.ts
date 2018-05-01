@@ -59,7 +59,7 @@ export class BoardModel{
           try {
 
             let image_url = settings.paths.images[button.image_id];
-            console.log(path + image_url);
+            //console.log(path + image_url);
             if (button.load_board){
               return new DirectoryModel(button.id, path + image_url, button.label, button.border_color, button.background_color,button.load_board.id );
             } else {

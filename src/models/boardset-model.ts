@@ -6,7 +6,7 @@ export class BoardSetModel{
   private path:string;
   private boards:Array<BoardModel>;
 
-  constructor(name?: string, path?:string, boards?:Array<BoardModel> ){
+  constructor(name: string, path:string, boards:Array<BoardModel> ){
     this.name = name;
     this.path = path;
     this.boards = (boards) ? boards : new Array<BoardModel>();
