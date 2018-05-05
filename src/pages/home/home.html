@@ -14,7 +14,7 @@
     <ion-row>
       <ion-col col-11>
         <div class="textfield__message">
-          <div class="textfield__content">{{message}}</div>
+          <div class="textfield__content">{{displayMessage()}}</div>
           <ion-icon class="textfield__btn" (click)='speak()' name="mic"></ion-icon>
           <ion-icon class="textfield__btn" (click)='removeLastWord()' name="backspace"></ion-icon>
         </div>

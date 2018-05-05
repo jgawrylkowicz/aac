@@ -7,16 +7,17 @@ import { Zip } from '@ionic-native/zip';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { Storage } from '@ionic/storage';
 import { Platform } from 'ionic-angular';
+import { LoadingController } from 'ionic-angular';
 
 import { BoardModel } from '../../models/board-model';
 import { BoardSetModel } from '../../models/boardset-model';
 import { PreferencesProvider } from '../preferences/preferences';
 import { ButtonModel, DirectoryModel, PhraseModel } from '../../models/button-model';
 
-
-// TODO refractor the code
 // iOS images dont show
 
+// casts JSON objects into TS classes
+// some objects (liek buttons) posses funtions on which the UI depends
 class SerializationHelper{
 
   static toInstance<T>(obj: T, json:any):any{
@@ -76,6 +77,7 @@ export class BoardsProvider {
   path:string; // path to the unzipped board with all the assets
 
   currentBoardName:string;
+  loading;
 
   constructor(public http: Http,
     public prfProvider: PreferencesProvider,
@@ -84,20 +86,31 @@ export class BoardsProvider {
     public file: File,
     private zip: Zip,
     private nativeStorage: NativeStorage,
-    private storage: Storage
+    private storage: Storage,
+    public loadingCtrl: LoadingController
     ) {
 
+    this.loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
     this.currentBoardSet = undefined;
   }
 
+
   public async getBoardSet(name?:string):Promise<BoardSetModel>{
 
+    this.loading.present();
     if (!name) {
       // name of the default board
       name = await this.prfProvider.getDefaultBoardSet();
     }
+    let boardSet = undefined;
+    try {
+      let boardSet = await this.loadBoardSetFromStorage(name);
+    } catch {
+      console.log("Error while attempting to load all board sets from the storage. Loading was rejected.")
+    }
 
-    let boardSet = await this.loadBoardSetFromStorage(name);
     //let boardSet = undefined;
     if (boardSet !== undefined ) this.currentBoardSet = boardSet;
 
@@ -112,9 +125,11 @@ export class BoardsProvider {
 
       if (this.currentBoardSet){
         console.log("Fallback successful");
-        resolve(this.currentBoardSet)
+        this.loading.dismiss()
+        resolve(this.currentBoardSet);
       }
       else{
+        this.loading.dismiss();
         console.log("Fallback failed");
         reject();
       }
@@ -200,6 +215,8 @@ export class BoardsProvider {
       // for native devices
       if (await this.platform.ready()) {
         try {
+
+
           let savedBoardSets:Array<BoardSetModel> = JSON.parse( await this.nativeStorage.getItem('boardSets'));
 
           return new Promise<BoardSetModel>((resolve, reject) => {
@@ -213,8 +230,8 @@ export class BoardsProvider {
             reject();
            });
         } catch {
-          console.log("Error while attempting to load all board sets from the storage");
-        }
+         console.log("Error while attempting to load all board sets from the storage. No board set has been saved before.");
+       }
       }
     } else {
       // for web browser
@@ -237,11 +254,12 @@ export class BoardsProvider {
            });
 
         } catch {
-          console.log("Error while attempting to load all board sets from the storage")
+          console.log("Error while attempting to load all board sets from the storage. No board set has been saved before.");
         }
       }
     }
   }
+
 
   private async getAllBoardSetsFromStorage():Promise<Array<BoardSetModel>>{
 
@@ -289,13 +307,6 @@ export class BoardsProvider {
     }
   }
 
-  private getBoardSetByNameFromStorage(name):BoardSetModel{
-    if (this.boardSets !== undefined){
-      for (let boardSet of this.boardSets){
-        if (boardSet.getName() === name) return boardSet;
-      }
-    }
-  }
 
   // Saves the name of the current board set for later loading
   // The saved set will be set as default
@@ -405,6 +416,10 @@ export class BoardsProvider {
           });
         });
       } else {
+
+        if (this.platform.is("cordova")) {
+          console.log("Running cordova in a browser, the board set cannot be unzipped.");
+        }
         // the web browser cannot access the native funtionality to unzip object
         resolve('assets/cache/communikate-20/');
       }
