@@ -6,62 +6,10 @@ import { BoardsProvider } from '../../providers/boards/boards';
 import 'rxjs/add/operator/map';
 import { BoardModel } from '../../models/board-model';
 import { BoardSetModel } from '../../models/boardset-model';
+import { SentenceModel, EntityModel, WordModel, SubjectModel } from '../../models/linguistic-model';
 
-
-class Sentence {
-  public entities:Entity[];
-
-  constructor() {
-    this.entities = new Array<Entity>();
-  }
-
-  public length(){
-    return this.entities.length;
-  }
-
-  public add(entity:Entity){
-    this.entities.push(entity);
-  }
-
-  public removeLast(){
-    if (this.entities.length > 0){
-      this.entities.splice(-1, 1);
-    }
-  }
-
-  clear(){
-    this.entities = new Array<Entity>();
-  }
-
-  public toString():string{
-    let message:string = '';
-    for (var i = 0; i < this.entities.length; i++){
-      if (i === 0) {
-        let firstWord = this.entities[i].label.charAt(0).toUpperCase() + this.entities[i].label.slice(1);
-        message += firstWord;
-      } else {
-        message += ' ' + this.entities[i].label;
-      }
-
-    }
-    return message;
-  }
-
-}
-
-
-//
-class Entity{
-  public label:string;
-
-  constructor(label:string){
-    this.label = label;
-  }
-}
-
-
-
-
+// TODO the database needs to be cleared from time to time
+// reaches more than 10MB
 
 @Component({
   selector: 'page-home',
@@ -72,26 +20,26 @@ export class HomePage {
   wordPrediction:boolean;
   isfromDirectory:boolean;
 
-  message: Sentence;
+  message: SentenceModel;
+  //message:string;
   boardSet:BoardSetModel;
   currentBoard:BoardModel;
 
-  constructor(public navCtrl: NavController,
+  constructor(
+    public navCtrl: NavController,
     public plt: Platform,
     public boardsProvider: BoardsProvider) {
 
       // both of these file have to be defined otherwise their member functions can't be accessed
       //this.boardSet = new BoardSetModel();
       this.currentBoard = new BoardModel();
-      this.message = new Sentence();
-
+      this.message = new SentenceModel();
       this.isfromDirectory = false;
 
   }
 
   ionViewDidLoad() {
     this.loadSettings();
-
   }
 
   async loadSettings(){
@@ -119,10 +67,29 @@ export class HomePage {
     }
   }
 
-  addWord(text: string){
+  private isWord(text:string):boolean{
+    if (text !== undefined){
+      for (let char of text){
+        if (char == ' ') return false;
+      }
+    }
+    return false;
+  }
+
+
+  public addWord(text: string):void{
 
     let label:string = text;
-    let entity = new Entity(label);
+    let entity = new SubjectModel(label);
+
+    // if (this.isWord(label)){
+    //   // Word
+    //   //alert("word");
+    // } else {
+    //   // Phrase
+    //   //alert("phrase");
+    // }
+
     this.message.add(entity);
     // go back to the root board
     if (this.isfromDirectory) this.setBoardAsActive(0);
@@ -130,9 +97,10 @@ export class HomePage {
   }
 
   public displayMessage():string{
-    //entity.label = text.charAt(0).toUpperCase() + text.slice(1);
-    return this.message.toString();
-
+    if (this.message !== undefined){
+      return this.message.toString();
+    }
+    return " ";
   }
 
 

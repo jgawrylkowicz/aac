@@ -6,7 +6,7 @@ import { AppPreferences } from '@ionic-native/app-preferences';
 export class PreferencesProvider {
 
   private lang:string;
-  private fontSize:string;
+  private fontSize:number;
   private currentBoardSet:string;
   private defaultBoardSet:string;
 
@@ -14,6 +14,10 @@ export class PreferencesProvider {
 
     // default settings
     this.defaultBoardSet = "communikate-20";
+    this.fontSize = 1.5;
+    this.currentBoardSet = undefined;
+    this.lang = "en";
+
   }
 
   private loadSettings(){
