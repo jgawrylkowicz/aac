@@ -6,10 +6,12 @@ import { BoardsProvider } from '../../providers/boards/boards';
 import 'rxjs/add/operator/map';
 import { BoardModel } from '../../models/board-model';
 import { BoardSetModel } from '../../models/boardset-model';
-import { SentenceModel, EntityModel, WordModel, SubjectModel } from '../../models/linguistic-model';
+import { SentenceModel, EntityModel, PhraseModel, WordModel } from '../../models/sentence-model';
 
+import { LanguageInterface, EnglishModel } from '../../models/language-model';
 // TODO the database needs to be cleared from time to time
 // reaches more than 10MB
+
 
 @Component({
   selector: 'page-home',
@@ -19,11 +21,13 @@ export class HomePage {
 
   wordPrediction:boolean;
   isfromDirectory:boolean;
+  lang:LanguageInterface;
 
   message: SentenceModel;
   //message:string;
   boardSet:BoardSetModel;
   currentBoard:BoardModel;
+
 
   constructor(
     public navCtrl: NavController,
@@ -31,15 +35,18 @@ export class HomePage {
     public boardsProvider: BoardsProvider) {
 
       // both of these file have to be defined otherwise their member functions can't be accessed
-      //this.boardSet = new BoardSetModel();
+      // this.boardSet = new BoardSetModel();
       this.currentBoard = new BoardModel();
       this.message = new SentenceModel();
       this.isfromDirectory = false;
+      this.lang = new EnglishModel();
+
 
   }
 
   ionViewDidLoad() {
     this.loadSettings();
+
   }
 
   async loadSettings(){
@@ -53,6 +60,7 @@ export class HomePage {
       console.log("Error: A problem occured while loading the boards from the BoardsProvider")
     }
   }
+
 
   // sets a board from the array as the current one
   // 0 is the index of the root board
@@ -73,26 +81,25 @@ export class HomePage {
         if (char == ' ') return false;
       }
     }
-    return false;
+    return true;
   }
 
 
   public addWord(text: string):void{
 
     let label:string = text;
-    let entity = new SubjectModel(label);
+    let entity:EntityModel;
 
-    // if (this.isWord(label)){
-    //   // Word
-    //   //alert("word");
-    // } else {
-    //   // Phrase
-    //   //alert("phrase");
-    // }
+
+    if (! this.isWord(label)) {
+      entity = new PhraseModel(label);
+    } else entity = new WordModel(label);
 
     this.message.add(entity);
     // go back to the root board
     if (this.isfromDirectory) this.setBoardAsActive(0);
+    console.log('correct', this.lang.check(this.message));
+
 
   }
 

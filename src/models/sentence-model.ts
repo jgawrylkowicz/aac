@@ -30,10 +30,10 @@ export class SentenceModel {
     if (this.entities.length === 0) return message;
     for (var i = 0; i < this.entities.length; i++){
       if (i === 0) {
-        let firstWord = this.entities[i].label.charAt(0).toUpperCase() + this.entities[i].label.slice(1);
+        let firstWord = this.entities[i].getLabel().charAt(0).toUpperCase() + this.entities[i].getLabel().slice(1);
         message += firstWord;
       } else {
-        message += ' ' + this.entities[i].label;
+        message += ' ' + this.entities[i].getLabel();
       }
     }
     return message;
@@ -44,53 +44,27 @@ export class SentenceModel {
 
 //
 export abstract class EntityModel{
-  public label:string;
+  private label:string;
 
   constructor(label:string){
     this.label = label;
   }
+
+  public getLabel():string{
+    return this.label;
+  }
 }
 
 
-export abstract class WordModel extends EntityModel {
+export class WordModel extends EntityModel{
   constructor(label:string){
     super(label);
   }
 }
 
 
-export abstract class PhraseModel extends EntityModel {
-
-  public words: Array<WordModel>;
-
-  constructor(label:string){
-    super(label);
-    this.words = new Array<WordModel>();
-  }
-
-}
-
-export class SubjectModel extends WordModel{
-
-  constructor(label:string){
-    super(label);
-  }
-
-}
-
-export class VerbModel extends WordModel {
-
-  constructor(label:string){
-    super(label);
-  }
-
-}
-// The Object name is taken
-export class ObjectModel extends WordModel {
-
+export class PhraseModel extends EntityModel{
   constructor(label:string){
     super(label);
   }
 }
-
-
