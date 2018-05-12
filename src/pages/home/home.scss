@@ -15,8 +15,8 @@ page-home {
   .textfield__btn{
     margin: auto 0;
     width: 8rem;
-    padding: 0 2rem;
-    font-size: 4rem;
+    padding: 0 4rem;
+    font-size: 5rem;
   }
 
   .textfield{
@@ -25,7 +25,7 @@ page-home {
     //padding: 10px;
     //grid-gap: 5px;
     //background: #f5f5f5;
-    height: 100px;
+    height: 120px;
     min-height: 3rem;
   }
 
@@ -47,6 +47,18 @@ page-home {
     align-items: center;
   }
 
+  .textfield__content > div {
+    //height: 100%;
+  }
+  .textfield__content > .incorrect {
+    border-bottom: 2px solid red;
+  }
+
+  .textfield__content > .correct {
+    border-bottom: 2px solid green;
+  }
+
+
   .textfield__message{
     background: #FFFFFF;
     box-shadow: 0 2px 8px 0 rgba(0,0,0,0.12);
@@ -56,7 +68,7 @@ page-home {
     display: flex;
     align-items: center;
     overflow: hidden;
-    font-size: 2rem;
+    font-size: 3rem;
     font-weight: 500;
     padding: 0rem 2rem;
   }

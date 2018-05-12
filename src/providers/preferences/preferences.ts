@@ -9,6 +9,8 @@ export class PreferencesProvider {
   private fontSize:number;
   private currentBoardSet:string;
   private defaultBoardSet:string;
+  private grammarCheck:boolean;
+  private wordPrediction:boolean;
 
   constructor( private appPreferences: AppPreferences ) {
 
@@ -17,6 +19,8 @@ export class PreferencesProvider {
     this.fontSize = 1.5;
     this.currentBoardSet = undefined;
     this.lang = "en";
+    this.grammarCheck = true;
+    this.wordPrediction = false;
 
   }
 
@@ -40,9 +44,23 @@ export class PreferencesProvider {
 
   }
 
-  public async getDefaultBoardSet():Promise<any>{
+  public getDefaultBoardSet():Promise<any>{
     return new Promise<any>(resolve => resolve(this.defaultBoardSet));
   }
+
+  public getLanguage():Promise<string>{
+    return new Promise<string>(resolve => resolve(this.lang));
+  }
+
+  public getGrammarCheck():Promise<boolean>{
+    return new Promise<boolean>(resolve => resolve(this.grammarCheck));
+  }
+
+  public getWordPrediction():Promise<boolean>{
+    return new Promise<boolean>(resolve => resolve(this.wordPrediction));
+  }
+
+
 
 
 }

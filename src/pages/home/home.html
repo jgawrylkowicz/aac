@@ -14,7 +14,22 @@
     <ion-row>
       <ion-col col-11>
         <div class="textfield__message">
-          <div class="textfield__content">{{displayMessage()}}</div>
+
+          <div class="textfield__content">
+            <div *ngIf="grammarCheck then check else nocheck"></div>
+
+             <ng-template #check>
+                <div [ngClass]="(isCorrect >= 0 && isCorrect == 1 ) ? 'correct': 'incorrect'" >
+                    {{displayMessage()}}
+                </div>
+             </ng-template>
+
+             <ng-template #nocheck>
+                {{displayMessage()}}
+             </ng-template>
+
+          </div>
+
           <ion-icon class="textfield__btn" (click)='speak()' name="mic"></ion-icon>
           <ion-icon class="textfield__btn" (click)='removeLastWord()' name="backspace"></ion-icon>
         </div>

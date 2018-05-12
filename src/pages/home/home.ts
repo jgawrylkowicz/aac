@@ -3,12 +3,13 @@ import { NavController } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 import { BoardsProvider } from '../../providers/boards/boards';
 //import { Injectable } from '@angular/core';
+import { PreferencesProvider } from '../../providers/preferences/preferences';
 import 'rxjs/add/operator/map';
 import { BoardModel } from '../../models/board-model';
 import { BoardSetModel } from '../../models/boardset-model';
 import { SentenceModel, EntityModel, PhraseModel, WordModel } from '../../models/sentence-model';
-
 import { LanguageInterface, EnglishModel } from '../../models/language-model';
+
 // TODO the database needs to be cleared from time to time
 // reaches more than 10MB
 
@@ -23,24 +24,27 @@ export class HomePage {
   isfromDirectory:boolean;
   lang:LanguageInterface;
 
+  grammarCheck: boolean;
+  isCorrect:number;
+
   message: SentenceModel;
-  //message:string;
   boardSet:BoardSetModel;
   currentBoard:BoardModel;
-
 
   constructor(
     public navCtrl: NavController,
     public plt: Platform,
-    public boardsProvider: BoardsProvider) {
+    public boardsProvider: BoardsProvider,
+    public prefProvider: PreferencesProvider
+    ) {
 
       // both of these file have to be defined otherwise their member functions can't be accessed
       // this.boardSet = new BoardSetModel();
       this.currentBoard = new BoardModel();
       this.message = new SentenceModel();
       this.isfromDirectory = false;
-      this.lang = new EnglishModel();
-
+      this.grammarCheck = false;
+      this.isCorrect = -1; //-1 is untouched, 0 is incorrect, 1 is correct
 
   }
 
@@ -51,7 +55,21 @@ export class HomePage {
 
   async loadSettings(){
     //this.message = '';
-    this.wordPrediction = false;
+    let lang:string = await this.prefProvider.getLanguage();
+    switch(lang){
+      case 'en':
+        this.lang = new EnglishModel();
+        break;
+      case 'de':
+        // not implemented
+      default:
+        this.lang = new EnglishModel();
+    }
+
+    this.grammarCheck = await this.prefProvider.getGrammarCheck();
+    this.wordPrediction = await this.prefProvider.getWordPrediction();
+
+
     try {
       this.boardSet = await this.boardsProvider.getBoardSet();
       await console.log("The board set has been successfully loaded from the BoardsProvider", this.boardSet);
@@ -85,7 +103,7 @@ export class HomePage {
   }
 
 
-  public addWord(text: string):void{
+  public async addWord(text: string){
 
     let label:string = text;
     let entity:EntityModel;
@@ -98,9 +116,11 @@ export class HomePage {
     this.message.add(entity);
     // go back to the root board
     if (this.isfromDirectory) this.setBoardAsActive(0);
-    console.log('correct', this.lang.check(this.message));
 
-
+    if (this.message.length() > 0 && this.grammarCheck){
+      this.isCorrect = (await this.lang.check(this.message)) ? 1 : 0;
+      console.log(this.isCorrect);
+    }
   }
 
   public displayMessage():string{
@@ -110,9 +130,14 @@ export class HomePage {
     return " ";
   }
 
-
-  removeLastWord(){
+  public async removeLastWord(){
     this.message.removeLast();
+
+    if (this.message.length() > 0 && this.grammarCheck){
+      this.isCorrect = (await this.lang.check(this.message)) ? 1 : 0;
+      console.log(this.isCorrect);
+    }
+
   }
 
   speak(){
@@ -121,6 +146,7 @@ export class HomePage {
 
   clearMessage(){
     this.message.clear();
+    this.isCorrect = -1;
   }
 
   changeBoard(id:string){

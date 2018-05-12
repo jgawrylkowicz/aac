@@ -6,13 +6,15 @@ import { SentenceModel } from './sentence-model';
 
 export interface LanguageInterface{
 
-  check(message:SentenceModel):boolean;
+  check(message:SentenceModel):Promise<boolean>;
 
 }
 
+
+
 export class EnglishModel implements LanguageInterface{
 
-  private Grammar;
+  private exprGrammar;
   private wordExtracter:Lexer;
   private wordTagger: Tagger;
 
@@ -21,16 +23,23 @@ export class EnglishModel implements LanguageInterface{
     this.wordExtracter = new Lexer();
     this.wordTagger = new Tagger();
 
-    this.Grammar = types.Grammar;
+    var Grammar = types.Grammar;
     let Rule = types.Rule;
     let T = types.T;
     let NT = types.NT;
 
-    var exprGrammar = this.Grammar([
+    // new Rule for modals
+    this.exprGrammar = Grammar([
       Rule('S', [NT('NP'), NT('VP')]),
+
       Rule('VP', [NT('VP'), NT('PP')]),
       Rule('VP', [NT('V'), NT('NP')]),
       Rule('VP', [NT('V')]),
+      Rule('VP', [NT('VP'), NT('NP')]),
+      // These 3 need to checked
+      Rule('VP', [NT('V'), T('t')]),
+      Rule('VP', [NT('V'), T('t'), NT('VP') ]),
+      Rule('VP', [NT('MD'), NT('V')]),
 
       Rule('PP', [NT('P'), NT('NP')]),
 
@@ -43,42 +52,40 @@ export class EnglishModel implements LanguageInterface{
       Rule('A', [NT('Adv'), NT('A')]),
       Rule('A', [NT('A'), NT('A')]),
       Rule('A', [NT('A'), NT('A')]),
-
       Rule('A', [T('c')]),
+
       Rule('Adv', [T('b')]),
       Rule('Pn', [T('p')]),
       Rule('V', [T('v')]),
       Rule('Det', [T('a')]),
       Rule('P', [T('w')]),
       Rule('N', [T('n')]),
+      Rule('MD', [T('m')]),
     ]);
 
   }
 
 
-  public check(message:SentenceModel){
+  public check(message:SentenceModel):Promise<boolean>{
 
+    return new Promise<boolean>(resolve => {
 
-    //console.log(message);
-    // [0] = word , [1] = tag
+      // [0] = word , [1] = tag
+      // extract into entities using tagger and lexer
+      let text:string = message.toString();
+      let words:Array<string> = this.wordExtracter.lex(text);
+      let taggedWords:Array<string> = this.wordTagger.tag(words);
 
-    // extract into entities using tagger and lexer
-    let text:string = message.toString();
-    let words:Array<string> = this.wordExtracter.lex(text);
-    let taggedWords:Array<string> = this.wordTagger.tag(words);
-    //console.log(taggedWords);
-
-    // translate entities into single characters
-    let expression = '';
-    let adapter:EntityAdapterInterface = new EnglishAdapter();
-    for (let w of taggedWords){
-      expression += adapter.getEntity(w[1]);
-    }
-    console.log('exp', expression);
-
-    // parse using created grammar rules
-    // return parser.parse(this.Grammar, 'pvvp').length > 0;
-    return false;
+      // translate entities into single characters
+      let expression = '';
+      let adapter:EntityAdapterInterface = new EnglishAdapter();
+      for (let w of taggedWords){
+        expression += adapter.getEntity(w[1]);
+      }
+      //console.log('exp', expression);
+      // parse using created grammar rules
+      resolve(parser.parse(this.exprGrammar, expression).length > 0);
+    });
   }
 
 }
@@ -148,6 +155,8 @@ class EnglishAdapter implements EntityAdapterInterface{
   // Det = determiner = a
   // P = Preposition  = w
   // N = noun = n
+  //  = modal verb = m
+  // to
 
   public getEntity(tag):string{
 
@@ -160,6 +169,7 @@ class EnglishAdapter implements EntityAdapterInterface{
       case 'NNS':
         return 'n'
       case 'MD':
+        return 'm';
       case 'VB':
       case 'VBG':
       case 'VBD':
@@ -179,6 +189,8 @@ class EnglishAdapter implements EntityAdapterInterface{
         return 'a';
       case 'IN':
         return 'w';
+      case 'TO':
+        return 't';
       default:
         return '';
     }
