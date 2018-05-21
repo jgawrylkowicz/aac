@@ -11,8 +11,13 @@
 
   <!-- Text Buffer -->
   <ion-grid class="textfield">
-    <ion-row>
-      <ion-col col-11>
+    <ion-row justify-content-center>
+      <ion-col col-auto>
+        <button class="textfield__btn" (click)='speak()' ion-button icon-only>
+            <ion-icon name="mic"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col>
         <div class="textfield__message">
 
           <div class="textfield__content">
@@ -29,32 +34,38 @@
              </ng-template>
 
           </div>
-
-          <ion-icon class="textfield__btn" (click)='speak()' name="mic"></ion-icon>
-          <ion-icon class="textfield__btn" (click)='removeLastWord()' name="backspace"></ion-icon>
         </div>
       </ion-col>
-      <ion-col col-1>
-        <div class="textfield__menu">
-          <ion-icon class="textfield__btn" (click)='clearMessage()' name="trash"></ion-icon>
-        </div>
+      <ion-col col-auto>
+        <button class="textfield__btn" (click)='removeLastWord()' ion-button icon-only>
+            <ion-icon name="backspace"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col col-auto>
+        <button class="textfield__btn" (click)='clearMessage()' ion-button icon-only>
+            <ion-icon name="trash"></ion-icon>
+        </button>
       </ion-col>
 
     </ion-row>
   </ion-grid>
 
-  <!-- Word prediction -->
-  <div class="prediction"  *ngIf="wordPrediction">
-    <button *ngFor="let i of [0,1,2]" class="board-button" ion-button>
-        <div class="board-button__img" >
-            <ion-img [cache]="true" ></ion-img>
-        </div>
-        <div class="board-button__label" >  testß </div>
-    </button>
-  </div>
 
-  <ion-grid *ngIf="!currentBoard.isEmpty()" class="board">
-    <ion-row *ngFor="let row of currentBoard.getGrid()">
+
+  <ion-grid  *ngIf="!currentBoard.isEmpty()" class="board">
+
+   <!-- Word prediction -->
+    <ion-row class="prediction">
+      <ion-col *ngFor="let i of [0,1,2,3,4]">
+          <button  class="board-button" ion-button>
+            <img class="board-button__img" src="">
+            <div class="board-button__dir"> </div>
+          </button>
+      </ion-col>
+    </ion-row>
+
+    <!-- Communication boards -->
+    <ion-row class="com-board" *ngFor="let row of currentBoard.getGrid()">
       <ion-col *ngFor="let button of row">
 
         <div *ngIf="button !== null; then functionalButton else blankButton"></div>

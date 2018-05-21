@@ -1,12 +1,14 @@
 import { types, parser } from 'cfgrammar-tool';
 import { Tagger, Lexer } from 'pos';
 import { SentenceModel } from './sentence-model';
+import { Inflectors, Inflector } from "en-inflectors";
 
 
 
 export interface LanguageInterface{
 
   check(message:SentenceModel):Promise<boolean>;
+  correct(message:SentenceModel):Promise<string>;
 
 }
 
@@ -17,11 +19,15 @@ export class EnglishModel implements LanguageInterface{
   private exprGrammar;
   private wordExtracter:Lexer;
   private wordTagger: Tagger;
+  private adapter: EntityAdapterInterface;
+
 
   constructor(){
 
     this.wordExtracter = new Lexer();
     this.wordTagger = new Tagger();
+    this.adapter = new EnglishAdapter();
+
 
     var Grammar = types.Grammar;
     let Rule = types.Rule;
@@ -78,9 +84,9 @@ export class EnglishModel implements LanguageInterface{
 
       // translate entities into single characters
       let expression = '';
-      let adapter:EntityAdapterInterface = new EnglishAdapter();
+
       for (let w of taggedWords){
-        expression += adapter.getEntity(w[1]);
+        expression += this.adapter.getEntity(w[1]);
       }
       //console.log('exp', expression);
       // parse using created grammar rules
@@ -88,14 +94,48 @@ export class EnglishModel implements LanguageInterface{
     });
   }
 
+  public correct(message: SentenceModel):Promise<string>{
+
+    let adapter:EntityAdapterInterface = new EnglishAdapter();
+
+    return new Promise<string>(resolve => {
+
+      let entities = message.getEntities();
+      if (entities.length > 1) {
+
+        for (var i = 1; i < entities.length; i++ ){
+
+          let firstWord = entities[i-1].getLabel();
+          let secondWord = entities[i].getLabel();
+
+          if ( this.adapter.isSubject(firstWord) && this.adapter.isVerb(secondWord) ) {
+
+            let conjugatedVerb = this.adapter.conjugate(firstWord, secondWord);
+            entities[i].setLabel(conjugatedVerb);
+
+          }
+        }
+
+      }
+
+
+
+    });
+
+  }
+
 }
 
 interface EntityAdapterInterface{
   getEntity(tag):string;
+  isVerb(word):boolean;
+  isSubject(word):boolean;
+  conjugate(noun, verb);
 
 }
 
 class EnglishAdapter implements EntityAdapterInterface{
+
 
   // Pos.js
   // CC Coord Conjuncn           and,but,or
@@ -142,8 +182,13 @@ class EnglishAdapter implements EntityAdapterInterface{
   // " quote                     "
   // ( Left paren                (
   // ) Right paren               )
-  constructor(){
 
+  private wordExtracter:Lexer;
+  private wordTagger: Tagger;
+
+  constructor(){
+    this.wordExtracter = new Lexer();
+    this.wordTagger = new Tagger();
   }
 
 
@@ -193,6 +238,55 @@ class EnglishAdapter implements EntityAdapterInterface{
         return 't';
       default:
         return '';
+    }
+  }
+
+  public conjugate(noun:string, verb:string):string{
+
+    let word = noun.toLowerCase().trim();
+    console.log('word', word);
+    console.log(word == 'i');
+
+    if (word === 'you' || word === 'we' || word === 'they' || word === 'i' || new Inflector(word).isPlural()) {
+      return new Inflectors(verb).toPresent();
+    } else {
+      return new Inflectors(verb).toPresentS();
+    }
+
+  }
+
+  public isVerb(word: string):boolean{
+
+    let taggedWord = this.wordTagger.tag([word]);
+
+    switch(taggedWord[0][1]){
+      case 'MD':
+      case 'VB':
+      case 'VBG':
+      case 'VBD':
+      case 'VBN':
+      case 'VBP':
+      case "VBZ":
+        return true;
+      default:
+        return false;
+    }
+
+  }
+
+  public isSubject(word: string):boolean{
+
+    let taggedWord = this.wordTagger.tag([word]);
+
+    switch(taggedWord[0][1]){
+      case 'PRP':
+      case 'NN':
+      case 'NNP':
+      case 'NNPS':
+      case 'NNS':
+        return true;
+      default:
+        return false;
     }
 
   }

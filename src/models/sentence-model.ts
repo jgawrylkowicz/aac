@@ -5,6 +5,10 @@ export class SentenceModel {
     this.entities = new Array<EntityModel>();
   }
 
+  public getEntities(){
+    return this.entities;
+  }
+
   public length():number{
     if (this.entities === undefined || this.entities === null ) return 0;
     return this.entities.length;
@@ -47,6 +51,10 @@ export abstract class EntityModel{
   private label:string;
 
   constructor(label:string){
+    this.label = label;
+  }
+
+  public setLabel(label:string):void{
     this.label = label;
   }
 

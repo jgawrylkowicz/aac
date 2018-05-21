@@ -10,8 +10,11 @@ import { BoardSetModel } from '../../models/boardset-model';
 import { SentenceModel, EntityModel, PhraseModel, WordModel } from '../../models/sentence-model';
 import { LanguageInterface, EnglishModel } from '../../models/language-model';
 
+
+
 // TODO the database needs to be cleared from time to time
 // reaches more than 10MB
+// Variable message in the loading popup
 
 
 @Component({
@@ -50,7 +53,6 @@ export class HomePage {
 
   ionViewDidLoad() {
     this.loadSettings();
-
   }
 
   async loadSettings(){
@@ -120,6 +122,10 @@ export class HomePage {
     if (this.message.length() > 0 && this.grammarCheck){
       this.isCorrect = (await this.lang.check(this.message)) ? 1 : 0;
       console.log(this.isCorrect);
+    }
+
+    if (this.message.length() > 0){
+      this.lang.correct(this.message);
     }
   }
 
