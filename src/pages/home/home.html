@@ -59,10 +59,16 @@
    <!-- Word prediction -->
     <ion-row class="com-board" *ngIf="wordPrediction" >
       <ion-col *ngFor="let button of prediction">
-        <button  class="board-button" ion-button>
-          <!--<img class="board-button__img" height="100%" width="100%" src=""> -->
-          <div class="board-button__dir"> </div>
-        </button>
+        <div *ngIf="button !== null; then functionalButton else blankButton"></div>
+        <ng-template #functionalButton>
+          <button  class="board-button" ion-button>
+            <!--<img class="board-button__img" height="100%" width="100%" src=""> -->
+          </button>
+        </ng-template>
+        <ng-template #blankButton>
+          <div></div>
+        </ng-template>
+
       </ion-col>
     </ion-row>
 

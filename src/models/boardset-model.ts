@@ -27,6 +27,19 @@ export class BoardSetModel{
     }
   }
 
+  public getNumOfRows():number{
+    // get the first board
+    // You probably want to check the value in all the boards to get the maximum
+    let board = this.getBoardByIndex(0);
+    return board.getNumOfRows();
+  }
+
+  public getNumOfColumns():number{
+    let max:number = 0;
+    let board = this.getBoardByIndex(0);
+    return board.getNumOfColumns();
+  }
+
   public isEmpty():boolean{
 
     if (this.boards != undefined){

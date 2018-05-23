@@ -31,6 +31,18 @@ export class BoardModel{
     this.id = id;
   }
 
+  public getNumOfRows():number{
+   return this.grid.length;
+  }
+
+  public getNumOfColumns():number{
+    let max:number = 0;
+    for(let row of this.grid){
+      if (row.length > max) max = row.length;
+    }
+    return max;
+  }
+
   private static transform(board, path, settings):Array<Array<ButtonModel>>{
     let grid = new Array<Array<ButtonModel>>();
     if (board.grid && board.grid.order){

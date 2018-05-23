@@ -11,12 +11,9 @@ import { BoardSetModel } from '../../models/boardset-model';
 import { SentenceModel, EntityModel, PhraseModel, WordModel } from '../../models/sentence-model';
 import { LanguageInterface, EnglishModel } from '../../models/language-model';
 
-
-
 // TODO the database needs to be cleared from time to time
 // reaches more than 10MB
 // Variable message in the loading popup
-
 
 @Component({
   selector: 'page-home',
@@ -66,7 +63,12 @@ export class HomePage {
   ionViewDidLoad() {
     this.loadSettings();
     this.createMockup();
+
   }
+
+
+
+
 
   async loadSettings(){
     //this.message = '';
@@ -85,14 +87,15 @@ export class HomePage {
     //this.wordPrediction = await this.prefProvider.getWordPrediction();
 
 
-    try {
+    //try {
       this.boardSet = await this.boardsProvider.getBoardSet();
 
       await console.log("The board set has been successfully loaded from the BoardsProvider", this.boardSet);
       await this.setBoardAsActive(0);
-    } catch {
+      this.redrawCSSGrid(this.boardSet);
+    //} catch {
       console.log("Error: A problem occured while loading the boards from the BoardsProvider")
-    }
+    //}
   }
 
 
@@ -102,11 +105,29 @@ export class HomePage {
     try {
       if (!this.boardSet.isEmpty()){
         this.currentBoard = this.boardSet.getBoardByIndex(id);
-        //console.log("currentBoard", this.currentBoard);
+
       } else console.log("Error: No boards loaded.")
     } catch {
       console.log("Error: No boards loaded.")
     }
+  }
+
+  private redrawCSSGrid(boardset:BoardSetModel){
+
+    let array = new Array<any>();
+    let rows:number = (!this.prediction) ? boardset.getNumOfRows() : boardset.getNumOfRows() + 1;
+
+    for (var i = 0; i < rows; i++ ){
+      array.push('1fr');
+    }
+
+    let grid = {
+      rows: array,
+      columns: boardset.getNumOfColumns()
+    };
+
+    this.grid = grid;
+    console.log('Grid has been redrawn.', grid);
   }
 
   private isWord(text:string):boolean{
@@ -184,8 +205,9 @@ export class HomePage {
 
   createMockup(){
 
-    for (var i=0; i < 3; i++){
-      this.prediction.push( new ButtonModel());
+    for (var i=0; i < 5; i++){
+      if (i < 3) this.prediction.push( new ButtonModel());
+      else this.prediction.push(null);
     }
   }
 
