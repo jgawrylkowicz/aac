@@ -23,12 +23,14 @@ page-home {
 
   .com-board{
     width: 100%;
+
   }
 
   .board{
     //background: #E1E2E1;
     height: 100% !important;
     box-shadow: $shadow;
+    padding: 5px;
     // z-index: 10;
     // align-items: center;
     // display: flex;
@@ -122,14 +124,13 @@ page-home {
 
   .board-button__img{
     max-height: calc(100% - 3rem);
-    max-width: 50%;
     height: auto;
     width: auto;
-
-    /* margin: 0 auto; */
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 2rem;
+    overflow: hidden;
+    position: absolute;
   }
 
   .board-button__label{

@@ -11,7 +11,7 @@ This project was developed in the course of my bachelor thesis and offers a very
 
 ### UI / UX
 * <del>Flexbox issues in the board and prediction grids. The grids should not shrink and grow at that rate. Their size should be more predicatble. </del> (Changed to grid 23.05.18 )
-* The behaviour of the prediction row is still not unexpected. The buttons will grow parallel to the width of the display which pushes the bottom rows out of bounds.  
+* <del>The behaviour of the prediction row is still not unexpected. The buttons will grow parallel to the width of the display which pushes the bottom rows out of bounds.  </del> (changed images to position absolute)
 
 ### Other
 * Implement Text-To-Speech
