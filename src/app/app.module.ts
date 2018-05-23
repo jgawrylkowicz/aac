@@ -19,6 +19,8 @@ import { HomePage } from '../pages/home/home';
 import { BoardsProvider } from '../providers/boards/boards';
 import { PreferencesProvider } from '../providers/preferences/preferences';
 
+import { GridLayoutModule } from '@lacolaco/ngx-grid-layout';
+
 
 @NgModule({
   declarations: [
@@ -27,9 +29,13 @@ import { PreferencesProvider } from '../providers/preferences/preferences';
   ],
   imports: [
     BrowserModule,
+    GridLayoutModule,
     BrowserAnimationsModule,
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot(),
+    IonicStorageModule.forRoot({
+      name: '__mydb',
+         driverOrder: ['indexeddb', 'sqlite', 'websql']
+    }),
     HttpModule
   ],
   bootstrap: [IonicApp],

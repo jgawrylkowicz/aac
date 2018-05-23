@@ -20,7 +20,7 @@ export class PreferencesProvider {
     this.currentBoardSet = undefined;
     this.lang = "en";
     this.grammarCheck = true;
-    this.wordPrediction = true;
+    this.wordPrediction = false;
 
   }
 

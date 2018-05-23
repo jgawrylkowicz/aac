@@ -25,12 +25,12 @@
 
              <ng-template #check>
                 <div [ngClass]="(isCorrect >= 0 && isCorrect == 1 ) ? 'correct': 'incorrect'" >
-                    {{displayMessage()}}
+                  <span>{{displayMessage()}}</span>
                 </div>
              </ng-template>
 
              <ng-template #nocheck>
-                {{displayMessage()}}
+                <span>{{displayMessage()}}</span>
              </ng-template>
 
           </div>
@@ -52,15 +52,17 @@
 
 
 
-  <ion-grid  *ngIf="!currentBoard.isEmpty()" class="board">
+  <grid-layout
+  [rows] = "this.grid.rows"
+  *ngIf="!currentBoard.isEmpty()" class="board">
 
    <!-- Word prediction -->
-    <ion-row class="prediction">
-      <ion-col *ngFor="let i of [0,1,2,3,4]">
-          <button  class="board-button" ion-button>
-            <img class="board-button__img" src="">
-            <div class="board-button__dir"> </div>
-          </button>
+    <ion-row class="com-board" *ngIf="wordPrediction" >
+      <ion-col *ngFor="let button of prediction">
+        <button  class="board-button" ion-button>
+          <img class="board-button__img" height="100%" width="100%" src="">
+          <div class="board-button__dir"> </div>
+        </button>
       </ion-col>
     </ion-row>
 
@@ -74,7 +76,7 @@
           <div *ngIf="button.isDirectory(); then directory else phrase"></div>
           <ng-template #directory>
             <button class="board-button" [ngStyle]="{'background': button.getBackgroundColor()}" ion-button (click)='changeBoard(button.getLinkedBoardID())'>
-              <img class="board-button__img" src="{{button.getImageURL()}}">
+              <img class="board-button__img" height="100%" width="100%" src="{{button.getImageURL()}}">
               <div class="board-button__label" > {{button.getLabel()}} </div>
               <div class="board-button__dir"> </div>
             </button>
@@ -83,7 +85,7 @@
           <ng-template #phrase>
             <button class="board-button" [ngStyle]="{'background': button.getBackgroundColor()}" ion-button (click)='addWord(button.getLabel())'>
               <div class="button__container" ></div>
-                <img class="board-button__img" src="{{button.getImageURL()}}">
+                <img class="board-button__img" height="100%" width="100%" src="{{button.getImageURL()}}">
                 <div class="board-button__label" > {{button.getLabel()}} </div>
             </button>
           </ng-template>
@@ -99,7 +101,7 @@
 
       </ion-col>
     </ion-row>
-  </ion-grid>
+  </grid-layout>
 
 
   </div>

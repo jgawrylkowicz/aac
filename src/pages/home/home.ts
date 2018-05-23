@@ -6,6 +6,7 @@ import { BoardsProvider } from '../../providers/boards/boards';
 import { PreferencesProvider } from '../../providers/preferences/preferences';
 import 'rxjs/add/operator/map';
 import { BoardModel } from '../../models/board-model';
+import { ButtonModel } from '../../models/button-model';
 import { BoardSetModel } from '../../models/boardset-model';
 import { SentenceModel, EntityModel, PhraseModel, WordModel } from '../../models/sentence-model';
 import { LanguageInterface, EnglishModel } from '../../models/language-model';
@@ -33,6 +34,9 @@ export class HomePage {
   message: SentenceModel;
   boardSet:BoardSetModel;
   currentBoard:BoardModel;
+  grid:any;
+
+  prediction:any;
 
   constructor(
     public navCtrl: NavController,
@@ -45,14 +49,23 @@ export class HomePage {
       // this.boardSet = new BoardSetModel();
       this.currentBoard = new BoardModel();
       this.message = new SentenceModel();
+      this.prediction = new Array<any>();
       this.isfromDirectory = false;
       this.grammarCheck = false;
+      this.wordPrediction = true;
       this.isCorrect = -1; //-1 is untouched, 0 is incorrect, 1 is correct
+      this.grid = {
+        rows: ['1fr', '1fr', '1fr', '1fr', '1fr'],
+        columns: 5
+      }
+
+
 
   }
 
   ionViewDidLoad() {
     this.loadSettings();
+    this.createMockup();
   }
 
   async loadSettings(){
@@ -69,11 +82,12 @@ export class HomePage {
     }
 
     this.grammarCheck = await this.prefProvider.getGrammarCheck();
-    this.wordPrediction = await this.prefProvider.getWordPrediction();
+    //this.wordPrediction = await this.prefProvider.getWordPrediction();
 
 
     try {
       this.boardSet = await this.boardsProvider.getBoardSet();
+
       await console.log("The board set has been successfully loaded from the BoardsProvider", this.boardSet);
       await this.setBoardAsActive(0);
     } catch {
@@ -165,6 +179,13 @@ export class HomePage {
       }
     }else {
       console.log("Error: The board set is empty.")
+    }
+  }
+
+  createMockup(){
+
+    for (var i=0; i < 3; i++){
+      this.prediction.push( new ButtonModel());
     }
   }
 

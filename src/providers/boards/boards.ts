@@ -24,7 +24,7 @@ export class BoardsProvider {
   boardSets:Array<BoardSetModel>;
   currentBoardSet:BoardSetModel;
   path:string; // path to the unzipped board with all the assets
-
+  loadingMessage:string;
   currentBoardName:string;
   loading;
 
@@ -39,8 +39,9 @@ export class BoardsProvider {
     public loadingCtrl: LoadingController
     ) {
 
+    this.loadingMessage = "Please wait ...";
     this.loading = this.loadingCtrl.create({
-      content: 'Please wait...'
+      content: this.loadingMessage
     });
     this.currentBoardSet = undefined;
   }
@@ -65,6 +66,7 @@ export class BoardsProvider {
 
     if (boardSet === undefined){
       console.log("Fallback initialized, trying to create a new board object from the storage.")
+      this.loadingMessage = "Fallback initialized. Trying to recreate from the storage";
       this.currentBoardSet = await this.loadBoardSet();
       //console.log(this.currentBoardSet);
       this.saveBoardSetToStorage(this.currentBoardSet, true);
@@ -74,12 +76,14 @@ export class BoardsProvider {
 
       if (this.currentBoardSet){
         console.log("Fallback successful");
+        this.loadingMessage = "Fallback succesful";
         this.loading.dismiss()
         resolve(this.currentBoardSet);
       }
       else{
         this.loading.dismiss();
         console.log("Fallback failed");
+        this.loadingMessage = "Fallback failed";
         reject();
       }
     });
@@ -176,6 +180,7 @@ export class BoardsProvider {
                 }
               }
             }
+            this.nativeStorage.clear();
             reject();
            });
         } catch {
@@ -199,6 +204,7 @@ export class BoardsProvider {
                 }
               }
             }
+            this.storage.clear();
             reject();
            });
 
@@ -230,6 +236,7 @@ export class BoardsProvider {
             else reject()
            });
         } catch {
+          this.loadingMessage = "Attempt at loading from storage failed";
           console.log("Error while attempting to load all board sets from the storage")
         }
       }
@@ -250,6 +257,7 @@ export class BoardsProvider {
             else reject()
           });
         } catch {
+          this.loadingMessage = "Attempt at loading from storage failed";
           console.log("Error while attempting to load all board sets from the storage")
         }
       }
@@ -270,6 +278,7 @@ export class BoardsProvider {
       data = await this.prfProvider.getCurrentBoardSet()
       return new Promise<string>(resolve => resolve(data));
     } catch {
+      this.loadingMessage = "Loading from storage failed";
       console.log("Error while loading the board set from the storage")
       return new Promise<string>(reject => reject());
     }
