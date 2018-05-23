@@ -10,7 +10,7 @@ This project was developed in the course of my bachelor thesis and offers a very
 * Optimize the overall performance, especially the loading in the beginning 
 
 ### UI / UX
-* ~~Flexbox issues in the board and prediction grids. The grids should not shrink and grow at that rate. Their size should be more predicatble. ~~ (Changed to grid 23.05.18 )
+* <del>Flexbox issues in the board and prediction grids. The grids should not shrink and grow at that rate. Their size should be more predicatble. </del> (Changed to grid 23.05.18 )
 * The behaviour of the prediction row is still not unexpected. The buttons will grow parallel to the width of the display which pushes the bottom rows out of bounds.  
 
 ### Other
