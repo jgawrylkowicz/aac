@@ -1,60 +1,51 @@
-<!-- <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-navbar>
-</ion-header> -->
-
-<ion-content padding>
+<ion-content padding >
   <div ion-fixed>
-
-  <!-- Text Buffer -->
-  <ion-grid class="textfield">
-    <ion-row justify-content-center>
-      <ion-col col-auto>
-        <button class="textfield__btn" (click)='speak()' ion-button icon-only>
-            <ion-icon name="mic"></ion-icon>
-        </button>
-      </ion-col>
-      <ion-col>
-        <div class="textfield__message">
-
-          <div class="textfield__content">
-            <div *ngIf="grammarCheck then check else nocheck"></div>
-
-             <ng-template #check>
-                <div [ngClass]="(isCorrect >= 0 && isCorrect == 1 ) ? 'correct': 'incorrect'" >
-                  <span>{{displayMessage()}}</span>
-                </div>
-             </ng-template>
-
-             <ng-template #nocheck>
-                <span>{{displayMessage()}}</span>
-             </ng-template>
-
-          </div>
-        </div>
-      </ion-col>
-      <ion-col col-auto>
-        <button class="textfield__btn" (click)='removeLastWord()' ion-button icon-only>
-            <ion-icon name="backspace"></ion-icon>
-        </button>
-      </ion-col>
-      <ion-col col-auto>
-        <button class="textfield__btn" (click)='clearMessage()' ion-button icon-only>
-            <ion-icon name="trash"></ion-icon>
-        </button>
-      </ion-col>
-
-    </ion-row>
-  </ion-grid>
-
-
 
   <grid-layout
   [rows] = "this.grid.rows"
   *ngIf="!currentBoard.isEmpty()" class="board">
+
+
+  <!-- Text Buffer -->
+  <ion-grid class="textfield">
+      <ion-row justify-content-center>
+        <ion-col col-auto>
+          <button class="textfield__btn" (click)='speak()' ion-button icon-only>
+              <ion-icon name="mic"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col>
+          <div class="textfield__message">
+
+            <div class="textfield__content">
+              <div *ngIf="grammarCheck then check else nocheck"></div>
+
+               <ng-template #check>
+                  <div [ngClass]="(isCorrect >= 0 && isCorrect == 1 ) ? 'correct': 'incorrect'" >
+                    <span>{{displayMessage()}}</span>
+                  </div>
+               </ng-template>
+
+               <ng-template #nocheck>
+                  <span>{{displayMessage()}}</span>
+               </ng-template>
+
+            </div>
+          </div>
+        </ion-col>
+        <ion-col col-auto>
+          <button class="textfield__btn" (click)='removeLastWord()' ion-button icon-only>
+              <ion-icon name="backspace"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col col-auto>
+          <button class="textfield__btn" (click)='clearMessage()' ion-button icon-only>
+              <ion-icon name="trash"></ion-icon>
+          </button>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
 
    <!-- Word prediction -->
     <ion-row class="com-board" *ngIf="wordPrediction" >

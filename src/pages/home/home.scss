@@ -7,14 +7,13 @@ page-home {
   [ion-fixed] {
     height: 100%;
     width: 100%;
-    display: flex;
-    flex-direction: column;
     background: #E1E2E1;
   }
 
-  [ion-fixed] > * {
-    //flex: 1 1 100%;
+  .fixed-content{
+    max-height: 100vh;
   }
+
 
   .prediction{
     //background: #B0BEC5;

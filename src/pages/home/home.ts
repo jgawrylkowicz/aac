@@ -130,6 +130,7 @@ export class HomePage {
     let array = new Array<any>();
     let rows:number = (!this.wordPrediction) ? boardset.getNumOfRows() : boardset.getNumOfRows() + 1;
 
+    array.push('auto');
     for (var i = 0; i < rows; i++ ){
       array.push('1fr');
     }

@@ -8,13 +8,18 @@ This project was developed in the course of my bachelor thesis and offers a very
 * <del>The images do not load on iOS devices</del> (Simplified the URL, however the images still dont show up from the unzipped object 26.05.18)
 * <del>The board sets are not loaded from the storage and the storage itself is not freed up</del> (The database was not set up properly, the data went into a void)
 * Optimize the overall performance, especially the loading in the beginning 
+* Optimize the image loading
+
+
 
 ### UI / UX
 * <del>Flexbox issues in the board and prediction grids. The grids should not shrink and grow at that rate. Their size should be more predicatble. </del> (Changed to grid 23.05.18 )
 * <del>The behaviour of the prediction row is still not unexpected. The buttons will grow parallel to the width of the display which pushes the bottom rows out of bounds.  </del> (changed images to position absolute)
-* The fixed div is higher than the display itself, some buttons are not showing
+* <del> The fixed div is higher than the display itself, some buttons are not showing </del> (The flex element, the textfield, caused the issue. After I included it in the board grid, the board is displayed correcly 26.05.18 )
+* Improve the pictures and colors of the current board set
 
 ### Other
-* Implement Text-To-Speech
+*  <del> Implement Text-To-Speech  </del> (3 lines 25.05.18)
+* Add more rules for English (I'm = I am, questions)
 
 
