@@ -115,10 +115,13 @@ page-home {
     border-radius: $border-radius;
   }
 
-  .board-button__img{
+
+  img.board-button__img ,
+  .board-button__img > img{
     max-height: calc(100% - 3rem);
     height: auto;
     width: auto;
+    z-index: -1;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 2rem;
@@ -128,6 +131,7 @@ page-home {
     left: 0;
     right: 0;
   }
+
 
   .board-button__label{
     text-transform: none;

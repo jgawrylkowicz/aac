@@ -84,7 +84,9 @@
             <button class="board-button" [ngStyle]="{'background': button.getBackgroundColor()}" ion-button (click)='changeBoard(button.getLinkedBoardID())'>
              <!-- Does not work with the relative path  -->
              <!-- <img-loader class="board-button__img" src="{{button.getImageURL()}}" [spinner]="true" useImg> </img-loader> -->
-              <img class="board-button__img" src="{{button.getImageURL()}}" >
+             <img class="board-button__img" src="{{button.getImageURL()}}" >
+
+             <!-- <ion-img class="board-button__img" src="{{button.getImageURL()}}"></ion-img> -->
 
               <div class="board-button__label" > {{button.getLabel()}} </div>
               <div class="board-button__dir"> </div>
@@ -93,9 +95,12 @@
 
           <ng-template #phrase>
             <button class="board-button" [ngStyle]="{'background': button.getBackgroundColor()}" ion-button (click)='addWord(button.getLabel())'>
-              <div class="button__container" ></div>
-              <!-- <img-loader class="board-button__img" src="{{button.getImageURL()}}" [spinner]="true" useImg> </img-loader> -->
+
+
               <img class="board-button__img" src="{{button.getImageURL()}}" >
+
+                <!-- <ion-img class="board-button__img" src="{{button.getImageURL()}}"></ion-img> -->
+
                 <div class="board-button__label" > {{button.getLabel()}} </div>
             </button>
           </ng-template>

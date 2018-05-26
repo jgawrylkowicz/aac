@@ -81,6 +81,7 @@
     </platform>
     <allow-navigation href="http://192.168.1.7:8100" />
     <allow-navigation href="http://192.168.1.8:8100" />
+    <allow-navigation href="http://169.254.136.22:8100" />
     <engine name="browser" spec="5.0.3" />
     <engine name="android" spec="6.3.0" />
     <engine name="ios" spec="4.5.4" />

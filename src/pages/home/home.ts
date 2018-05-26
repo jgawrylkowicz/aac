@@ -169,7 +169,7 @@ export class HomePage {
 
     if (this.message.length() > 0 && this.grammarCheck){
       this.isCorrect = (await this.lang.check(this.message)) ? 1 : 0;
-      console.log(this.isCorrect);
+      //console.log(this.isCorrect);
     }
 
     if (this.message.length() > 0){
@@ -195,7 +195,7 @@ export class HomePage {
   }
 
   speak(){
-    this.tts.speak(this.message.toString())
+    this.tts.speak({text: this.message.toString(), rate: 1.2})
     .then(() => console.log('Success'))
     .catch((reason: any) => console.log(reason));
   }
