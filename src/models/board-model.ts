@@ -1,13 +1,18 @@
 import { ButtonModel } from "./button-model";
 import { DirectoryModel } from "./button-model";
 import { PhraseModel } from "./button-model";
+import { Platform } from 'ionic-angular';
+import { normalizeUrl } from "ionic-angular/navigation/deep-linker";
+
 
 export class BoardModel{
 
   public id: string;
   public grid: Array<Array<ButtonModel>>;
+  static platform: Platform;
 
   constructor(board?:any, path?:string, settings?: any){
+
 
     if (board){
       this.id = board.id;
@@ -16,6 +21,8 @@ export class BoardModel{
       this.id = undefined;
       this.grid = new Array<Array<ButtonModel>>();
     }
+
+
 
   }
 
@@ -78,12 +85,22 @@ export class BoardModel{
         if (button.id === id) {
           try {
 
-            let image_url = settings.paths.images[button.image_id];
+            let image_url:string = settings.paths.images[button.image_id];
+
+            // WORKING URL FOR IOS
+            // "../assets/cache/communikate-20/images/image_1_11277_94c13d36600feb17a3b8d2fb.png"
             //console.log(path + image_url);
+
+            let image_path:string = '../assets/cache/communikate-20/' + image_url;
+
+            //let image_path = normalizeUrl(path + settings.paths.images[button.image_id]);
+
+            //}
+
             if (button.load_board){
-              return new DirectoryModel(button.id, path + image_url, button.label, button.border_color, button.background_color,button.load_board.id );
+              return new DirectoryModel(button.id, image_path, button.label, button.border_color, button.background_color,button.load_board.id );
             } else {
-              return new PhraseModel(button.id, path + image_url, button.label, button.border_color, button.background_color);
+              return new PhraseModel(button.id, image_path, button.label, button.border_color, button.background_color);
             }
           } catch {
             console.log("Error: The image with id " + button.image_id + "could not be loaded.")

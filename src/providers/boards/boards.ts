@@ -1,4 +1,4 @@
-import { Injectable, ReflectiveInjector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
@@ -12,10 +12,12 @@ import { LoadingController } from 'ionic-angular';
 import { BoardModel } from '../../models/board-model';
 import { BoardSetModel } from '../../models/boardset-model';
 import { PreferencesProvider } from '../preferences/preferences';
-import { ButtonModel, DirectoryModel, PhraseModel } from '../../models/button-model';
+//import { ButtonModel, DirectoryModel, PhraseModel } from '../../models/button-model';
 import { SerializationHelper } from '../../models/serialization-helper';
-// iOS images dont show
 
+
+// TODO iOS images dont show
+// TODO The promises should contain the whole function code
 
 
 @Injectable()
@@ -56,34 +58,41 @@ export class BoardsProvider {
     }
     let boardSet = undefined;
     try {
-      let boardSet = await this.loadBoardSetFromStorage(name);
+      boardSet = await this.loadBoardSetFromStorage(name);
     } catch {
-      console.log("Error while attempting to load all board sets from the storage. Loading was rejected.")
+      console.log("getBoardSet(): No boards have been saved before");
     }
 
     //let boardSet = undefined;
     if (boardSet !== undefined ) this.currentBoardSet = boardSet;
 
     if (boardSet === undefined){
-      console.log("Fallback initialized, trying to create a new board object from the storage.")
-      this.loadingMessage = "Fallback initialized. Trying to recreate from the storage";
-      this.currentBoardSet = await this.loadBoardSet();
-      //console.log(this.currentBoardSet);
+      console.log("getBoardSet(): Fallback initialized, trying to create a new board object from the assets")
+      try {
+        this.currentBoardSet = await this.loadBoardSet();
+      } catch {
+        console.log("getBoardSet(): Loading failed");
+      }
+
       this.saveBoardSetToStorage(this.currentBoardSet, true);
     }
 
+    // checking if the image exists
+    // let destinationDir = this.file.dataDirectory  + 'communikate-20/images/';
+    // let image = 'image_1_11277_94c13d36600feb17a3b8d2fb.png';
+    // this.file.checkFile(destinationDir , image)
+    // .then(entry => { console.log('File',JSON.stringify(entry))});
+
     return new Promise<BoardSetModel> ((resolve, reject )=> {
 
-      if (this.currentBoardSet){
-        console.log("Fallback successful");
-        this.loadingMessage = "Fallback succesful";
+      if (this.currentBoardSet !== undefined && this.currentBoardSet !== null){
+        console.log("getBoardSet(): Fallback successful");
         this.loading.dismiss()
         resolve(this.currentBoardSet);
       }
       else{
         this.loading.dismiss();
-        console.log("Fallback failed");
-        this.loadingMessage = "Fallback failed";
+        console.log("getBoardSet(): Fallback failed");
         reject();
       }
     });
@@ -107,7 +116,7 @@ export class BoardsProvider {
         }
       }
     } catch {
-      console.log("No boards to load");
+      console.log("saveBoardSetToStorage(): No boards to load, creating new object");
       savedBoardSets = new Array<BoardSetModel>();
     }
 
@@ -117,9 +126,18 @@ export class BoardsProvider {
         try {
           await this.nativeStorage.setItem('boardSets', JSON.stringify(savedBoardSets));
           this.setCurrentBoardSet(boardSet.getName());
-          console.log("The boardset has been saved.")
+
+          return new Promise (resolve => {
+            console.log("The boardset has been saved.")
+            resolve();
+          })
+
         } catch {
-          console.error('Error while attempting to store the boardsets');
+          return new Promise (reject => {
+            console.error('Error while attempting to store the boardsets');
+            reject();
+          })
+
         }
 
       } else {
@@ -128,9 +146,15 @@ export class BoardsProvider {
             savedBoardSets.push(boardSet);
             await this.storage.set('boardSets', JSON.stringify(savedBoardSets));
             this.setCurrentBoardSet(boardSet.getName());
-            console.log("The boardset has been saved.");
+            return new Promise (resolve => {
+              console.log("The boardset has been saved.")
+              resolve();
+            })
           } catch {
-            console.error('Error while attempting to store the boardsets');
+            return new Promise (reject => {
+              console.error('Error while attempting to store the boardsets');
+              reject();
+            })
           }
         }
       }
@@ -164,7 +188,7 @@ export class BoardsProvider {
       return null;
     }
 
-    if (this.platform.is("cordova")){
+    if (this.platform.is("ios") || this.platform.is("android")){
       // for native devices
       if (await this.platform.ready()) {
         try {
@@ -218,7 +242,7 @@ export class BoardsProvider {
 
   private async getAllBoardSetsFromStorage():Promise<Array<BoardSetModel>>{
 
-    if (this.platform.is("cordova")){
+    if (this.platform.is("ios") || this.platform.is("android")){
       // for native devices
       if (await this.platform.ready()) {
         try {
@@ -272,18 +296,17 @@ export class BoardsProvider {
   }
 
   // Returns the name of the current board set
-  private async getCurrentBoardSet(){
-    let data;
-    try {
-      data = await this.prfProvider.getCurrentBoardSet()
-      return new Promise<string>(resolve => resolve(data));
-    } catch {
-      this.loadingMessage = "Loading from storage failed";
-      console.log("Error while loading the board set from the storage")
-      return new Promise<string>(reject => reject());
-    }
+  // private async getCurrentBoardSet(){
+  //   let data;
+  //   try {
+  //     data = await this.prfProvider.getCurrentBoardSet()
+  //     return new Promise<string>(resolve => resolve(data));
+  //   } catch {
+  //     console.log("Error loading the name of the default boardset from the preferences")
+  //     return new Promise<string>(reject => reject());
+  //   }
 
-  }
+  // }
 
   // console.log('cache',this.file.cacheDirectory); file://temporary
   // console.log('dataDir',this.file.dataDirectory); file://persistent
@@ -295,57 +318,108 @@ export class BoardsProvider {
     let settingsFile:string = 'manifest.json';
     let url:string;
     try {
-      url = await this.getBoardSettingsURL(file);
-      console.log("The path to the settings has been succesfully resolved", url);
-      if ( url  && settingsFile ) {
-        this.path = url; // url is need to get images later on
-        return new Promise<any>(resolve => {
+      // TODO that function dows not work
+      //url = await this.getBoardSettingsURL(file);
 
-          if (this.platform.is("cordova")){
-            this.file.readAsBinaryString(url, settingsFile)
-            .then( data => resolve(JSON.parse(data)) )
-            .catch(err => console.log("Error while reading the data from the board settings file"));
-          } else {
-            this.http.get(url + settingsFile)
-            .map(res =>
-              res.json()).subscribe(data => {
-                resolve(data);
-              }
-            );
-          }
+      if (this.platform.is("cordova")){
 
-        });
+        if ( this.platform.is("ios") || this.platform.is("android") ) {
+          url = this.file.applicationDirectory + 'www/assets/cache/communikate-20/';
+          //url = 'www/assets/cache/communikate-20/'
+        } else {
+          url = 'assets/cache/communikate-20/';
+        }
       } else {
-        console.log("The path to boards cannot be resolved");
+        url = 'assets/cache/communikate-20/';
       }
+
+
     } catch {
-      console.log("Board settings could not be retrieved");
+      return new Promise<any> (reject => {
+        console.log("getBoardSettings(): Board settings could not be retrieved");
+        reject();
+      });
     }
+
+    console.log("url", await url);
+
+    if ( (await url !== undefined && await url !== null ) && settingsFile ) {
+
+      console.log("getBoardSettings(): URL to board set has been resolved", url);
+      this.path = url; // url is need to get images later on
+
+      return new Promise<any>( (resolve, reject )=> {
+        if (this.platform.is("ios") || this.platform.is("android")){
+          this.file.readAsBinaryString(url, settingsFile)
+          .then( data => resolve(JSON.parse(data)) )
+          .catch(err => console.log("getBoardSettings(): Error while reading the data from the board settings file"));
+        } else {
+
+          this.http.get(url + settingsFile)
+          .map(res =>
+            res.json()).subscribe(data => {
+              resolve(data);
+            }
+          );
+        }
+        // this line breaks the whole loading process
+        // console.log("getBoardSettings(): Read from the settings file failed. ");
+        // reject();
+      });
+
+    } else {
+      console.log("getBoardSettings(): The path to boards cannot be resolved");
+      return new Promise<any> (reject => {
+        console.log("getBoardSettings(): Board settings could not be retrieved");
+        reject();
+      });
+    }
+
+
   }
 
 
   private async getBoardSettingsURL(file:string):Promise<string>{
 
-    return new Promise<string>(resolve => {
-
+    return new Promise<string>((resolve, reject) => {
       let fileName = file.substr(0, file.lastIndexOf('.'));
 
       if (this.platform.is("android") || this.platform.is("ios"))  {
 
         this.platform.ready().then(() => {
 
-          this.file.createDir(this.file.dataDirectory, fileName, true)
+          let storage:string;
+          if (this.platform.is("android")) {
+            storage = this.file.dataDirectory;
+          } else if (this.platform.is("ios")) {
+            storage = this.file.dataDirectory;
+          }
+
+          this.file.createDir(storage, fileName, true)
           .then( dirEntry => {
 
-            // Path for Android and iOS
             let sourceFile:string = this.file.applicationDirectory + 'www/assets/boards/' + file;
-            let destinationDir:string = this.file.dataDirectory  + fileName + '/';
+
+            // this path does produce runtime error on IonicDevApp, since the asset's URL leads to their app and not mine
+
+            // this.file.listDir(this.file.applicationDirectory, 'www/assets').then(entry => {
+            //   console.log('checked dir', JSON.stringify(entry));
+
+            // }).catch(error => {
+            //   console.log('checked dir',JSON.stringify(error));
+            // });
+
+            //console.log('src',sourceFile);
+
+            let destinationDir = storage  + fileName + '/';
+            //let destinationDir = dirEntry.nativeURL;
 
             const zipFile:string = fileName + '.zip';
+
             const fileTransfer: FileTransferObject = this.transfer.create();
 
             fileTransfer.download(sourceFile, destinationDir + zipFile)
-            .then( entry => {
+            .then( (entry) => {
 
               this.file.checkFile(destinationDir , zipFile)
               .then(entry => {
@@ -359,7 +433,6 @@ export class BoardsProvider {
                     this.file.removeFile(destinationDir, zipFile)
                     .then(result => {
                       console.log("Zip file deleted");
-                      console.log('destination', destinationDir);
                       resolve(destinationDir);
                     })
                     .catch(err => console.log("Zip file was not deleted", err));
@@ -367,10 +440,17 @@ export class BoardsProvider {
                   if(result === -1) console.log('Unzipping failed');
                 });
 
-              })
-              .catch(err => {console.log("File does not exist", err);});
-            })
-            .catch( err => {console.log("Download failed", err)} );
+              },(error) =>{
+
+                console.log("File does not exist", error);
+                reject();
+              });
+            },
+            (error) =>{
+              console.log("Download failed", JSON.stringify(error));
+              reject();
+
+            });
           });
         });
       } else {
@@ -379,15 +459,12 @@ export class BoardsProvider {
           console.log("Running cordova in a browser, the board set cannot be unzipped.");
         }
         // the web browser cannot access the native funtionality to unzip object
-        resolve('assets/cache/communikate-20/');
+
+          resolve('assets/cache/communikate-20/');
+
       }
-
-
       //Fallback for browser
-
-
-   })
-
+    });
   }
 
 
@@ -396,7 +473,7 @@ export class BoardsProvider {
     //check if the file exists
     return new Promise<Array<any>>((resolve,reject) => {
       if (filename && this.path){
-        if (this.platform.is("cordova")){
+        if (this.platform.is("ios") || this.platform.is("android")){
           this.file.readAsBinaryString(this.path, filename)
           .then( data => resolve(JSON.parse(data)) )
           .catch(err => console.log("Error while reading the data from the board settings file"));
@@ -419,8 +496,17 @@ export class BoardsProvider {
 
   private async loadBoardSet():Promise<BoardSetModel>{
 
-    let boardSettings:any = await this.getBoardSettings();
-    if (boardSettings !== undefined){
+    let boardSettings:any;
+    try {
+      boardSettings = await this.getBoardSettings();
+    } catch {
+      console.log("loadBoardSet(): The settings could not be retrieved");
+      return new Promise<BoardSetModel> (reject =>{
+        reject();
+      });
+    }
+
+    if (boardSettings !== undefined && boardSettings !== null){
       let rawBoards = new Array<any>();
       try {
         for (let value of Object.keys(boardSettings.paths.boards)){
@@ -429,9 +515,9 @@ export class BoardsProvider {
            let rawBoard:any = await this.getRawBoard(boardName);
            rawBoards.push(rawBoard);
         }
-        console.log("Number of loaded boards", rawBoards.length);
+        console.log("loadBoardSet(): Number of loaded boards", rawBoards.length);
       } catch {
-        console.log("Error occured while creating the raw boards");
+        console.log("loadBoardSet(): Error occured while creating the raw boards");
       }
 
       return new Promise<BoardSetModel> ((resolve, reject) => {
@@ -445,7 +531,7 @@ export class BoardsProvider {
           let boardSet:BoardSetModel = new BoardSetModel(this.extractNameFromPath(), this.path, boards);
           resolve(boardSet);
         } catch {
-          console.log("Error: Unzipping of a boardset was interrupted.")
+          console.log("loadBoardSet(): Error: Unzipping of a boardset was interrupted.")
           reject();
         }
       });

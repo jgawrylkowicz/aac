@@ -10,6 +10,7 @@ import { Zip } from '@ionic-native/zip';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { IonicStorageModule } from '@ionic/storage';
 import { AppPreferences } from '@ionic-native/app-preferences';
+import { TextToSpeech } from '@ionic-native/text-to-speech';
 
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,6 +21,7 @@ import { BoardsProvider } from '../providers/boards/boards';
 import { PreferencesProvider } from '../providers/preferences/preferences';
 
 import { GridLayoutModule } from '@lacolaco/ngx-grid-layout';
+import { IonicImageLoader } from 'ionic-image-loader';
 
 
 @NgModule({
@@ -36,6 +38,7 @@ import { GridLayoutModule } from '@lacolaco/ngx-grid-layout';
       name: '__mydb',
          driverOrder: ['indexeddb', 'sqlite', 'websql']
     }),
+    IonicImageLoader.forRoot(),
     HttpModule
   ],
   bootstrap: [IonicApp],
@@ -49,6 +52,7 @@ import { GridLayoutModule } from '@lacolaco/ngx-grid-layout';
     FileTransferObject,
     File,
     Zip,
+    TextToSpeech,
     AppPreferences,
     NativeStorage,
     SplashScreen,

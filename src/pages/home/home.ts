@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
+import { ImageLoader } from 'ionic-image-loader';
+import { TextToSpeech } from '@ionic-native/text-to-speech';
+
 import { BoardsProvider } from '../../providers/boards/boards';
 //import { Injectable } from '@angular/core';
 import { PreferencesProvider } from '../../providers/preferences/preferences';
@@ -37,9 +40,11 @@ export class HomePage {
 
   constructor(
     public navCtrl: NavController,
+    private imageLoader: ImageLoader,
     public plt: Platform,
     public boardsProvider: BoardsProvider,
-    public prefProvider: PreferencesProvider
+    public prefProvider: PreferencesProvider,
+    public tts: TextToSpeech
     ) {
 
       // both of these file have to be defined otherwise their member functions can't be accessed
@@ -49,12 +54,20 @@ export class HomePage {
       this.prediction = new Array<any>();
       this.isfromDirectory = false;
       this.grammarCheck = false;
-      this.wordPrediction = true;
+      this.wordPrediction = false;
       this.isCorrect = -1; //-1 is untouched, 0 is incorrect, 1 is correct
       this.grid = {
         rows: ['1fr', '1fr', '1fr', '1fr', '1fr'],
         columns: 5
       }
+
+
+      //preload images
+      // imageLoader.preload('http://path.to/image.jpg');
+
+
+      // imageLoader.clearCache();
+      //
 
 
 
@@ -87,15 +100,15 @@ export class HomePage {
     //this.wordPrediction = await this.prefProvider.getWordPrediction();
 
 
-    //try {
+    try {
       this.boardSet = await this.boardsProvider.getBoardSet();
 
-      await console.log("The board set has been successfully loaded from the BoardsProvider", this.boardSet);
+      console.log("loadSettings():The board set has been successfully loaded from the BoardsProvider", this.boardSet);
       await this.setBoardAsActive(0);
-      this.redrawCSSGrid(this.boardSet);
-    //} catch {
-      console.log("Error: A problem occured while loading the boards from the BoardsProvider")
-    //}
+      await this.redrawCSSGrid(this.boardSet);
+    } catch {
+      console.log("loadSettings(): Error: A problem occured while loading the boards from the BoardsProvider")
+    }
   }
 
 
@@ -115,7 +128,7 @@ export class HomePage {
   private redrawCSSGrid(boardset:BoardSetModel){
 
     let array = new Array<any>();
-    let rows:number = (!this.prediction) ? boardset.getNumOfRows() : boardset.getNumOfRows() + 1;
+    let rows:number = (!this.wordPrediction) ? boardset.getNumOfRows() : boardset.getNumOfRows() + 1;
 
     for (var i = 0; i < rows; i++ ){
       array.push('1fr');
@@ -182,7 +195,9 @@ export class HomePage {
   }
 
   speak(){
-
+    this.tts.speak(this.message.toString())
+    .then(() => console.log('Success'))
+    .catch((reason: any) => console.log(reason));
   }
 
   clearMessage(){
@@ -194,7 +209,6 @@ export class HomePage {
 
     if (this.boardSet){
       this.currentBoard = this.boardSet.getBoardByID(id);
-      console.log("changed to", this.currentBoard);
       if (this.currentBoard !== undefined){
         this.isfromDirectory = true;
       }

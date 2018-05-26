@@ -244,9 +244,6 @@ class EnglishAdapter implements EntityAdapterInterface{
   public conjugate(noun:string, verb:string):string{
 
     let word = noun.toLowerCase().trim();
-    console.log('word', word);
-    console.log(word == 'i');
-
     if (word === 'you' || word === 'we' || word === 'they' || word === 'i' || new Inflector(word).isPlural()) {
       return new Inflectors(verb).toPresent();
     } else {
