@@ -39,8 +39,8 @@ page-home {
     flex-shrink: 1;
   }
 
-
-  .textfield__btn{
+  .textfield__btn--danger,
+  .textfield__btn--primary{
     margin: auto 0;
     height: $button-size;
     width: $button-size;
@@ -49,11 +49,17 @@ page-home {
     font-size: 2rem;
     color: black;
     box-shadow: $shadow;
+
   }
 
-  .textfield__btn:hover{
-    background-color: #a5d6a7 !important;
+  .textfield__btn--primary:hover{
+    background-color: #cfd8dc !important;
   }
+
+  .textfield__btn--danger:hover{
+    background-color: #ef9a9a !important;
+  }
+
 
 
   .textfield{
@@ -79,17 +85,18 @@ page-home {
     height: 100%;
     display: flex;
     align-items: center;
+
   }
 
   .textfield__content > div {
     //height: 100%;
   }
-  .textfield__content > .incorrect {
-    border-bottom: 2px solid #f44336;
+  .textfield__message.incorrect {
+    border-bottom: 4px solid #f44336;
   }
 
-  .textfield__content > .correct {
-    border-bottom: 2px solid #4CAF50;
+  .textfield__message.correct {
+    border-bottom: 4px solid #4CAF50;
   }
 
 
@@ -97,7 +104,7 @@ page-home {
     background: #FFFFFF;
     box-shadow: $shadow;
     border-radius: $border-radius;
-    border: none !important;
+    border: none;
     height: 100%;
     display: flex;
     align-items: center;
@@ -106,6 +113,7 @@ page-home {
     font-weight: 500;
     padding: 0rem 2rem;
     height: $button-size;
+    animation: ease-in .2s border;
   }
 
   .board-button{

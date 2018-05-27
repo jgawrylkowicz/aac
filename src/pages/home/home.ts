@@ -188,10 +188,16 @@ export class HomePage {
   public async removeLastWord(){
     this.message.removeLast();
 
+    if (this.message.length() === 0) {
+      this.isCorrect = -1;
+    }
+
     if (this.message.length() > 0 && this.grammarCheck){
       this.isCorrect = (await this.lang.check(this.message)) ? 1 : 0;
-      console.log(this.isCorrect);
+      //console.log(this.isCorrect);
     }
+
+
 
   }
 

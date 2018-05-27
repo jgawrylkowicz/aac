@@ -324,13 +324,13 @@ export class BoardsProvider {
       if (this.platform.is("cordova")){
 
         if ( this.platform.is("ios") || this.platform.is("android") ) {
-          url = this.file.applicationDirectory + 'www/assets/cache/communikate-20/';
+          url = this.file.applicationDirectory + 'www/assets/cache/default-material/';
           //url = 'www/assets/cache/communikate-20/'
         } else {
-          url = 'assets/cache/communikate-20/';
+          url = 'assets/cache/default-material/';
         }
       } else {
-        url = 'assets/cache/communikate-20/';
+        url = 'assets/cache/default-material/';
       }
 
 
