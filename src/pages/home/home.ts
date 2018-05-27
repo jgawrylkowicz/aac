@@ -54,34 +54,21 @@ export class HomePage {
       this.prediction = new Array<any>();
       this.isfromDirectory = false;
       this.grammarCheck = false;
-      this.wordPrediction = false;
+      this.wordPrediction = true;
       this.isCorrect = -1; //-1 is untouched, 0 is incorrect, 1 is correct
       this.grid = {
         rows: ['1fr', '1fr', '1fr', '1fr', '1fr'],
         columns: 5
       }
-
-
       //preload images
       // imageLoader.preload('http://path.to/image.jpg');
-
-
       // imageLoader.clearCache();
-      //
-
-
-
   }
 
   ionViewDidLoad() {
     this.loadSettings();
     this.createMockup();
-
   }
-
-
-
-
 
   async loadSettings(){
     //this.message = '';

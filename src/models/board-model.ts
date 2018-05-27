@@ -91,7 +91,7 @@ export class BoardModel{
             // "../assets/cache/communikate-20/images/image_1_11277_94c13d36600feb17a3b8d2fb.png"
             //console.log(path + image_url);
 
-            let image_path:string = '../assets/cache/communikate-20/' + image_url;
+            let image_path:string = '../assets/cache/default-material/' + image_url;
             //let image_path = path + image_url;
 
             //let image_path = normalizeUrl(path + settings.paths.images[button.image_id]);
