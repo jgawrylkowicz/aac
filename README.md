@@ -16,7 +16,7 @@ This project was developed in the course of my bachelor thesis and offers a very
 * <del>Flexbox issues in the board and prediction grids. The grids should not shrink and grow at that rate. Their size should be more predicatble. </del> (Changed to grid 23.05.18 )
 * <del>The behaviour of the prediction row is still not unexpected. The buttons will grow parallel to the width of the display which pushes the bottom rows out of bounds.  </del> (changed images to position absolute)
 * <del> The fixed div is higher than the display itself, some buttons are not showing </del> (The flex element, the textfield, caused the issue. After I included it in the board grid, the board is displayed correcly 26.05.18 )
-* Improve the pictures and colors of the current board set
+* <del> Improve the pictures and colors of the current board set </del> (New board set created (imagemagick, material colors), 27.05.18) 
 
 ### Other
 *  <del> Implement Text-To-Speech  </del> (3 lines 25.05.18)

@@ -105,15 +105,15 @@ export class EnglishModel implements LanguageInterface{
     return new Promise<string>(resolve => {
 
       let entities = message.getEntities();
-      if (entities.length > 1) {
+      if (entities.length > 0) {
 
 
         for (var i = 1; i < entities.length; i++ ){
 
           let firstWord = entities[i-1].getLabel();
-          let secondWord = entities[i].getLabel();
+          let secondWord = (entities.length > 0) ? entities[i].getLabel() : null;
 
-          // Basic verb conjugation
+          // Basic verb conjugation 0
           // The loop goes through the message and looks for 2 successive words,
           // a subject and a verb in that order
           // Then it calls the adapter method to find the right conjugation
@@ -132,8 +132,35 @@ export class EnglishModel implements LanguageInterface{
           // More autocorrection method goes here
 
           // TODO insert the right articles in front of a noun
+          // Tests:
+            // boy want go -> a boy wants to go
+            // boy listens girl -> a boy listens to a girl
+            // young boy listen  girl -> a young boy listens to a girl
 
-          //new Inflectors('word').isCountable()
+
+          // if (this.adapter.isNoun(firstWord)){
+
+          //   let inf = new Inflector(firstWord);
+          //   if (! this.adapter.isDeterminer(firstWord)){
+          //     if (inf.isCountable()){
+          //       if (inf.isPlural()){
+          //         const word = new WordModel('the');
+          //         if ((i-1) === 0) {
+          //           entities.unshift(word);
+          //         } else {
+          //           entities.splice(i,0, word);
+          //         }
+          //       } else {
+          //         const word = new WordModel('a');
+          //         if ((i-1) === 0) {
+          //           entities.unshift(word);
+          //         } else {
+          //           entities.splice(i,0, word);
+          //         }
+          //       }
+          //     }
+          //   }
+          // }
 
         }
       }
@@ -148,8 +175,12 @@ interface EntityAdapterInterface{
   getEntity(tag):string;
   isVerb(word):boolean;
   isModalVerb(word):boolean;
+  isDeterminer(word):boolean;
   isSubject(word):boolean;
+  isNoun(word):boolean;
+  isAdjective(word):boolean;
   conjugate(noun, verb);
+
 
 }
 
@@ -273,6 +304,7 @@ class EnglishAdapter implements EntityAdapterInterface{
 
   public isVerb(word: string):boolean{
 
+    if (word == null) return false;
     let taggedWord = this.wordTagger.tag([word]);
 
     switch(taggedWord[0][1]){
@@ -292,6 +324,7 @@ class EnglishAdapter implements EntityAdapterInterface{
 
   public isModalVerb(word: string):boolean{
 
+    if (word == null) return false;
     let taggedWord = this.wordTagger.tag([word]);
     return (taggedWord[0][1] === 'MD');
 
@@ -299,6 +332,7 @@ class EnglishAdapter implements EntityAdapterInterface{
 
   public isSubject(word: string):boolean{
 
+    if (word == null) return false;
     let taggedWord = this.wordTagger.tag([word]);
 
     switch(taggedWord[0][1]){
@@ -311,6 +345,37 @@ class EnglishAdapter implements EntityAdapterInterface{
       default:
         return false;
     }
+
+  }
+
+  public isNoun(word: string):boolean{
+
+    if (word == null) return false;
+    let taggedWord = this.wordTagger.tag([word]);
+
+    switch(taggedWord[0][1]){
+      case 'NN':
+      case 'NNP':
+      case 'NNPS':
+      case 'NNS':
+        return true;
+      default:
+        return false;
+    }
+
+  }
+
+  isDeterminer(word):boolean {
+    if (word == null) return false;
+    let taggedWord = this.wordTagger.tag([word]);
+    return taggedWord[0][1] === 'DT';
+
+  }
+
+  isAdjective(word):boolean {
+    if (word == null) return false;
+    let taggedWord = this.wordTagger.tag([word]);
+    return taggedWord[0][1] === 'A';
 
   }
 
