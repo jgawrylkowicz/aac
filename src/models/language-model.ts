@@ -1,6 +1,6 @@
 import { types, parser } from 'cfgrammar-tool';
 import { Tagger, Lexer } from 'pos';
-import { SentenceModel } from './sentence-model';
+import { SentenceModel, EntityModel, WordModel } from './sentence-model';
 import { Inflectors, Inflector } from "en-inflectors";
 
 
@@ -34,7 +34,12 @@ export class EnglishModel implements LanguageInterface{
     let T = types.T;
     let NT = types.NT;
 
-    // new Rule for modals
+    // Basic phrase strcuture rules for english
+    // These following rules are based on the Chomsky's rule:  S -> NP | VP
+    // Sentence -> Noun Phase | Verb Phase
+
+    // TODO need to find a way to tag the abrevations ( "I'm" is not tagged to "I am" )
+
     this.exprGrammar = Grammar([
       Rule('S', [NT('NP'), NT('VP')]),
 
@@ -42,11 +47,12 @@ export class EnglishModel implements LanguageInterface{
       Rule('VP', [NT('V'), NT('NP')]),
       Rule('VP', [NT('V')]),
       Rule('VP', [NT('VP'), NT('NP')]),
+      //---------------------------------
       // These 3 need to checked
       Rule('VP', [NT('V'), T('t')]),
       Rule('VP', [NT('V'), T('t'), NT('VP') ]),
       Rule('VP', [NT('MD'), NT('V')]),
-
+      //---------------------------------
       Rule('PP', [NT('P'), NT('NP')]),
 
       Rule('NP', [NT('Det'), NT('N')]),
@@ -88,7 +94,7 @@ export class EnglishModel implements LanguageInterface{
       for (let w of taggedWords){
         expression += this.adapter.getEntity(w[1]);
       }
-      //console.log('exp', expression);
+      // console.log('exp', expression);
       // parse using created grammar rules
       resolve(parser.parse(this.exprGrammar, expression).length > 0);
     });
@@ -96,29 +102,41 @@ export class EnglishModel implements LanguageInterface{
 
   public correct(message: SentenceModel):Promise<string>{
 
-    let adapter:EntityAdapterInterface = new EnglishAdapter();
-
     return new Promise<string>(resolve => {
 
       let entities = message.getEntities();
       if (entities.length > 1) {
+
 
         for (var i = 1; i < entities.length; i++ ){
 
           let firstWord = entities[i-1].getLabel();
           let secondWord = entities[i].getLabel();
 
-          if ( this.adapter.isSubject(firstWord) && this.adapter.isVerb(secondWord) ) {
+          // Basic verb conjugation
+          // The loop goes through the message and looks for 2 successive words,
+          // a subject and a verb in that order
+          // Then it calls the adapter method to find the right conjugation
+          if ( this.adapter.isSubject(firstWord) && (this.adapter.isVerb(secondWord) || this.adapter.isModalVerb(secondWord)) ) {
 
             let conjugatedVerb = this.adapter.conjugate(firstWord, secondWord);
             entities[i].setLabel(conjugatedVerb);
 
           }
+
+          // isVerb() does not return true for a modal verb
+          if ( this.adapter.isVerb(firstWord) && this.adapter.isVerb(secondWord) ) {
+            entities.splice(i,0, new WordModel("to"));
+          }
+
+          // More autocorrection method goes here
+
+          // TODO insert the right articles in front of a noun
+
+          //new Inflectors('word').isCountable()
+
         }
-
       }
-
-
 
     });
 
@@ -129,6 +147,7 @@ export class EnglishModel implements LanguageInterface{
 interface EntityAdapterInterface{
   getEntity(tag):string;
   isVerb(word):boolean;
+  isModalVerb(word):boolean;
   isSubject(word):boolean;
   conjugate(noun, verb);
 
@@ -268,6 +287,13 @@ class EnglishAdapter implements EntityAdapterInterface{
       default:
         return false;
     }
+
+  }
+
+  public isModalVerb(word: string):boolean{
+
+    let taggedWord = this.wordTagger.tag([word]);
+    return (taggedWord[0][1] === 'MD');
 
   }
 

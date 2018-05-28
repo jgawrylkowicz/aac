@@ -54,7 +54,7 @@ export class HomePage {
       this.prediction = new Array<any>();
       this.isfromDirectory = false;
       this.grammarCheck = false;
-      this.wordPrediction = true;
+      this.wordPrediction = false;
       this.isCorrect = -1; //-1 is untouched, 0 is incorrect, 1 is correct
       this.grid = {
         rows: ['1fr', '1fr', '1fr', '1fr', '1fr'],
@@ -155,14 +155,16 @@ export class HomePage {
     // go back to the root board
     if (this.isfromDirectory) this.setBoardAsActive(0);
 
+    if (this.message.length() > 0){
+      this.lang.correct(this.message);
+    }
+
     if (this.message.length() > 0 && this.grammarCheck){
       this.isCorrect = (await this.lang.check(this.message)) ? 1 : 0;
       //console.log(this.isCorrect);
     }
 
-    if (this.message.length() > 0){
-      this.lang.correct(this.message);
-    }
+
   }
 
   public displayMessage():string{
