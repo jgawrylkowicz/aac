@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+//import { Page }  from 'ionic-angular';
+import { SettingsPage } from '../settings/settings';
+
 import { Platform } from 'ionic-angular';
 import { ImageLoader } from 'ionic-image-loader';
 import { TextToSpeech } from '@ionic-native/text-to-speech';
@@ -68,6 +71,10 @@ export class HomePage {
   ionViewDidLoad() {
     this.loadSettings();
     this.createMockup();
+  }
+
+  pushSettings(){
+    this.navCtrl.push(SettingsPage);
   }
 
   async loadSettings(){

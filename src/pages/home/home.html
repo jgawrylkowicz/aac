@@ -10,41 +10,45 @@
   <ion-grid class="textfield">
       <ion-row justify-content-center>
         <ion-col col-auto>
-          <button class="textfield__btn--primary" (click)='speak()' ion-button icon-only>
-              <ion-icon name="mic"></ion-icon>
-          </button>
-        </ion-col>
-        <ion-col>
-            <div *ngIf="grammarCheck then check else nocheck"></div>
+            <button class="textfield__btn--primary" (click)="pushSettings()" ion-button icon-only>
+              <ion-icon name="settings"></ion-icon>
+            </button>
+          </ion-col>
+          <ion-col col-auto>
+            <button class="textfield__btn--primary" (click)='speak()' ion-button icon-only>
+                <ion-icon name="mic"></ion-icon>
+            </button>
+          </ion-col>
+          <ion-col>
+              <div *ngIf="grammarCheck then check else nocheck"></div>
 
-            <ng-template #check>
-              <div class="textfield__message" [ngClass]=" {'correct' : isCorrect === 1, 'incorrect' : isCorrect === 0, 'untouched' : isCorrect === -1} ">
-                <div class="textfield__content">
-                  <span>{{displayMessage()}}</span>
-                </div>
-              </div>
-            </ng-template>
-
-             <ng-template #nocheck>
-                <div class="textfield__message">
+              <ng-template #check>
+                <div class="textfield__message" [ngClass]=" {'correct' : isCorrect === 1, 'incorrect' : isCorrect === 0, 'untouched' : isCorrect === -1} ">
                   <div class="textfield__content">
                     <span>{{displayMessage()}}</span>
                   </div>
                 </div>
-             </ng-template>
+              </ng-template>
 
-        </ion-col>
-        <ion-col col-auto>
-          <button class="textfield__btn--danger" (click)='removeLastWord()' ion-button icon-only>
-              <ion-icon name="backspace"></ion-icon>
-          </button>
-        </ion-col>
-        <ion-col col-auto>
-          <button class="textfield__btn--danger" (click)='clearMessage()' ion-button icon-only>
-              <ion-icon name="trash"></ion-icon>
-          </button>
-        </ion-col>
+              <ng-template #nocheck>
+                  <div class="textfield__message">
+                    <div class="textfield__content">
+                      <span>{{displayMessage()}}</span>
+                    </div>
+                  </div>
+              </ng-template>
 
+          </ion-col>
+          <ion-col col-auto>
+            <button class="textfield__btn--danger" (click)='removeLastWord()' ion-button icon-only>
+                <ion-icon name="backspace"></ion-icon>
+            </button>
+          </ion-col>
+          <ion-col col-auto>
+            <button class="textfield__btn--danger" (click)='clearMessage()' ion-button icon-only>
+                <ion-icon name="trash"></ion-icon>
+            </button>
+          </ion-col>
       </ion-row>
     </ion-grid>
 

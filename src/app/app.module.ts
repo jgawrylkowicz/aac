@@ -17,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { SettingsPage } from '../pages/settings/settings';
 import { BoardsProvider } from '../providers/boards/boards';
 import { PreferencesProvider } from '../providers/preferences/preferences';
 
@@ -27,7 +28,8 @@ import { IonicImageLoader } from 'ionic-image-loader';
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    SettingsPage
   ],
   imports: [
     BrowserModule,
@@ -44,7 +46,8 @@ import { IonicImageLoader } from 'ionic-image-loader';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    SettingsPage
   ],
   providers: [
     StatusBar,
