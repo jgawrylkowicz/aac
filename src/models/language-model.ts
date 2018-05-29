@@ -1,14 +1,15 @@
+declare var require:any;
 import { types, parser } from 'cfgrammar-tool';
 import { Tagger, Lexer } from 'pos';
 import { SentenceModel, EntityModel, WordModel } from './sentence-model';
 import { Inflectors, Inflector } from "en-inflectors";
-
-
+var contractions = require('contractions');
 
 export interface LanguageInterface{
 
   check(message:SentenceModel):Promise<boolean>;
   correct(message:SentenceModel):Promise<string>;
+  normalize(words:string):Promise<string>
 
 }
 
@@ -78,15 +79,18 @@ export class EnglishModel implements LanguageInterface{
   }
 
 
-  public check(message:SentenceModel):Promise<boolean>{
+  public async check(message:SentenceModel):Promise<boolean>{
+
+    let text:string = message.toString();
+    let normalizedText = await this.normalize(text);
 
     return new Promise<boolean>(resolve => {
 
       // [0] = word , [1] = tag
       // extract into entities using tagger and lexer
-      let text:string = message.toString();
-      let words:Array<string> = this.wordExtracter.lex(text);
+      let words:Array<string> = this.wordExtracter.lex(normalizedText);
       let taggedWords:Array<string> = this.wordTagger.tag(words);
+      //console.log(taggedWords);
 
       // translate entities into single characters
       let expression = '';
@@ -94,7 +98,7 @@ export class EnglishModel implements LanguageInterface{
       for (let w of taggedWords){
         expression += this.adapter.getEntity(w[1]);
       }
-      // console.log('exp', expression);
+      //console.log('exp', expression);
       // parse using created grammar rules
       resolve(parser.parse(this.exprGrammar, expression).length > 0);
     });
@@ -105,28 +109,28 @@ export class EnglishModel implements LanguageInterface{
     return new Promise<string>(resolve => {
 
       let entities = message.getEntities();
-      if (entities.length > 0) {
+      if (entities.length > 1) {
 
+        for (var i = 0; i < entities.length; i++ ){
 
-        for (var i = 1; i < entities.length; i++ ){
-
-          let firstWord = entities[i-1].getLabel();
-          let secondWord = (entities.length > 0) ? entities[i].getLabel() : null;
+          let firstWord = entities[i].getLabel();
+          let secondWord = (i+1 >= entities.length) ? null : entities[i+1].getLabel();
 
           // Basic verb conjugation 0
           // The loop goes through the message and looks for 2 successive words,
           // a subject and a verb in that order
           // Then it calls the adapter method to find the right conjugation
-          if ( this.adapter.isSubject(firstWord) && (this.adapter.isVerb(secondWord) || this.adapter.isModalVerb(secondWord)) ) {
+          if ( this.adapter.isSubject(firstWord)
+          && (this.adapter.isVerb(secondWord) || this.adapter.isModalVerb(secondWord)) ) {
 
             let conjugatedVerb = this.adapter.conjugate(firstWord, secondWord);
-            entities[i].setLabel(conjugatedVerb);
+            entities[i+1].setLabel(conjugatedVerb);
 
           }
 
           // isVerb() does not return true for a modal verb
           if ( this.adapter.isVerb(firstWord) && this.adapter.isVerb(secondWord) ) {
-            entities.splice(i,0, new WordModel("to"));
+            entities.splice(i+1,0, new WordModel("to"));
           }
 
           // More autocorrection method goes here
@@ -139,23 +143,40 @@ export class EnglishModel implements LanguageInterface{
 
 
           // if (this.adapter.isNoun(firstWord)){
-
+          //   console.log("noun: " + firstWord + " i: " + i);
           //   let inf = new Inflector(firstWord);
-          //   if (! this.adapter.isDeterminer(firstWord)){
+
+          //   var index = i-1;
+          //   // has determiner already
+          //   let hasDeterminer:boolean = false;
+          //   while(index >= 0){
+          //     let word = entities[index].getLabel();
+          //     console.log("checkedWord", word);
+          //     if (this.adapter.isDeterminer(word)) {
+          //       hasDeterminer = true;
+          //       break;
+          //     } else if (this.adapter.isAdjective(word)) {
+          //       index--;
+          //     } else break;
+          //   }
+
+          //   console.log("determiner" + hasDeterminer + index)
+          //   if (!hasDeterminer) {
+
           //     if (inf.isCountable()){
           //       if (inf.isPlural()){
           //         const word = new WordModel('the');
-          //         if ((i-1) === 0) {
+          //         if (index === 0 || index === -1 ) {
           //           entities.unshift(word);
           //         } else {
-          //           entities.splice(i,0, word);
+          //           entities.splice(index,0, word);
           //         }
           //       } else {
           //         const word = new WordModel('a');
-          //         if ((i-1) === 0) {
+          //         if (index === 0 || index === -1 ) {
           //           entities.unshift(word);
           //         } else {
-          //           entities.splice(i,0, word);
+          //           entities.splice(index,0, word);
           //         }
           //       }
           //     }
@@ -166,6 +187,14 @@ export class EnglishModel implements LanguageInterface{
       }
 
     });
+
+  }
+
+  // transfrom contractions in the full forms
+  public async normalize(words:string):Promise<string>{
+    return new Promise<string>(resolve => {
+      resolve(contractions.expand(words));
+    })
 
   }
 
@@ -233,6 +262,7 @@ class EnglishAdapter implements EntityAdapterInterface{
   // ( Left paren                (
   // ) Right paren               )
 
+  // TODO some words are tagged incorrectly. For example "like" is tagged a s preposition
   private wordExtracter:Lexer;
   private wordTagger: Tagger;
 
@@ -369,7 +399,6 @@ class EnglishAdapter implements EntityAdapterInterface{
     if (word == null) return false;
     let taggedWord = this.wordTagger.tag([word]);
     return taggedWord[0][1] === 'DT';
-
   }
 
   isAdjective(word):boolean {

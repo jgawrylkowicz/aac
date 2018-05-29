@@ -318,14 +318,13 @@ export class BoardsProvider {
     let settingsFile:string = 'manifest.json';
     let url:string;
     try {
-      // TODO that function dows not work
-      //url = await this.getBoardSettingsURL(file);
+      // TODO that function does not work
+      // url = await this.getBoardSettingsURL(file);
 
       if (this.platform.is("cordova")){
 
         if ( this.platform.is("ios") || this.platform.is("android") ) {
           url = this.file.applicationDirectory + 'www/assets/cache/default-material/';
-          //url = 'www/assets/cache/communikate-20/'
         } else {
           url = 'assets/cache/default-material/';
         }
