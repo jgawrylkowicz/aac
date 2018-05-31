@@ -54,11 +54,11 @@ export class BoardsProvider {
     this.loading.present();
     if (!name) {
       // name of the default board
-      name = await this.prfProvider.getDefaultBoardSet();
+      // name = await this.prfProvider.getDefaultBoardSet();
     }
     let boardSet = undefined;
     try {
-      boardSet = await this.loadBoardSetFromStorage(name);
+      //boardSet = await this.loadBoardSetFromStorage(name);
     } catch {
       console.log("getBoardSet(): No boards have been saved before");
     }
@@ -74,7 +74,7 @@ export class BoardsProvider {
         console.log("getBoardSet(): Loading failed");
       }
 
-      this.saveBoardSetToStorage(this.currentBoardSet, true);
+      //this.saveBoardSetToStorage(this.currentBoardSet, true);
     }
 
     // checking if the image exists

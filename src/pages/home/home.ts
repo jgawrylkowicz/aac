@@ -31,7 +31,7 @@ export class HomePage {
   isfromDirectory:boolean;
   lang:LanguageInterface;
 
-  grammarCheck: boolean;
+  grammarCheck: number;
   isCorrect:number;
 
   message: SentenceModel;
@@ -56,7 +56,7 @@ export class HomePage {
       this.message = new SentenceModel();
       this.prediction = new Array<any>();
       this.isfromDirectory = false;
-      this.grammarCheck = false;
+      this.grammarCheck = 0;
       this.wordPrediction = false;
       this.isCorrect = -1; //-1 is untouched, 0 is incorrect, 1 is correct
       this.grid = {
@@ -66,6 +66,8 @@ export class HomePage {
       //preload images
       // imageLoader.preload('http://path.to/image.jpg');
       // imageLoader.clearCache();
+
+
   }
 
   ionViewDidLoad() {
@@ -90,7 +92,7 @@ export class HomePage {
         this.lang = new EnglishModel();
     }
 
-    this.grammarCheck = await this.prefProvider.getGrammarCheck();
+    //this.grammarCheck = await this.prefProvider.getGrammarCheck();
     //this.wordPrediction = await this.prefProvider.getWordPrediction();
 
 

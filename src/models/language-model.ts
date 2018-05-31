@@ -1,7 +1,7 @@
 declare var require:any;
 import { types, parser } from 'cfgrammar-tool';
 import { Tagger, Lexer } from 'pos';
-import { SentenceModel, EntityModel, WordModel } from './sentence-model';
+import { SentenceModel, WordModel } from './sentence-model';
 import { Inflectors, Inflector } from "en-inflectors";
 var contractions = require('contractions');
 
