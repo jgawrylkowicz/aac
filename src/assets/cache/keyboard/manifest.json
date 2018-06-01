@@ -1,0 +1,55 @@
+{
+  "format": "open-board-0.1",
+  "root": "board_1_58.obf",
+  "paths": {
+    "images": {
+      "1_681_1af8b0ae7284b1929429056f": "images/image_1_681_1af8b0ae7284b1929429056f.svg",
+      "1_687_c13b43f33a6e21b1b997e893": "images/image_1_687_c13b43f33a6e21b1b997e893.svg",
+      "1_669_40401178ea15bf574f64dea1": "images/image_1_669_40401178ea15bf574f64dea1.svg",
+      "1_682_5026cf40238c176bc8477dc1": "images/image_1_682_5026cf40238c176bc8477dc1.svg",
+      "1_684_4ad2317c25b7be54cb389be7": "images/image_1_684_4ad2317c25b7be54cb389be7.svg",
+      "1_689_097740d6adef405c9ab2499e": "images/image_1_689_097740d6adef405c9ab2499e.svg",
+      "1_685_61b2d6a562f77e9247909ac3": "images/image_1_685_61b2d6a562f77e9247909ac3.svg",
+      "1_673_fd8bcba61c19ac4ffbc08684": "images/image_1_673_fd8bcba61c19ac4ffbc08684.svg",
+      "1_679_716a9682191224b769ef8e2b": "images/image_1_679_716a9682191224b769ef8e2b.svg",
+      "1_680_c743672282c887fdf573b67a": "images/image_1_680_c743672282c887fdf573b67a.svg",
+      "1_665_041b7fdd44b4317ed46ca2cf": "images/image_1_665_041b7fdd44b4317ed46ca2cf.svg",
+      "1_683_f05f3230fefc21ff164cf16e": "images/image_1_683_f05f3230fefc21ff164cf16e.svg",
+      "1_668_4a1ee7b4c51cec0c2b46a0e7": "images/image_1_668_4a1ee7b4c51cec0c2b46a0e7.svg",
+      "1_670_33223612d86aee77d8f03271": "images/image_1_670_33223612d86aee77d8f03271.svg",
+      "1_671_ad6f6f6f4b9fa6656d3a2784": "images/image_1_671_ad6f6f6f4b9fa6656d3a2784.svg",
+      "1_363896_97d391bee00506df06f109d7": "images/image_1_363896_97d391bee00506df06f109d7.svg",
+      "1_674_170664ec01ddde6b7db9fb05": "images/image_1_674_170664ec01ddde6b7db9fb05.svg",
+      "1_675_89b9e9e224ea393946b60d09": "images/image_1_675_89b9e9e224ea393946b60d09.svg",
+      "1_676_5e8a90742265ef4309d041ca": "images/image_1_676_5e8a90742265ef4309d041ca.svg",
+      "1_17981_d39ccd79ce92512f3caf731d": "images/image_1_17981_d39ccd79ce92512f3caf731d.png",
+      "1_17982_ad0bd87bb9cb02a95de533b8": "images/image_1_17982_ad0bd87bb9cb02a95de533b8.svg",
+      "1_690_86de2ab6f78a0944b1cae9b3": "images/image_1_690_86de2ab6f78a0944b1cae9b3.svg",
+      "1_688_969bf3fe47a0e08a83a74a94": "images/image_1_688_969bf3fe47a0e08a83a74a94.svg",
+      "1_667_a52f04327d42aec182b1b867": "images/image_1_667_a52f04327d42aec182b1b867.svg",
+      "1_686_71d881d8d44d0ac4eadb19cc": "images/image_1_686_71d881d8d44d0ac4eadb19cc.svg",
+      "1_666_d635095c77340f164b5ed3b9": "images/image_1_666_d635095c77340f164b5ed3b9.svg",
+      "1_678_93391216a98c5782cc0dda10": "images/image_1_678_93391216a98c5782cc0dda10.svg",
+      "1_677_2c17ff5084594bd84a3a981e": "images/image_1_677_2c17ff5084594bd84a3a981e.svg",
+      "1_17983_0231d7458b106cd5430f1893": "images/image_1_17983_0231d7458b106cd5430f1893.svg",
+      "1_18073_a606e5c3351ba0094c181719": "images/image_1_18073_a606e5c3351ba0094c181719.png",
+      "1_18074_9d06e3dbabbbb9501cbaa19e": "images/image_1_18074_9d06e3dbabbbb9501cbaa19e.png",
+      "1_18075_c1e537e2dc85166ed2c0b091": "images/image_1_18075_c1e537e2dc85166ed2c0b091.png",
+      "1_18076_8b8dc23d459bfa5a73dc5e0e": "images/image_1_18076_8b8dc23d459bfa5a73dc5e0e.png",
+      "1_18077_377687eb0338b6b09f2fb3bb": "images/image_1_18077_377687eb0338b6b09f2fb3bb.png",
+      "1_18078_5ba1ba9468a4d564a735827f": "images/image_1_18078_5ba1ba9468a4d564a735827f.png",
+      "1_18084_337acd5019e9cfe8789e22aa": "images/image_1_18084_337acd5019e9cfe8789e22aa.svg",
+      "1_18079_dd2fd50fff981e9420057819": "images/image_1_18079_dd2fd50fff981e9420057819.png",
+      "1_18080_b72049ae16d7b29f8495302a": "images/image_1_18080_b72049ae16d7b29f8495302a.png",
+      "1_18081_7de3b3ce0c22f208ad265616": "images/image_1_18081_7de3b3ce0c22f208ad265616.png",
+      "1_18082_5cdaff79cc3f0b8f76714fc5": "images/image_1_18082_5cdaff79cc3f0b8f76714fc5.png",
+      "1_18085_1aa97d8906745c4982537440": "images/image_1_18085_1aa97d8906745c4982537440.svg"
+    },
+    "sounds": {
+    },
+    "boards": {
+      "1_58": "board_1_58.obf",
+      "1_2255": "board_1_2255.obf"
+    }
+  }
+}

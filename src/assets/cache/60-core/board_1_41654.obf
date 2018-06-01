@@ -1,0 +1,591 @@
+{
+  "format": "open-board-0.1",
+  "license": {
+    "type": "CC By",
+    "copyright_notice_url": "http://creativecommons.org/licenses/by/4.0/",
+    "author_name": "CoughDrop",
+    "author_url": "https://www.mycoughdrop.com/example"
+  },
+  "buttons": [
+    {
+      "id": 1,
+      "label": "play",
+      "border_color": "rgb(102, 221, 0)",
+      "background_color": "rgb(204, 255, 170)",
+      "ext_coughdrop_part_of_speech": "verb",
+      "image_id": "1_117363_f6dabcd8ce746ae83c8eec29"
+    },
+    {
+      "id": 2,
+      "label": "party",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_117366_8468a4d2fcfaf8ecf136b92f"
+    },
+    {
+      "id": 3,
+      "label": "toy",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_117367_2fb502ae23bb52d65bc27cf8"
+    },
+    {
+      "id": 4,
+      "label": "game",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_117368_91c69cafdb34453f35bdaace"
+    },
+    {
+      "id": 5,
+      "label": "puzzle",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_117369_95c7c3dbf9b71ceed70eea7c"
+    },
+    {
+      "id": 13,
+      "label": "sport",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_117384_8acbc3972067dc5df79e6643"
+    },
+    {
+      "id": 14,
+      "label": "football",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_117385_6bef36fdc4c3986a0dd203de"
+    },
+    {
+      "id": 15,
+      "label": "soccer",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_117386_11441ad0ab0e4f261174a2ac"
+    },
+    {
+      "id": 16,
+      "label": "baseball",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_117387_7acc3d5e9bb644428ac2183a"
+    },
+    {
+      "id": 6,
+      "label": "goal",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_117370_70d93654ac14a67fb790b5fd"
+    },
+    {
+      "id": 7,
+      "label": "practice",
+      "border_color": "rgb(102, 221, 0)",
+      "background_color": "rgb(204, 255, 170)",
+      "ext_coughdrop_part_of_speech": "verb",
+      "image_id": "1_117371_2531b5f6a60742ce063f8ac0"
+    },
+    {
+      "id": 8,
+      "label": "lose",
+      "border_color": "rgb(102, 221, 0)",
+      "background_color": "rgb(204, 255, 170)",
+      "ext_coughdrop_part_of_speech": "verb",
+      "image_id": "1_117372_d1a1d63448f40a89444d9858"
+    },
+    {
+      "id": 9,
+      "label": "win",
+      "border_color": "rgb(102, 221, 0)",
+      "background_color": "rgb(204, 255, 170)",
+      "ext_coughdrop_part_of_speech": "verb",
+      "image_id": "1_117373_01fcec8a6650f1c09e588736"
+    },
+    {
+      "id": 10,
+      "label": "jump",
+      "border_color": "rgb(102, 221, 0)",
+      "background_color": "rgb(204, 255, 170)",
+      "ext_coughdrop_part_of_speech": "verb",
+      "image_id": "1_117374_aa3433afd2ee1b3f400514c1"
+    },
+    {
+      "id": 17,
+      "label": "swing",
+      "border_color": "rgb(102, 221, 0)",
+      "background_color": "rgb(204, 255, 170)",
+      "ext_coughdrop_part_of_speech": "verb",
+      "image_id": "1_117381_faeabd8f1327b310cf428edf"
+    },
+    {
+      "id": 11,
+      "label": "climb",
+      "border_color": "rgb(102, 221, 0)",
+      "background_color": "rgb(204, 255, 170)",
+      "ext_coughdrop_part_of_speech": "verb",
+      "image_id": "1_117375_1816ef84bcf51fbb94ea725a"
+    },
+    {
+      "id": 18,
+      "label": "swim",
+      "border_color": "rgb(102, 221, 0)",
+      "background_color": "rgb(204, 255, 170)",
+      "ext_coughdrop_part_of_speech": "verb",
+      "image_id": "1_117382_ed0b085fc440374ae5a66eaf"
+    },
+    {
+      "id": 12,
+      "label": "dance",
+      "border_color": "rgb(102, 221, 0)",
+      "background_color": "rgb(204, 255, 170)",
+      "ext_coughdrop_part_of_speech": "verb",
+      "image_id": "1_117376_eef0cc64b7df88ce05f2e4dd"
+    },
+    {
+      "id": 19,
+      "label": "catch",
+      "border_color": "rgb(102, 221, 0)",
+      "background_color": "rgb(204, 255, 170)",
+      "ext_coughdrop_part_of_speech": "verb",
+      "image_id": "1_117383_e87c25bcbb96e649314327de"
+    },
+    {
+      "id": 20,
+      "label": "throw",
+      "border_color": "rgb(102, 221, 0)",
+      "background_color": "rgb(204, 255, 170)",
+      "ext_coughdrop_part_of_speech": "verb",
+      "image_id": "1_117379_30fde77fe35d86ebbfeab77e"
+    }
+  ],
+  "grid": {
+    "rows": 6,
+    "columns": 10,
+    "order": [
+      [
+        null,
+        1,
+        2,
+        3,
+        4,
+        5,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        13,
+        14,
+        15,
+        16,
+        null,
+        6
+      ],
+      [
+        null,
+        7,
+        8,
+        9,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        10,
+        17,
+        11,
+        18,
+        12,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        19,
+        20,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    ]
+  },
+  "images": [
+    {
+      "id": "1_117363_f6dabcd8ce746ae83c8eec29",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/to play volleyball.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117363_f6dabcd8ce746ae83c8eec29",
+      "content_type": "image/png",
+      "path": "images/image_1_117363_f6dabcd8ce746ae83c8eec29.png"
+    },
+    {
+      "id": "1_117366_8468a4d2fcfaf8ecf136b92f",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/party.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117366_8468a4d2fcfaf8ecf136b92f",
+      "content_type": "image/png",
+      "path": "images/image_1_117366_8468a4d2fcfaf8ecf136b92f.png"
+    },
+    {
+      "id": "1_117367_2fb502ae23bb52d65bc27cf8",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/toy.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117367_2fb502ae23bb52d65bc27cf8",
+      "content_type": "image/png",
+      "path": "images/image_1_117367_2fb502ae23bb52d65bc27cf8.png"
+    },
+    {
+      "id": "1_117368_91c69cafdb34453f35bdaace",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/board game.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117368_91c69cafdb34453f35bdaace",
+      "content_type": "image/png",
+      "path": "images/image_1_117368_91c69cafdb34453f35bdaace.png"
+    },
+    {
+      "id": "1_117369_95c7c3dbf9b71ceed70eea7c",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/puzzle.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117369_95c7c3dbf9b71ceed70eea7c",
+      "content_type": "image/png",
+      "path": "images/image_1_117369_95c7c3dbf9b71ceed70eea7c.png"
+    },
+    {
+      "id": "1_117384_8acbc3972067dc5df79e6643",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/sport.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117384_8acbc3972067dc5df79e6643",
+      "content_type": "image/png",
+      "path": "images/image_1_117384_8acbc3972067dc5df79e6643.png"
+    },
+    {
+      "id": "1_117385_6bef36fdc4c3986a0dd203de",
+      "width": 100,
+      "height": 100,
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by/3.0/",
+        "source_url": "http://thenounproject.com/site_media/svg/672ebb8a-36f7-4129-9540-e5c7c5a7519e.svg",
+        "author_name": "Claudio Gomboli",
+        "author_url": "http://thenounproject.com/clagom",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/noun-project/Football-297bf19b79.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117385_6bef36fdc4c3986a0dd203de",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_117385_6bef36fdc4c3986a0dd203de.svg"
+    },
+    {
+      "id": "1_117386_11441ad0ab0e4f261174a2ac",
+      "width": 100,
+      "height": 100,
+      "license": {
+        "type": "public domain",
+        "copyright_notice_url": "http://creativecommons.org/publicdomain/zero/1.0/",
+        "source_url": "http://thenounproject.com/site_media/svg/f0f6e16b-0ed5-4bdc-91cf-f89311eb1698.svg",
+        "author_name": "Boris Kiselev",
+        "author_url": "http://thenounproject.com/Levelerus",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/noun-project/Soccer Ball-da671e5b42.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117386_11441ad0ab0e4f261174a2ac",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_117386_11441ad0ab0e4f261174a2ac.svg"
+    },
+    {
+      "id": "1_117387_7acc3d5e9bb644428ac2183a",
+      "width": 850,
+      "height": 850,
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-sa/2.0/uk",
+        "author_name": "Paxtoncrafts Charitable Trust ",
+        "author_url": "http://straight-street.org/lic.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/mulberry/baseball bat.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117387_7acc3d5e9bb644428ac2183a",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_117387_7acc3d5e9bb644428ac2183a.svg"
+    },
+    {
+      "id": "1_117370_70d93654ac14a67fb790b5fd",
+      "width": 850,
+      "height": 850,
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-sa/2.0/uk",
+        "author_name": "Paxtoncrafts Charitable Trust ",
+        "author_url": "http://straight-street.org/lic.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/mulberry/goal.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117370_70d93654ac14a67fb790b5fd",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_117370_70d93654ac14a67fb790b5fd.svg"
+    },
+    {
+      "id": "1_117371_2531b5f6a60742ce063f8ac0",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/football.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117371_2531b5f6a60742ce063f8ac0",
+      "content_type": "image/png",
+      "path": "images/image_1_117371_2531b5f6a60742ce063f8ac0.png"
+    },
+    {
+      "id": "1_117372_d1a1d63448f40a89444d9858",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/lose.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117372_d1a1d63448f40a89444d9858",
+      "content_type": "image/png",
+      "path": "images/image_1_117372_d1a1d63448f40a89444d9858.png"
+    },
+    {
+      "id": "1_117373_01fcec8a6650f1c09e588736",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/win.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117373_01fcec8a6650f1c09e588736",
+      "content_type": "image/png",
+      "path": "images/image_1_117373_01fcec8a6650f1c09e588736.png"
+    },
+    {
+      "id": "1_117374_aa3433afd2ee1b3f400514c1",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/jump.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117374_aa3433afd2ee1b3f400514c1",
+      "content_type": "image/png",
+      "path": "images/image_1_117374_aa3433afd2ee1b3f400514c1.png"
+    },
+    {
+      "id": "1_117381_faeabd8f1327b310cf428edf",
+      "width": 850,
+      "height": 850,
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-sa/2.0/uk",
+        "author_name": "Paxtoncrafts Charitable Trust ",
+        "author_url": "http://straight-street.org/lic.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/mulberry/swing , to.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117381_faeabd8f1327b310cf428edf",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_117381_faeabd8f1327b310cf428edf.svg"
+    },
+    {
+      "id": "1_117375_1816ef84bcf51fbb94ea725a",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/to climb.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117375_1816ef84bcf51fbb94ea725a",
+      "content_type": "image/png",
+      "path": "images/image_1_117375_1816ef84bcf51fbb94ea725a.png"
+    },
+    {
+      "id": "1_117382_ed0b085fc440374ae5a66eaf",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/to swim_2.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117382_ed0b085fc440374ae5a66eaf",
+      "content_type": "image/png",
+      "path": "images/image_1_117382_ed0b085fc440374ae5a66eaf.png"
+    },
+    {
+      "id": "1_117376_eef0cc64b7df88ce05f2e4dd",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/dance.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117376_eef0cc64b7df88ce05f2e4dd",
+      "content_type": "image/png",
+      "path": "images/image_1_117376_eef0cc64b7df88ce05f2e4dd.png"
+    },
+    {
+      "id": "1_117383_e87c25bcbb96e649314327de",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/to catch_2.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117383_e87c25bcbb96e649314327de",
+      "content_type": "image/png",
+      "path": "images/image_1_117383_e87c25bcbb96e649314327de.png"
+    },
+    {
+      "id": "1_117379_30fde77fe35d86ebbfeab77e",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/to throw (away)_2.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117379_30fde77fe35d86ebbfeab77e",
+      "content_type": "image/png",
+      "path": "images/image_1_117379_30fde77fe35d86ebbfeab77e.png"
+    }
+  ],
+  "sounds": [
+
+  ],
+  "id": "1_41654",
+  "locale": "en",
+  "name": "Core 60 - play",
+  "default_layout": "landscape",
+  "url": "https://app.mycoughdrop.com/example/core-60-play",
+  "data_url": "https://app.mycoughdrop.com/api/v1/boards/example/core-60-play",
+  "description_html": "built with CoughDrop",
+  "ext_coughdrop_settings": {
+    "private": false,
+    "key": "example/core-60-play",
+    "word_suggestions": false,
+    "protected": false,
+    "home_board": null,
+    "categories": null
+  }
+}

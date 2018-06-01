@@ -1,0 +1,607 @@
+{
+  "format": "open-board-0.1",
+  "license": {
+    "type": "CC By",
+    "copyright_notice_url": "http://creativecommons.org/licenses/by/4.0/",
+    "author_name": "CoughDrop",
+    "author_url": "https://www.mycoughdrop.com/example"
+  },
+  "buttons": [
+    {
+      "id": 2,
+      "label": "scooter",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_15719_fb61508808fe6659c11892c3"
+    },
+    {
+      "id": 3,
+      "label": "skateboard",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_15705_2b7bf6d65edbdaa1978a752c"
+    },
+    {
+      "id": 4,
+      "label": "roller blades",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "image_id": "1_15703_d5b7c7da3072690f1b5eeeb5"
+    },
+    {
+      "id": 5,
+      "label": "roller skates",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "image_id": "1_15702_1078f0ddf308fe598be7c3ae"
+    },
+    {
+      "id": 6,
+      "label": "wheelchair",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_15701_f8ff9c5de4824647fdffd31a"
+    },
+    {
+      "id": 7,
+      "label": "motorcycle",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_15726_18c5489dc59cb4de58b63f33"
+    },
+    {
+      "id": 8,
+      "label": "bike",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_15700_c0b13c2c5e90c1fae6fea77d"
+    },
+    {
+      "id": 21,
+      "label": "taxi",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_117456_bc7086d2db8b3c0e75c2c411"
+    },
+    {
+      "id": 9,
+      "label": "airplane",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_117455_502687fe13fab3ab96df4318"
+    },
+    {
+      "id": 10,
+      "label": "train",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "verb",
+      "image_id": "1_15710_58159a4593cc328555d843f0"
+    },
+    {
+      "id": 11,
+      "label": "bus",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_15708_3a1ccfdea4d7661494885acd"
+    },
+    {
+      "id": 12,
+      "label": "truck",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_15707_223e911156841df5fe4bbe56"
+    },
+    {
+      "id": 13,
+      "label": "car",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_15706_83a3b97af242c755fd3fc333"
+    },
+    {
+      "id": 1,
+      "label": "here",
+      "border_color": "rgb(17, 112, 255)",
+      "background_color": "rgb(170, 204, 255)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_15339_7e2e60ed47c1446598242319"
+    },
+    {
+      "id": 14,
+      "label": "police car",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_15714_250dddeede8beaad188bafb7"
+    },
+    {
+      "id": 15,
+      "label": "ambulance",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_15728_3476b1adb3d68a8f09f01925"
+    },
+    {
+      "id": 16,
+      "label": "fire truck",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "image_id": "1_15712_ed9b9e9738a6748fc6a952fe"
+    },
+    {
+      "id": 17,
+      "label": "rocket ship",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "image_id": "1_15717_9cd88e16663f55d4d9ccd774"
+    },
+    {
+      "id": 18,
+      "label": "sailboat",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_15718_d7ca8b19769db8ef6a04e10b"
+    },
+    {
+      "id": 19,
+      "label": "submarine",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_15738_1a4d74adb333f5013d1977e1"
+    },
+    {
+      "id": 20,
+      "label": "boat",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_15715_3b04f1577687701eb0a42b0f"
+    }
+  ],
+  "grid": {
+    "rows": 6,
+    "columns": 10,
+    "order": [
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        2,
+        3
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      [
+        null,
+        null,
+        null,
+        21,
+        9,
+        10,
+        11,
+        12,
+        13,
+        1
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        14,
+        15,
+        16
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        17,
+        18,
+        19,
+        20
+      ]
+    ]
+  },
+  "images": [
+    {
+      "id": "1_15719_fb61508808fe6659c11892c3",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/scooter.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_15719_fb61508808fe6659c11892c3",
+      "content_type": "image/png",
+      "path": "images/image_1_15719_fb61508808fe6659c11892c3.png"
+    },
+    {
+      "id": "1_15705_2b7bf6d65edbdaa1978a752c",
+      "width": 850,
+      "height": 850,
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-sa/2.0/uk",
+        "author_name": "Paxtoncrafts Charitable Trust ",
+        "author_url": "http://straight-street.org/lic.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/mulberry/skateboard.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_15705_2b7bf6d65edbdaa1978a752c",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_15705_2b7bf6d65edbdaa1978a752c.svg"
+    },
+    {
+      "id": "1_15703_d5b7c7da3072690f1b5eeeb5",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/roller skate_1.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_15703_d5b7c7da3072690f1b5eeeb5",
+      "content_type": "image/png",
+      "path": "images/image_1_15703_d5b7c7da3072690f1b5eeeb5.png"
+    },
+    {
+      "id": "1_15702_1078f0ddf308fe598be7c3ae",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/skates_2.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_15702_1078f0ddf308fe598be7c3ae",
+      "content_type": "image/png",
+      "path": "images/image_1_15702_1078f0ddf308fe598be7c3ae.png"
+    },
+    {
+      "id": "1_15701_f8ff9c5de4824647fdffd31a",
+      "width": 850,
+      "height": 850,
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-sa/2.0/uk",
+        "author_name": "Paxtoncrafts Charitable Trust ",
+        "author_url": "http://straight-street.org/lic.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/mulberry/wheelchair.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_15701_f8ff9c5de4824647fdffd31a",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_15701_f8ff9c5de4824647fdffd31a.svg"
+    },
+    {
+      "id": "1_15726_18c5489dc59cb4de58b63f33",
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by/3.0/",
+        "source_url": "http://thenounproject.com/term/motorcycle/",
+        "author_name": "Simon Child",
+        "author_url": "http://thenounproject.com/Simon Child",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/noun-project/Motorcycle-66ce5da3f9.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_15726_18c5489dc59cb4de58b63f33",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_15726_18c5489dc59cb4de58b63f33.svg"
+    },
+    {
+      "id": "1_15700_c0b13c2c5e90c1fae6fea77d",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/bike.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_15700_c0b13c2c5e90c1fae6fea77d",
+      "content_type": "image/png",
+      "path": "images/image_1_15700_c0b13c2c5e90c1fae6fea77d.png"
+    },
+    {
+      "id": "1_117456_bc7086d2db8b3c0e75c2c411",
+      "width": 100,
+      "height": 100,
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by/3.0/",
+        "source_url": "http://thenounproject.com/site_media/svg/3f09114e-fb18-4103-a91d-fc68fcb82139.svg",
+        "author_name": "Jens Tärning",
+        "author_url": "http://thenounproject.com/jens",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/noun-project/Taxi-e14864f6bd.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117456_bc7086d2db8b3c0e75c2c411",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_117456_bc7086d2db8b3c0e75c2c411.svg"
+    },
+    {
+      "id": "1_117455_502687fe13fab3ab96df4318",
+      "width": 100,
+      "height": 100,
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by/3.0/",
+        "source_url": "http://thenounproject.com/site_media/svg/ac0291f3-e881-4211-92ee-feabb636810d.svg",
+        "author_name": "Blake Thompson",
+        "author_url": "http://thenounproject.com/bdthompson",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/noun-project/Airplane-0496ef43b2.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_117455_502687fe13fab3ab96df4318",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_117455_502687fe13fab3ab96df4318.svg"
+    },
+    {
+      "id": "1_15710_58159a4593cc328555d843f0",
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by/3.0/",
+        "source_url": "http://thenounproject.com/term/train/",
+        "author_name": "Mariagloria Posani",
+        "author_url": "http://thenounproject.com/mariagloriaposani",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/noun-project/Train-88ad4ac224.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_15710_58159a4593cc328555d843f0",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_15710_58159a4593cc328555d843f0.svg"
+    },
+    {
+      "id": "1_15708_3a1ccfdea4d7661494885acd",
+      "width": 853,
+      "height": 852,
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-sa/2.0/uk",
+        "author_name": "Paxtoncrafts Charitable Trust ",
+        "author_url": "http://straight-street.org/lic.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/mulberry/bus.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_15708_3a1ccfdea4d7661494885acd",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_15708_3a1ccfdea4d7661494885acd.svg"
+    },
+    {
+      "id": "1_15707_223e911156841df5fe4bbe56",
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by/3.0/",
+        "source_url": "http://thenounproject.com/term/truck/",
+        "author_name": "Laura Beggs",
+        "author_url": "http://thenounproject.com/Elembe",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/noun-project/Truck-1c37aa58e9.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_15707_223e911156841df5fe4bbe56",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_15707_223e911156841df5fe4bbe56.svg"
+    },
+    {
+      "id": "1_15706_83a3b97af242c755fd3fc333",
+      "width": 850,
+      "height": 850,
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-sa/2.0/uk",
+        "author_name": "Paxtoncrafts Charitable Trust ",
+        "author_url": "http://straight-street.org/lic.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/mulberry/car.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_15706_83a3b97af242c755fd3fc333",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_15706_83a3b97af242c755fd3fc333.svg"
+    },
+    {
+      "id": "1_15339_7e2e60ed47c1446598242319",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/here_1.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_15339_7e2e60ed47c1446598242319",
+      "content_type": "image/png",
+      "path": "images/image_1_15339_7e2e60ed47c1446598242319.png"
+    },
+    {
+      "id": "1_15714_250dddeede8beaad188bafb7",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/police car.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_15714_250dddeede8beaad188bafb7",
+      "content_type": "image/png",
+      "path": "images/image_1_15714_250dddeede8beaad188bafb7.png"
+    },
+    {
+      "id": "1_15728_3476b1adb3d68a8f09f01925",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/ambulance.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_15728_3476b1adb3d68a8f09f01925",
+      "content_type": "image/png",
+      "path": "images/image_1_15728_3476b1adb3d68a8f09f01925.png"
+    },
+    {
+      "id": "1_15712_ed9b9e9738a6748fc6a952fe",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/fire truck.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_15712_ed9b9e9738a6748fc6a952fe",
+      "content_type": "image/png",
+      "path": "images/image_1_15712_ed9b9e9738a6748fc6a952fe.png"
+    },
+    {
+      "id": "1_15717_9cd88e16663f55d4d9ccd774",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/rocket_1.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_15717_9cd88e16663f55d4d9ccd774",
+      "content_type": "image/png",
+      "path": "images/image_1_15717_9cd88e16663f55d4d9ccd774.png"
+    },
+    {
+      "id": "1_15718_d7ca8b19769db8ef6a04e10b",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/sail boat.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_15718_d7ca8b19769db8ef6a04e10b",
+      "content_type": "image/png",
+      "path": "images/image_1_15718_d7ca8b19769db8ef6a04e10b.png"
+    },
+    {
+      "id": "1_15738_1a4d74adb333f5013d1977e1",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/submarine.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_15738_1a4d74adb333f5013d1977e1",
+      "content_type": "image/png",
+      "path": "images/image_1_15738_1a4d74adb333f5013d1977e1.png"
+    },
+    {
+      "id": "1_15715_3b04f1577687701eb0a42b0f",
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by/3.0/",
+        "source_url": "http://thenounproject.com/term/ship/",
+        "author_name": "Pham Thi Dieu Linh",
+        "author_url": "http://thenounproject.com/phdieuli",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/noun-project/Ship-40bc1ed70c.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_15715_3b04f1577687701eb0a42b0f",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_15715_3b04f1577687701eb0a42b0f.svg"
+    }
+  ],
+  "sounds": [
+
+  ],
+  "id": "1_1189",
+  "locale": "en",
+  "name": "Core 60 - here",
+  "default_layout": "landscape",
+  "url": "https://app.mycoughdrop.com/example/core-60-here",
+  "data_url": "https://app.mycoughdrop.com/api/v1/boards/example/core-60-here",
+  "description_html": "built with CoughDrop",
+  "ext_coughdrop_settings": {
+    "private": false,
+    "key": "example/core-60-here",
+    "word_suggestions": false,
+    "protected": false,
+    "home_board": null,
+    "categories": null
+  }
+}

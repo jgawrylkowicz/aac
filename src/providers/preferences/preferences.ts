@@ -21,7 +21,7 @@ export class PreferencesProvider {
     private storage: Storage, ) {
 
     // default settings
-    this.boardSets = ["default-material", "communikate-20"]
+    this.boardSets = ["default-material", "communikate-20", "keyboard", "60-core"]
     this.defaultBoardSet = "default-material";
     this.defaultFontSize = 100;
     this.defaultLanguage = "en";

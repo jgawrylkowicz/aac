@@ -1,0 +1,493 @@
+{
+  "format": "open-board-0.1",
+  "license": {
+    "type": "CC By",
+    "copyright_notice_url": "http://creativecommons.org/licenses/by/4.0/",
+    "author_name": "CoughDrop",
+    "author_url": "https://www.mycoughdrop.com/example"
+  },
+  "buttons": [
+    {
+      "id": 1,
+      "label": "food",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_116317_ce11290d86d650346438a48a"
+    },
+    {
+      "id": 2,
+      "label": "hamburger",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_116332_d1facfb85a701e7fdd282132"
+    },
+    {
+      "id": 3,
+      "label": "nuggets",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_116333_7ec175ff1776458f75da49ee"
+    },
+    {
+      "id": 4,
+      "label": "french fries",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_116334_df24d648423baed80ead3e23"
+    },
+    {
+      "id": 5,
+      "label": "hot dog",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_116335_52aed98d7e4de1d9ce321593"
+    },
+    {
+      "id": 6,
+      "label": "quesadilla",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_116336_f934e99e8e13bd7a0c5ba3ca"
+    },
+    {
+      "id": 7,
+      "label": "burrito",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_116337_bcd5c4c31a57db62e882fe51"
+    },
+    {
+      "id": 8,
+      "label": "enchilada",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_116338_b50544bf15d127a7d3020589"
+    },
+    {
+      "id": 9,
+      "label": "taco",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_116339_82c08afed12df8c1e846216a"
+    },
+    {
+      "id": 10,
+      "label": "pizza",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_116340_b29df6ac7724ca6279ddfde1"
+    },
+    {
+      "id": 11,
+      "label": "pasta",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_116341_c757f2cc0776c0752d7634be"
+    },
+    {
+      "id": 12,
+      "label": "lasagna",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_116342_c7e200fd1539f337e7c46a65"
+    },
+    {
+      "id": 13,
+      "label": "spaghetti",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_116343_ddc380e821c03eef6a8facc8"
+    },
+    {
+      "id": 14,
+      "label": "rice",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_116344_95159b39478d9287c2dcce97"
+    },
+    {
+      "id": 15,
+      "label": "grilled cheese",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_116345_53267bfba7cd323f87a9e6a1"
+    },
+    {
+      "id": 16,
+      "label": "seafood",
+      "border_color": "rgb(255, 112, 17)",
+      "background_color": "rgb(255, 204, 170)",
+      "ext_coughdrop_part_of_speech": "noun",
+      "image_id": "1_116531_ef473c075eb47f01b15c6a9b"
+    }
+  ],
+  "grid": {
+    "rows": 6,
+    "columns": 10,
+    "order": [
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        6,
+        7,
+        8,
+        9
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        10,
+        11,
+        12,
+        13
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        14,
+        15,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        16,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    ]
+  },
+  "images": [
+    {
+      "id": "1_116317_ce11290d86d650346438a48a",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/food.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_116317_ce11290d86d650346438a48a",
+      "content_type": "image/png",
+      "path": "images/image_1_116317_ce11290d86d650346438a48a.png"
+    },
+    {
+      "id": "1_116332_d1facfb85a701e7fdd282132",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/hamburger.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_116332_d1facfb85a701e7fdd282132",
+      "content_type": "image/png",
+      "path": "images/image_1_116332_d1facfb85a701e7fdd282132.png"
+    },
+    {
+      "id": "1_116333_7ec175ff1776458f75da49ee",
+      "width": 850,
+      "height": 850,
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-sa/2.0/uk",
+        "author_name": "Paxtoncrafts Charitable Trust ",
+        "author_url": "http://straight-street.org/lic.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/mulberry/chicken nuggets.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_116333_7ec175ff1776458f75da49ee",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_116333_7ec175ff1776458f75da49ee.svg"
+    },
+    {
+      "id": "1_116334_df24d648423baed80ead3e23",
+      "width": 850,
+      "height": 850,
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-sa/2.0/uk",
+        "author_name": "Paxtoncrafts Charitable Trust ",
+        "author_url": "http://straight-street.org/lic.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/mulberry/chips packet.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_116334_df24d648423baed80ead3e23",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_116334_df24d648423baed80ead3e23.svg"
+    },
+    {
+      "id": "1_116335_52aed98d7e4de1d9ce321593",
+      "width": 850,
+      "height": 850,
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-sa/2.0/uk",
+        "author_name": "Paxtoncrafts Charitable Trust ",
+        "author_url": "http://straight-street.org/lic.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/mulberry/hot dog.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_116335_52aed98d7e4de1d9ce321593",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_116335_52aed98d7e4de1d9ce321593.svg"
+    },
+    {
+      "id": "1_116336_f934e99e8e13bd7a0c5ba3ca",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/cheese.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_116336_f934e99e8e13bd7a0c5ba3ca",
+      "content_type": "image/png",
+      "path": "images/image_1_116336_f934e99e8e13bd7a0c5ba3ca.png"
+    },
+    {
+      "id": "1_116337_bcd5c4c31a57db62e882fe51",
+      "width": 150,
+      "height": 150,
+      "license": {
+        "type": "CC By",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by/3.0/us/",
+        "author_name": "Simon Child",
+        "author_url": "http://thenounproject.com/Simon Child",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/noun-project/burrito_791_448207.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_116337_bcd5c4c31a57db62e882fe51",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_116337_bcd5c4c31a57db62e882fe51.svg"
+    },
+    {
+      "id": "1_116338_b50544bf15d127a7d3020589",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/potatoes in hot sauce.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_116338_b50544bf15d127a7d3020589",
+      "content_type": "image/png",
+      "path": "images/image_1_116338_b50544bf15d127a7d3020589.png"
+    },
+    {
+      "id": "1_116339_82c08afed12df8c1e846216a",
+      "width": 150,
+      "height": 150,
+      "license": {
+        "type": "CC By",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by/3.0/us/",
+        "author_name": "NAMI A",
+        "author_url": "http://thenounproject.com/namia",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/noun-project/Taco_401_209032.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_116339_82c08afed12df8c1e846216a",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_116339_82c08afed12df8c1e846216a.svg"
+    },
+    {
+      "id": "1_116340_b29df6ac7724ca6279ddfde1",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/pizza.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_116340_b29df6ac7724ca6279ddfde1",
+      "content_type": "image/png",
+      "path": "images/image_1_116340_b29df6ac7724ca6279ddfde1.png"
+    },
+    {
+      "id": "1_116341_c757f2cc0776c0752d7634be",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/pasta.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_116341_c757f2cc0776c0752d7634be",
+      "content_type": "image/png",
+      "path": "images/image_1_116341_c757f2cc0776c0752d7634be.png"
+    },
+    {
+      "id": "1_116342_c7e200fd1539f337e7c46a65",
+      "width": 850,
+      "height": 850,
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-sa/2.0/uk",
+        "author_name": "Paxtoncrafts Charitable Trust ",
+        "author_url": "http://straight-street.org/lic.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/mulberry/dish.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_116342_c7e200fd1539f337e7c46a65",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_116342_c7e200fd1539f337e7c46a65.svg"
+    },
+    {
+      "id": "1_116343_ddc380e821c03eef6a8facc8",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/spaghetti.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_116343_ddc380e821c03eef6a8facc8",
+      "content_type": "image/png",
+      "path": "images/image_1_116343_ddc380e821c03eef6a8facc8.png"
+    },
+    {
+      "id": "1_116344_95159b39478d9287c2dcce97",
+      "width": 850,
+      "height": 850,
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-sa/2.0/uk",
+        "author_name": "Paxtoncrafts Charitable Trust ",
+        "author_url": "http://straight-street.org/lic.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/mulberry/rice.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_116344_95159b39478d9287c2dcce97",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_116344_95159b39478d9287c2dcce97.svg"
+    },
+    {
+      "id": "1_116345_53267bfba7cd323f87a9e6a1",
+      "width": 850,
+      "height": 850,
+      "license": {
+        "type": "CC BY-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-sa/2.0/uk",
+        "author_name": "Paxtoncrafts Charitable Trust ",
+        "author_url": "http://straight-street.org/lic.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/mulberry/sandwich toasted.svg",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_116345_53267bfba7cd323f87a9e6a1",
+      "content_type": "image/svg+xml",
+      "path": "images/image_1_116345_53267bfba7cd323f87a9e6a1.svg"
+    },
+    {
+      "id": "1_116531_ef473c075eb47f01b15c6a9b",
+      "width": 250,
+      "height": 250,
+      "license": {
+        "type": "CC BY-NC-SA",
+        "copyright_notice_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "author_name": "Sergio Palao",
+        "author_url": "http://www.catedu.es/arasaac/condiciones_uso.php",
+        "uneditable": true
+      },
+      "url": "https://s3.amazonaws.com/opensymbols/libraries/arasaac/seafood.png",
+      "data_url": "https://app.mycoughdrop.com/api/v1/images/1_116531_ef473c075eb47f01b15c6a9b",
+      "content_type": "image/png",
+      "path": "images/image_1_116531_ef473c075eb47f01b15c6a9b.png"
+    }
+  ],
+  "sounds": [
+
+  ],
+  "id": "1_41410",
+  "locale": "en",
+  "name": "Core 60 - food",
+  "default_layout": "landscape",
+  "url": "https://app.mycoughdrop.com/example/core-60-food",
+  "data_url": "https://app.mycoughdrop.com/api/v1/boards/example/core-60-food",
+  "description_html": "built with CoughDrop",
+  "ext_coughdrop_settings": {
+    "private": false,
+    "key": "example/core-60-food",
+    "word_suggestions": false,
+    "protected": false,
+    "home_board": null,
+    "categories": null
+  }
+}
