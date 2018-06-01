@@ -13,24 +13,27 @@
 </ion-header>
 
 
-<ion-content [ngStyle]="{'font-size': this.getFontSize()}"  >
+<ion-content>
 
     <ion-list>
       <ion-list-header>Board sets</ion-list-header>
       <ion-item>
         <ion-label>Board set</ion-label>
-        <ion-select [(ngModel)]="boardSet">
-          <ion-option value="comnunikate-20">Comnunikate-20</ion-option>
-          <ion-option value="default-material">Default</ion-option>
+        <ion-select [(ngModel)]="this.boardSet">
+          <ion-option *ngFor="let b of this.boardSets" value="{{b}}"> {{b}}</ion-option>
+
         </ion-select>
       </ion-item>
       <ion-item>
         <ion-label>Font size</ion-label>
+        <div item-end>
+          {{this.fontSize}}%
+        </div>
       </ion-item>
-      <ion-item>
-        <ion-range min="75" max="125"  step="5"  snaps="true" [(ngModel)]="fontSize">
-            <ion-label range-left>75%</ion-label>
-            <ion-label range-right>125%</ion-label>
+      <ion-item no-lines>
+        <ion-range min="85" max="150"  step="5"  snaps="true" [(ngModel)]="this.fontSize">
+            <ion-label range-left>85%</ion-label>
+            <ion-label range-right>150%</ion-label>
         </ion-range>
       </ion-item>
     </ion-list>
@@ -38,27 +41,55 @@
       <ion-list-header>Language</ion-list-header>
       <ion-item>
         <ion-label>Language</ion-label>
-        <ion-select [(ngModel)]="language">
+        <ion-select [(ngModel)]="this.language">
           <ion-option value="en">English</ion-option>
           <ion-option value="de">Deutsch</ion-option>
         </ion-select>
       </ion-item>
-      <ion-item>Autocorrect</ion-item>
       <ion-item>
-          <ion-range min="0" max="3"  step="1"  snaps="true" [(ngModel)]="grammarCheck">
+        <ion-label>Grammar check</ion-label>
+        <ion-toggle [(ngModel)]="this.grammarCheck" ></ion-toggle>
+      </ion-item>
+      <ion-item>
+
+        <ion-label>Autocorrect</ion-label>
+        <div item-end [ngSwitch]="this.autoCorrectLevel">
+          <div *ngSwitchCase="0"> Off </div>
+          <div *ngSwitchCase="1"> Moderate </div>
+          <div *ngSwitchCase="2"> On </div>
+        </div>
+
+      </ion-item>
+      <ion-item no-lines>
+        <div content [ngSwitch]="this.autoCorrectLevel">
+          <div *ngSwitchCase="0"> The auto correction is completelly off </div>
+          <div *ngSwitchCase="1"> The programm will help with verb conjugation and some prepositions</div>
+          <div *ngSwitchCase="2"> All auto correction features are turned on </div>
+        </div>
+      </ion-item>
+      <ion-item>
+          <ion-range min="0" max="2"  step="1"  snaps="true" [(ngModel)]="this.autoCorrectLevel">
             <ion-label range-left>Off</ion-label>
             <ion-label range-right>On</ion-label>
           </ion-range>
         </ion-item>
       <ion-item>
           <ion-label> Prediction</ion-label>
-          <ion-toggle [(ngModel)]="wordPrediction" disabled checked="false"></ion-toggle>
+          <ion-toggle [(ngModel)]="this.wordPrediction" ></ion-toggle>
       </ion-item>
-      <ion-item>Delete databank</ion-item>
+      <button ion-item>
+          <ion-icon name="trash" item-start></ion-icon>
+          Delete databank
+      </button>
     </ion-list>
     <ion-list>
       <ion-list-header>Speech</ion-list-header>
-      <ion-item>Speech provider</ion-item>
+      <ion-item>
+        <ion-label>Provider</ion-label>
+        <ion-select>
+          <ion-option value="native">Default (Native)</ion-option>
+        </ion-select>
+      </ion-item>
     </ion-list>
     <ion-list>
       <ion-list-header>Other</ion-list-header>

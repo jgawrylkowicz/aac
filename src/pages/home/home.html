@@ -84,7 +84,7 @@
 
              <!-- <ion-img class="board-button__img" src="{{button.getImageURL()}}"></ion-img> -->
 
-              <div class="board-button__label" > {{button.getLabel()}} </div>
+              <div class="board-button__label" [ngStyle] ="{'font-size' : this.getFontSize() }" > {{button.getLabel()}} </div>
               <div class="board-button__dir"> </div>
             </button>
           </ng-template>
@@ -97,7 +97,7 @@
 
                 <!-- <ion-img class="board-button__img" src="{{button.getImageURL()}}"></ion-img> -->
 
-                <div class="board-button__label" > {{button.getLabel()}} </div>
+                <div class="board-button__label" [ngStyle] ="{'font-size' : this.getFontSize() }" > {{button.getLabel()}} </div>
             </button>
           </ng-template>
 

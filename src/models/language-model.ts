@@ -8,7 +8,7 @@ var contractions = require('contractions');
 export interface LanguageInterface{
 
   check(message:SentenceModel):Promise<boolean>;
-  correct(message:SentenceModel):Promise<string>;
+  correct(message:SentenceModel, level:number):Promise<string>;
   normalize(words:string):Promise<string>
 
 }
@@ -90,7 +90,6 @@ export class EnglishModel implements LanguageInterface{
       // extract into entities using tagger and lexer
       let words:Array<string> = this.wordExtracter.lex(normalizedText);
       let taggedWords:Array<string> = this.wordTagger.tag(words);
-      //console.log(taggedWords);
 
       // translate entities into single characters
       let expression = '';
@@ -98,91 +97,98 @@ export class EnglishModel implements LanguageInterface{
       for (let w of taggedWords){
         expression += this.adapter.getEntity(w[1]);
       }
-      //console.log('exp', expression);
       // parse using created grammar rules
       resolve(parser.parse(this.exprGrammar, expression).length > 0);
     });
   }
 
-  public correct(message: SentenceModel):Promise<string>{
+  public correct(message: SentenceModel, level:number):Promise<string>{
 
     return new Promise<string>(resolve => {
 
       let entities = message.getEntities();
-      if (entities.length > 1) {
+      // level specofies the amount of the autocorrection features
+      // 0 = autocorrection is completely off
+      // 1 = moderate autocorrection, simple features are turned on
+      // 2 = full autocorrection
+      if (entities.length > 1 && level > 0) {
 
         for (var i = 0; i < entities.length; i++ ){
 
           let firstWord = entities[i].getLabel();
           let secondWord = (i+1 >= entities.length) ? null : entities[i+1].getLabel();
 
-          // Basic verb conjugation 0
-          // The loop goes through the message and looks for 2 successive words,
-          // a subject and a verb in that order
-          // Then it calls the adapter method to find the right conjugation
-          if ( this.adapter.isSubject(firstWord)
-          && (this.adapter.isVerb(secondWord) || this.adapter.isModalVerb(secondWord)) ) {
+          if (level >= 1){
+            // Basic verb conjugation 0
+            // The loop goes through the message and looks for 2 successive words,
+            // a subject and a verb in that order
+            // Then it calls the adapter method to find the right conjugation
+            if ( this.adapter.isSubject(firstWord)
+            && (this.adapter.isVerb(secondWord) || this.adapter.isModalVerb(secondWord)) ) {
 
-            let conjugatedVerb = this.adapter.conjugate(firstWord, secondWord);
-            entities[i+1].setLabel(conjugatedVerb);
+              let conjugatedVerb = this.adapter.conjugate(firstWord, secondWord);
+              entities[i+1].setLabel(conjugatedVerb);
+            }
 
+            // isVerb() does not return true for a modal verb
+            if ( this.adapter.isVerb(firstWord) && this.adapter.isVerb(secondWord) ) {
+              entities.splice(i+1,0, new WordModel("to"));
+            }
           }
 
-          // isVerb() does not return true for a modal verb
-          if ( this.adapter.isVerb(firstWord) && this.adapter.isVerb(secondWord) ) {
-            entities.splice(i+1,0, new WordModel("to"));
+          if (level >= 2){
+
+             // More autocorrection method goes here
+
+            // TODO insert the right articles in front of a noun
+            // Tests:
+              // boy want go -> a boy wants to go
+              // boy listens girl -> a boy listens to a girl
+              // young boy listen  girl -> a young boy listens to a girl
+
+
+            // if (this.adapter.isNoun(firstWord)){
+            //   console.log("noun: " + firstWord + " i: " + i);
+            //   let inf = new Inflector(firstWord);
+
+            //   var index = i-1;
+            //   // has determiner already
+            //   let hasDeterminer:boolean = false;
+            //   while(index >= 0){
+            //     let word = entities[index].getLabel();
+            //     console.log("checkedWord", word);
+            //     if (this.adapter.isDeterminer(word)) {
+            //       hasDeterminer = true;
+            //       break;
+            //     } else if (this.adapter.isAdjective(word)) {
+            //       index--;
+            //     } else break;
+            //   }
+
+            //   console.log("determiner" + hasDeterminer + index)
+            //   if (!hasDeterminer) {
+
+            //     if (inf.isCountable()){
+            //       if (inf.isPlural()){
+            //         const word = new WordModel('the');
+            //         if (index === 0 || index === -1 ) {
+            //           entities.unshift(word);
+            //         } else {
+            //           entities.splice(index,0, word);
+            //         }
+            //       } else {
+            //         const word = new WordModel('a');
+            //         if (index === 0 || index === -1 ) {
+            //           entities.unshift(word);
+            //         } else {
+            //           entities.splice(index,0, word);
+            //         }
+            //       }
+            //     }
+            //   }
+            // }
+
           }
-
-          // More autocorrection method goes here
-
-          // TODO insert the right articles in front of a noun
-          // Tests:
-            // boy want go -> a boy wants to go
-            // boy listens girl -> a boy listens to a girl
-            // young boy listen  girl -> a young boy listens to a girl
-
-
-          // if (this.adapter.isNoun(firstWord)){
-          //   console.log("noun: " + firstWord + " i: " + i);
-          //   let inf = new Inflector(firstWord);
-
-          //   var index = i-1;
-          //   // has determiner already
-          //   let hasDeterminer:boolean = false;
-          //   while(index >= 0){
-          //     let word = entities[index].getLabel();
-          //     console.log("checkedWord", word);
-          //     if (this.adapter.isDeterminer(word)) {
-          //       hasDeterminer = true;
-          //       break;
-          //     } else if (this.adapter.isAdjective(word)) {
-          //       index--;
-          //     } else break;
-          //   }
-
-          //   console.log("determiner" + hasDeterminer + index)
-          //   if (!hasDeterminer) {
-
-          //     if (inf.isCountable()){
-          //       if (inf.isPlural()){
-          //         const word = new WordModel('the');
-          //         if (index === 0 || index === -1 ) {
-          //           entities.unshift(word);
-          //         } else {
-          //           entities.splice(index,0, word);
-          //         }
-          //       } else {
-          //         const word = new WordModel('a');
-          //         if (index === 0 || index === -1 ) {
-          //           entities.unshift(word);
-          //         } else {
-          //           entities.splice(index,0, word);
-          //         }
-          //       }
-          //     }
-          //   }
-          // }
-
         }
       }
 

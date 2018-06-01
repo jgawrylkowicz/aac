@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-//import { Page }  from 'ionic-angular';
 import { SettingsPage } from '../settings/settings';
+import { Events } from 'ionic-angular';
 
 import { Platform } from 'ionic-angular';
 import { ImageLoader } from 'ionic-image-loader';
@@ -17,10 +17,6 @@ import { BoardSetModel } from '../../models/boardset-model';
 import { SentenceModel, EntityModel, PhraseModel, WordModel } from '../../models/sentence-model';
 import { LanguageInterface, EnglishModel } from '../../models/language-model';
 
-// TODO the database needs to be cleared from time to time
-// reaches more than 10MB
-// Variable message in the loading popup
-
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -31,7 +27,8 @@ export class HomePage {
   isfromDirectory:boolean;
   lang:LanguageInterface;
 
-  grammarCheck: number;
+  grammarCheck: boolean;
+  autoCorrectLevel:number;
   isCorrect:number;
 
   message: SentenceModel;
@@ -40,9 +37,12 @@ export class HomePage {
   grid:any;
 
   prediction:any;
+  fontSize:number;
+  currentBoardName:string;
 
   constructor(
     public navCtrl: NavController,
+    public events: Events,
     private imageLoader: ImageLoader,
     public plt: Platform,
     public boardsProvider: BoardsProvider,
@@ -51,61 +51,125 @@ export class HomePage {
     ) {
 
       // both of these file have to be defined otherwise their member functions can't be accessed
-      // this.boardSet = new BoardSetModel();
       this.currentBoard = new BoardModel();
       this.message = new SentenceModel();
       this.prediction = new Array<any>();
       this.isfromDirectory = false;
-      this.grammarCheck = 0;
+      this.grammarCheck = false;
+      this.autoCorrectLevel = 0;
       this.wordPrediction = false;
-      this.isCorrect = -1; //-1 is untouched, 0 is incorrect, 1 is correct
+      this.isCorrect = -1; // -1 is untouched, 0 is incorrect, 1 is correct
       this.grid = {
         rows: ['1fr', '1fr', '1fr', '1fr', '1fr'],
         columns: 5
       }
-      //preload images
+      this.fontSize = 100;
+
+      // preload images
       // imageLoader.preload('http://path.to/image.jpg');
       // imageLoader.clearCache();
 
+      events.subscribe('boardSet:changed', (boardSetName, time) => {
+        // user and time are the same arguments passed in `events.publish(user, time)`
+        this.loadBoard(boardSetName);
+      });
+
+      events.subscribe('fontSize:changed', (fontSize, time) => {
+        this.fontSize = fontSize;
+      });
+
+      events.subscribe('language:changed', (language, time) => {
+        this.lang = language;
+      });
+
+      events.subscribe('grammarCheck:changed', (value, time) => {
+        this.grammarCheck = value;
+      });
+
+      events.subscribe('autoCorrectLevel:changed', (level, time) => {
+        this.autoCorrectLevel = level;
+      });
+
+      events.subscribe('wordPrediction:changed', (value, time) => {
+        this.wordPrediction = value;
+        this.redrawCSSGrid(this.boardSet);
+      });
+
 
   }
 
-  ionViewDidLoad() {
-    this.loadSettings();
+  async ionViewDidLoad() {
+
+    await this.loadPreferences();
+    await this.loadSettings();
     this.createMockup();
+
   }
+
 
   pushSettings(){
     this.navCtrl.push(SettingsPage);
   }
 
-  async loadSettings(){
-    //this.message = '';
-    let lang:string = await this.prefProvider.getLanguage();
-    switch(lang){
-      case 'en':
-        this.lang = new EnglishModel();
-        break;
-      case 'de':
-        // not implemented
-      default:
-        this.lang = new EnglishModel();
-    }
 
-    //this.grammarCheck = await this.prefProvider.getGrammarCheck();
-    //this.wordPrediction = await this.prefProvider.getWordPrediction();
-
+  public async loadBoard(name:string){
 
     try {
-      this.boardSet = await this.boardsProvider.getBoardSet();
-
-      console.log("loadSettings():The board set has been successfully loaded from the BoardsProvider", this.boardSet);
+      this.boardSet = await this.boardsProvider.getBoardSet( await this.prefProvider.getCurrentBoardSet() );
+      console.log("loadBoard():The board set has been successfully loaded from the BoardsProvider", this.boardSet);
       await this.setBoardAsActive(0);
       await this.redrawCSSGrid(this.boardSet);
+      this.currentBoardName = await this.prefProvider.getCurrentBoardSet();
     } catch {
-      console.log("loadSettings(): Error: A problem occured while loading the boards from the BoardsProvider")
+      console.log("loadBoard(): Error: A problem occured while loading the boards from the BoardsProvider")
+    }
+
+  }
+
+  async loadPreferences(){
+
+    try {
+      // await this.prefProvider.getLanguage();
+      // the language is loaded in the settings
+      this.fontSize = await this.prefProvider.getFontSize();
+      this.grammarCheck = await this.prefProvider.getGrammarCheck();
+      this.autoCorrectLevel = await this.prefProvider.getAutoCorrectLevel();
+      this.wordPrediction = await this.prefProvider.getWordPrediction();
+      this.currentBoardName = await this.prefProvider.getCurrentBoardSet();
+    } catch {
+      console.log("The Preferences could not be restored");
+    }
+
+
+  }
+
+  public async loadSettings(){
+
+    try {
+      let lang:string = await this.prefProvider.getLanguage();
+
+      switch(lang){
+        case 'en':
+          this.lang = new EnglishModel();
+          break;
+        case 'de':
+          // not implemented
+        default:
+          this.lang = new EnglishModel();
+      }
+    } catch {
+      console.log("loadSettings(): The language settings could not be retrieved from the preferences");
+    }
+
+    try {
+      let boardSetName:string = await this.prefProvider.getCurrentBoardSet();
+      await this.loadBoard(boardSetName);
+    } catch {
+      console.log("loadSettings(): The name of the board set could not be retrieved from the preferences");
     }
   }
+
+
 
 
   // sets a board from the array as the current one
@@ -137,7 +201,7 @@ export class HomePage {
     };
 
     this.grid = grid;
-    console.log('Grid has been redrawn.', grid);
+
   }
 
   private isWord(text:string):boolean{
@@ -165,12 +229,11 @@ export class HomePage {
     if (this.isfromDirectory) this.setBoardAsActive(0);
 
     if (this.message.length() > 0){
-      this.lang.correct(this.message);
+      this.lang.correct(this.message, this.autoCorrectLevel);
     }
 
     if (this.message.length() > 0 && this.grammarCheck){
       this.isCorrect = (await this.lang.check(this.message)) ? 1 : 0;
-      //console.log(this.isCorrect);
     }
 
 
@@ -192,7 +255,6 @@ export class HomePage {
 
     if (this.message.length() > 0 && this.grammarCheck){
       this.isCorrect = (await this.lang.check(this.message)) ? 1 : 0;
-      //console.log(this.isCorrect);
     }
 
 
@@ -228,6 +290,11 @@ export class HomePage {
       if (i < 3) this.prediction.push( new ButtonModel());
       else this.prediction.push(null);
     }
+  }
+
+  public getFontSize():string{
+    let value =  (this.fontSize / 100) * 1.75;
+    return value + "rem";
   }
 
 

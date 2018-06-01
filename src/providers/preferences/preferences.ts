@@ -7,12 +7,13 @@ import { Storage } from '@ionic/storage';
 @Injectable()
 export class PreferencesProvider {
 
-  // private language:string;
-  // private fontSize:number;
-  // private currentBoardSet:string;
-  // private defaultBoardSet:string;
-  private grammarCheck:number;
-  private wordPrediction:boolean;
+  private boardSets:any[];
+  private defaultLanguage:string;
+  private defaultFontSize:number;
+  private defaultBoardSet:string;
+  private defaultGrammarCheck:boolean;
+  private defaultAutoCorrectLevel:number;
+  private defaultWordPrediction:boolean;
 
   constructor(
     private appPreferences: AppPreferences,
@@ -20,44 +21,52 @@ export class PreferencesProvider {
     private storage: Storage, ) {
 
     // default settings
-    // this.defaultBoardSet = "default-material";
-    // this.fontSize = 100;
-    // this.currentBoardSet = undefined;
-    // this.language = "en";
-    this.grammarCheck = 0;
-    this.wordPrediction = false;
+    this.boardSets = ["default-material", "communikate-20"]
+    this.defaultBoardSet = "default-material";
+    this.defaultFontSize = 100;
+    this.defaultLanguage = "en";
+    this.defaultGrammarCheck = false;
+    this.defaultAutoCorrectLevel = 0;
+    this.defaultWordPrediction = false;
 
   }
 
   ionViewDidLoad() {
-    this.loadSettings();
-  }
-
-  private loadSettings(){
 
   }
 
+  public async getCurrentBoardSet():Promise<string>{
 
-  public setCurrentBoardSet(name:string):void{
-    if (name){
-      this.appPreferences.store("currentBoardSet", name);
-    }
-  }
+    return new Promise<string>((resolve,reject )=> {
 
-  public async getCurrentBoardSet():Promise<any>{
-    return new Promise<any>((resolve,reject )=> {
-      this.appPreferences.fetch("currentBoardSet")
-      .then( data => resolve(data))
-      .catch( err => reject())
+      if (this.platform.is("cordova")){
+        this.appPreferences.fetch("currentBoardSet")
+        .then( data => {
+            if (data != null) resolve(data);
+            else resolve(this.defaultBoardSet);
+        })
+        .catch( err => resolve(this.defaultBoardSet))
+      } else {
+        this.storage.get("currentBoardSet")
+        .then( data => {
+          if (data != null) resolve(data);
+          else resolve(this.defaultBoardSet);
+        })
+        .catch( err => resolve(this.defaultBoardSet))
+      }
     });
 
+  }
+
+  public getBoardsetsNames(){
+    return this.boardSets;
   }
 
   public async getDefaultBoardSet():Promise<string>{
     return new Promise<string>((resolve,reject )=> {
       this.appPreferences.fetch("defaultBoardSet")
       .then( data => resolve(data))
-      .catch( err => reject())
+      .catch( err => resolve(this.defaultBoardSet))
     });
   }
 
@@ -65,29 +74,42 @@ export class PreferencesProvider {
     return new Promise<string>((resolve,reject )=> {
 
       if (this.platform.is("cordova")){
-        this.appPreferences.fetch("defaultBoardSet")
-        .then( data => resolve(data))
-        .catch( err => reject())
+        this.appPreferences.fetch("language")
+        .then( data => {
+          if (data != null) resolve(data);
+          else resolve(this.defaultLanguage);
+        })
+        .catch( err => resolve(this.defaultLanguage))
       } else {
-        this.storage.get("defaulBoardSet")
-          .then( data => resolve(data))
-          .catch( err => reject())
+        this.storage.get("language")
+        .then( data => {
+          if (data != null) resolve(data);
+          else resolve(this.defaultLanguage);
+        })
+        .catch( err => resolve(this.defaultLanguage))
       }
     });
 
   }
 
-  public async getFontSize():Promise<any>{
-    return new Promise<any>((resolve,reject )=> {
+  public async getFontSize():Promise<number>{
+
+    return new Promise<number>((resolve,reject )=> {
 
       if (this.platform.is("cordova")){
         this.appPreferences.fetch("fontSize")
-        .then( data => resolve(data))
-        .catch( err => reject())
+        .then( data => {
+          if (data != null) resolve(Number.parseInt(data));
+          else resolve(this.defaultFontSize);
+        })
+        .catch( err => resolve(this.defaultFontSize))
       } else {
         this.storage.get("fontSize")
-          .then( data => resolve(data))
-          .catch( err => reject())
+        .then( data => {
+          if (data != null) resolve(Number.parseInt(data));
+          else resolve(this.defaultFontSize);
+        })
+        .catch( err => resolve(this.defaultFontSize))
       }
     });
 
@@ -95,11 +117,84 @@ export class PreferencesProvider {
 
 
   public getGrammarCheck(){
-    return this.grammarCheck;
+
+    return new Promise<boolean>((resolve,reject )=> {
+
+      if (this.platform.is("cordova")){
+        this.appPreferences.fetch("grammarCheck")
+        .then( data => {
+          let value:boolean = (data == "true") ? true : false;
+          resolve(value);
+        })
+        .catch( err => resolve(this.defaultGrammarCheck))
+      } else {
+        this.storage.get("grammarCheck")
+        .then( data => {
+          let value:boolean = (data == "true") ? true : false;
+          resolve(value);
+        })
+        .catch( err => resolve(this.defaultGrammarCheck))
+      }
+    });
+
+  }
+
+  public getAutoCorrectLevel(){
+
+    return new Promise<number>((resolve,reject )=> {
+
+      if (this.platform.is("cordova")){
+        this.appPreferences.fetch("autoCorrectLevel")
+        .then( data => {
+          if (data != null) resolve(Number.parseInt(data));
+          else resolve(this.defaultAutoCorrectLevel);
+        })
+        .catch( err => resolve(this.defaultAutoCorrectLevel))
+      } else {
+        this.storage.get("autoCorrectLevel")
+        .then( data => {
+          if (data != null) resolve(Number.parseInt(data));
+          else resolve(this.defaultAutoCorrectLevel);
+        })
+        .catch( err => resolve(this.defaultAutoCorrectLevel))
+      }
+    });
+
+
   }
 
   public getWordPrediction(){
-    return this.wordPrediction;
+
+    return new Promise<boolean>((resolve,reject )=> {
+
+      if (this.platform.is("cordova")){
+        this.appPreferences.fetch("wordPrediction")
+        .then( data => {
+          let value:boolean = (data == "true") ? true : false;
+          resolve(value);
+        })
+        .catch( err => resolve(this.defaultWordPrediction))
+      } else {
+        this.storage.get("wordPrediction")
+        .then( data => {
+          let value:boolean = (data == "true") ? true : false;
+          resolve(value);
+        })
+        .catch( err => resolve(this.defaultWordPrediction))
+      }
+    });
+
+  }
+
+  public async setCurrentBoardSet(name:string){
+
+    if (this.platform.is("cordova")){
+      this.appPreferences.store("currentBoardSet", name);
+    } else {
+      if (await this.storage.ready()){
+        this.storage.set("currentBoardSet", name);
+      }
+    }
   }
 
   public async setDefaultBoardSet(name:string){
@@ -126,16 +221,27 @@ export class PreferencesProvider {
 
   }
 
-  public async setGrammarCheck(level:number){
+  public async setGrammarCheck(value:boolean){
 
     if (this.platform.is("cordova")){
-      this.appPreferences.store("grammarCheck", level.toString());
+      this.appPreferences.store("grammarCheck", value.toString());
     } else {
       if (await this.storage.ready()){
-        this.storage.set("grammarCheck", level);
+        this.storage.set("grammarCheck", value.toString());
       }
     }
 
+  }
+
+  public async setAutoCorrectLevel(level:number){
+
+    if (this.platform.is("cordova")){
+      this.appPreferences.store("autoCorrectLevel", level.toString());
+    } else {
+      if (await this.storage.ready()){
+        this.storage.set("autoCorrectLevel", level.toString());
+      }
+    }
   }
 
   public async setFontSize(percent:number){

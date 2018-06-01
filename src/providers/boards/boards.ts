@@ -41,21 +41,31 @@ export class BoardsProvider {
     public loadingCtrl: LoadingController
     ) {
 
-    this.loadingMessage = "Please wait ...";
-    this.loading = this.loadingCtrl.create({
-      content: this.loadingMessage
-    });
+
+
     this.currentBoardSet = undefined;
   }
 
-
-  public async getBoardSet(name?:string):Promise<BoardSetModel>{
-
-    this.loading.present();
-    if (!name) {
-      // name of the default board
-      // name = await this.prfProvider.getDefaultBoardSet();
+  showLoading() {
+    if(!this.loading){
+        this.loading = this.loadingCtrl.create({
+            content: 'Please Wait...'
+        });
+        this.loading.present();
     }
+  }
+
+  dismissLoading(){
+    if(this.loading){
+        this.loading.dismiss();
+        this.loading = null;
+    }
+}
+
+  public async getBoardSet(name:string):Promise<BoardSetModel>{
+
+    this.showLoading();
+
     let boardSet = undefined;
     try {
       //boardSet = await this.loadBoardSetFromStorage(name);
@@ -69,7 +79,7 @@ export class BoardsProvider {
     if (boardSet === undefined){
       console.log("getBoardSet(): Fallback initialized, trying to create a new board object from the assets")
       try {
-        this.currentBoardSet = await this.loadBoardSet();
+        this.currentBoardSet = await this.loadBoardSet(name);
       } catch {
         console.log("getBoardSet(): Loading failed");
       }
@@ -85,13 +95,11 @@ export class BoardsProvider {
 
     return new Promise<BoardSetModel> ((resolve, reject )=> {
 
+      this.dismissLoading();
       if (this.currentBoardSet !== undefined && this.currentBoardSet !== null){
         console.log("getBoardSet(): Fallback successful");
-        this.loading.dismiss()
         resolve(this.currentBoardSet);
-      }
-      else{
-        this.loading.dismiss();
+      } else{
         console.log("getBoardSet(): Fallback failed");
         reject();
       }
@@ -312,24 +320,25 @@ export class BoardsProvider {
   // console.log('dataDir',this.file.dataDirectory); file://persistent
   // unzip the board and return its settings file
   // download the file from assets to the native storage and unpack it there
-  public async getBoardSettings(file?:string):Promise<any>{
+  public async getBoardSettings(name:string):Promise<any>{
 
-    if (file === undefined) file = 'communikate-20.obz';
+    // name = default-material || communikate-20
+    // if (name === undefined) name = 'communikate-20.obz';
     let settingsFile:string = 'manifest.json';
     let url:string;
     try {
-      // TODO that function does not work
+      // TODO that function works but the URL has to be normalized for the frontend first
       // url = await this.getBoardSettingsURL(file);
 
       if (this.platform.is("cordova")){
 
         if ( this.platform.is("ios") || this.platform.is("android") ) {
-          url = this.file.applicationDirectory + 'www/assets/cache/default-material/';
+          url = this.file.applicationDirectory + 'www/assets/cache/'+ name +'/';
         } else {
-          url = 'assets/cache/default-material/';
+          url = 'assets/cache/' + name + '/';
         }
       } else {
-        url = 'assets/cache/default-material/';
+        url = 'assets/cache/' + name +'/';
       }
 
 
@@ -493,11 +502,11 @@ export class BoardsProvider {
     });
   }
 
-  private async loadBoardSet():Promise<BoardSetModel>{
+  private async loadBoardSet(name:string):Promise<BoardSetModel>{
 
     let boardSettings:any;
     try {
-      boardSettings = await this.getBoardSettings();
+      boardSettings = await this.getBoardSettings(name);
     } catch {
       console.log("loadBoardSet(): The settings could not be retrieved");
       return new Promise<BoardSetModel> (reject =>{
