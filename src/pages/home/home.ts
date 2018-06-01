@@ -15,6 +15,7 @@ import { ButtonModel } from '../../models/button-model';
 import { BoardSetModel } from '../../models/boardset-model';
 import { SentenceModel, EntityModel, PhraseModel, WordModel, CharacterModel } from '../../models/sentence-model';
 import { LanguageInterface, EnglishModel } from '../../models/language-model';
+import { SettingsPanePage } from '../settings-pane/settings-pane';
 
 @Component({
   selector: 'page-home',
@@ -107,7 +108,7 @@ export class HomePage {
 
 
   pushSettings(){
-    this.navCtrl.push(SettingsPage);
+    this.navCtrl.push(SettingsPanePage);
   }
 
 

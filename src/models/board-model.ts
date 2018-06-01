@@ -2,7 +2,7 @@ import { ButtonModel } from "./button-model";
 import { DirectoryModel } from "./button-model";
 import { PhraseModel } from "./button-model";
 import { Platform } from 'ionic-angular';
-import { normalizeUrl } from "ionic-angular/navigation/deep-linker";
+//import { normalizeUrl } from "ionic-angular/navigation/deep-linker";
 
 
 export class BoardModel{

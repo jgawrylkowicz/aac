@@ -18,6 +18,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { SettingsPage } from '../pages/settings/settings';
+import { SettingsPanePage } from '../pages/settings-pane/settings-pane';
+import { SettingsBoardsPage } from '../pages/settings-boards/settings-boards';
+import { SettingsLangPage } from '../pages/settings-lang/settings-lang';
+import { SettingsListPage } from '../pages/settings-list/settings-list';
 import { BoardsProvider } from '../providers/boards/boards';
 import { PreferencesProvider } from '../providers/preferences/preferences';
 
@@ -29,7 +33,11 @@ import { IonicImageLoader } from 'ionic-image-loader';
   declarations: [
     MyApp,
     HomePage,
-    SettingsPage
+    SettingsPage,
+    SettingsBoardsPage,
+    SettingsPanePage,
+    SettingsLangPage,
+    SettingsListPage
   ],
   imports: [
     BrowserModule,
@@ -47,7 +55,11 @@ import { IonicImageLoader } from 'ionic-image-loader';
   entryComponents: [
     MyApp,
     HomePage,
-    SettingsPage
+    SettingsPage,
+    SettingsBoardsPage,
+    SettingsPanePage,
+    SettingsLangPage,
+    SettingsListPage
   ],
   providers: [
     StatusBar,

@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Language & Speech</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list>
+      <ion-item>
+        <ion-label>Language</ion-label>
+        <ion-select [(ngModel)]="this.language">
+          <ion-option value="en">English</ion-option>
+          <ion-option value="de">Deutsch</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Grammar check</ion-label>
+        <ion-toggle [(ngModel)]="this.grammarCheck" ></ion-toggle>
+      </ion-item>
+      <ion-item>
+
+        <ion-label>Autocorrect</ion-label>
+        <div item-end [ngSwitch]="this.autoCorrectLevel">
+          <div *ngSwitchCase="0"> Off </div>
+          <div *ngSwitchCase="1"> Moderate </div>
+          <div *ngSwitchCase="2"> On </div>
+        </div>
+
+      </ion-item>
+      <ion-item no-lines>
+        <div content [ngSwitch]="this.autoCorrectLevel">
+          <div *ngSwitchCase="0"> The auto correction is completelly off </div>
+          <div *ngSwitchCase="1"> The programm will help with verb conjugation and some prepositions</div>
+          <div *ngSwitchCase="2"> All auto correction features are turned on </div>
+        </div>
+      </ion-item>
+      <ion-item>
+          <ion-range min="0" max="2"  step="1"  snaps="true" [(ngModel)]="this.autoCorrectLevel">
+            <ion-label range-left>Off</ion-label>
+            <ion-label range-right>On</ion-label>
+          </ion-range>
+        </ion-item>
+      <ion-item>
+          <ion-label> Prediction</ion-label>
+          <ion-toggle [(ngModel)]="this.wordPrediction" ></ion-toggle>
+      </ion-item>
+      <button ion-item>
+          <ion-icon name="trash" item-start></ion-icon>
+          Delete databank
+      </button>
+    </ion-list>
+
+</ion-content>

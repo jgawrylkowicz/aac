@@ -4,23 +4,18 @@ import { PreferencesProvider } from '../../providers/preferences/preferences';
 import { Events } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 
+
 @IonicPage()
 @Component({
-  selector: 'page-settings',
-  templateUrl: 'settings.html',
+  selector: 'page-settings-lang',
+  templateUrl: 'settings-lang.html',
 })
+export class SettingsLangPage {
 
-export class SettingsPage {
-
-  public boardSets:any[];
-  public boardSet:string;
   public language:string;
-  public fontSize:number;
   public grammarCheck:boolean;
   public autoCorrectLevel:number;
   public wordPrediction:boolean;
-
-
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -29,8 +24,8 @@ export class SettingsPage {
     public toastCtrl: ToastController
 
   ) {
-
   }
+
 
   async ionViewDidLoad() {
     await this.loadPrefernces();
@@ -38,9 +33,6 @@ export class SettingsPage {
 
   public async loadPrefernces(){
     try{
-      this.boardSets = this.prefProvider.getBoardsetsNames();
-      this.boardSet = await this.prefProvider.getCurrentBoardSet();
-      this.fontSize = await this.prefProvider.getFontSize();
       this.language = await this.prefProvider.getLanguage();
       this.grammarCheck = await this.prefProvider.getGrammarCheck();
       this.autoCorrectLevel = await this.prefProvider.getAutoCorrectLevel();
@@ -53,7 +45,7 @@ export class SettingsPage {
 
   }
 
-  async ionViewWillLeave(){
+  async ionViewWillUnload(){
     await this.savePrefernces();
   }
 
@@ -63,18 +55,6 @@ export class SettingsPage {
     try{
 
       let isChanged:boolean = false;
-      if (this.boardSet !== await this.prefProvider.getCurrentBoardSet()) {
-        await this.prefProvider.setCurrentBoardSet(this.boardSet);
-        this.events.publish('boardSet:changed', this.boardSet, Date.now());
-        isChanged = true;
-      }
-
-      if (this.fontSize !== await this.prefProvider.getFontSize()){
-        await this.prefProvider.setFontSize(this.fontSize);
-        this.events.publish('fontSize:changed', this.fontSize, Date.now());
-        isChanged = true;
-      }
-
       if (this.language !== await this.prefProvider.getLanguage()){
         await this.prefProvider.setLanguage(this.language);
         this.events.publish('language:changed', this.language, Date.now());
@@ -120,8 +100,7 @@ export class SettingsPage {
     });
 
     toast.present();
+
   }
-
-
 
 }
