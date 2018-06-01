@@ -37,7 +37,13 @@ export class SentenceModel {
         let firstWord = this.entities[i].getLabel().charAt(0).toUpperCase() + this.entities[i].getLabel().slice(1);
         message += firstWord;
       } else {
-        message += ' ' + this.entities[i].getLabel();
+
+        if (this.entities[i] instanceof CharacterModel) {
+          message += this.entities[i].getLabel();
+        } else {
+          message += ' ' + this.entities[i].getLabel();
+        }
+
       }
     }
     return message;
@@ -65,6 +71,12 @@ export abstract class EntityModel{
 
 
 export class WordModel extends EntityModel{
+  constructor(label:string){
+    super(label);
+  }
+}
+
+export class CharacterModel extends EntityModel{
   constructor(label:string){
     super(label);
   }

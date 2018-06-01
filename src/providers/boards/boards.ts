@@ -9,15 +9,19 @@ import { Storage } from '@ionic/storage';
 import { Platform } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 
-import { BoardModel } from '../../models/board-model';
+import { BoardModel, KeyboardModel } from '../../models/board-model';
 import { BoardSetModel } from '../../models/boardset-model';
 import { PreferencesProvider } from '../preferences/preferences';
-//import { ButtonModel, DirectoryModel, PhraseModel } from '../../models/button-model';
 import { SerializationHelper } from '../../models/serialization-helper';
 
+/*
+  SerializationHelper is needed because the loaded data is pure JSON
+  and does not possess any static functions or member variables declared
+  in the app.
 
-// TODO iOS images dont show
-// TODO The promises should contain the whole function code
+
+
+*/
 
 
 @Injectable()
@@ -41,12 +45,10 @@ export class BoardsProvider {
     public loadingCtrl: LoadingController
     ) {
 
-
-
     this.currentBoardSet = undefined;
   }
 
-  showLoading() {
+  private showLoading() {
     if(!this.loading){
         this.loading = this.loadingCtrl.create({
             content: 'Please Wait...'
@@ -55,12 +57,12 @@ export class BoardsProvider {
     }
   }
 
-  dismissLoading(){
+  private dismissLoading(){
     if(this.loading){
         this.loading.dismiss();
         this.loading = null;
     }
-}
+  }
 
   public async getBoardSet(name:string):Promise<BoardSetModel>{
 
@@ -73,7 +75,6 @@ export class BoardsProvider {
       console.log("getBoardSet(): No boards have been saved before");
     }
 
-    //let boardSet = undefined;
     if (boardSet !== undefined ) this.currentBoardSet = boardSet;
 
     if (boardSet === undefined){
@@ -83,15 +84,8 @@ export class BoardsProvider {
       } catch {
         console.log("getBoardSet(): Loading failed");
       }
-
       //this.saveBoardSetToStorage(this.currentBoardSet, true);
     }
-
-    // checking if the image exists
-    // let destinationDir = this.file.dataDirectory  + 'communikate-20/images/';
-    // let image = 'image_1_11277_94c13d36600feb17a3b8d2fb.png';
-    // this.file.checkFile(destinationDir , image)
-    // .then(entry => { console.log('File',JSON.stringify(entry))});
 
     return new Promise<BoardSetModel> ((resolve, reject )=> {
 
@@ -117,7 +111,7 @@ export class BoardsProvider {
       savedBoardSets = await this.getAllBoardSetsFromStorage();
       if (savedBoardSets.length > 0){
         let index:number = await this.existsInStorage(savedBoardSets, boardSet.getName());
-        // override or not
+
         if (index >= 0 && override){
           savedBoardSets.slice(index, 0);
           savedBoardSets.push(boardSet);
@@ -200,8 +194,6 @@ export class BoardsProvider {
       // for native devices
       if (await this.platform.ready()) {
         try {
-
-
           let savedBoardSets:Array<BoardSetModel> = JSON.parse( await this.nativeStorage.getItem('boardSets'));
 
           return new Promise<BoardSetModel>((resolve, reject) => {
@@ -224,9 +216,6 @@ export class BoardsProvider {
       if (await this.storage.ready()){
         try {
           let savedBoardSets:Array<any> = JSON.parse(await this.storage.get('boardSets'));
-          // The function getName() does not exist,
-          // because the object is not of the BoardSetModel class
-          // Cast into classes is needed
 
           return new Promise<BoardSetModel>((resolve, reject) => {
             if (savedBoardSets !== undefined && savedBoardSets.length > 0){
@@ -370,9 +359,6 @@ export class BoardsProvider {
             }
           );
         }
-        // this line breaks the whole loading process
-        // console.log("getBoardSettings(): Read from the settings file failed. ");
-        // reject();
       });
 
     } else {
@@ -532,7 +518,14 @@ export class BoardsProvider {
         try{
           let boards = new Array<BoardModel>();
           for (let board of rawBoards){
-            let transformedBoard = new BoardModel(board, this.path, boardSettings);
+
+            let transformedBoard;
+            if (this.isKeyboard(board)){
+              transformedBoard = new KeyboardModel(board, this.path, boardSettings);
+            } else {
+              transformedBoard = new BoardModel(board, this.path, boardSettings);
+            }
+
             if (transformedBoard !== undefined) boards.push(transformedBoard);
           }
 
@@ -547,6 +540,7 @@ export class BoardsProvider {
 
   }
 
+  // extracts the name of the board set from the path
   private extractNameFromPath(){
     if (! this.path) return null;
 
@@ -558,6 +552,27 @@ export class BoardsProvider {
     return  boardSetName.replace(/^.*[\\\/]/, '');
   }
 
+  // Checks if multiple labels are just one letter
+  // If so, it is probably a keyboard
+  // and not a normal board with phrase and words
+  private isKeyboard(board:any):boolean{
+
+    if (board == null) return false;
+
+    let numOfLetters = 0;
+    for (let button of board.buttons){
+      if (button.label.length === 1){
+        numOfLetters++;
+      }
+    }
+
+    if (numOfLetters > 5) {
+      console.log(true);
+      return true;
+    } else return false;
+
+
+  }
 
 
 

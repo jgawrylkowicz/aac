@@ -70,6 +70,7 @@ export class PhraseModel extends ButtonModel{
   public isDirectory():boolean{
     return false;
   }
-}
 
+
+}
 

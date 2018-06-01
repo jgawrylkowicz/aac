@@ -8,13 +8,12 @@ import { ImageLoader } from 'ionic-image-loader';
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 
 import { BoardsProvider } from '../../providers/boards/boards';
-//import { Injectable } from '@angular/core';
 import { PreferencesProvider } from '../../providers/preferences/preferences';
 import 'rxjs/add/operator/map';
 import { BoardModel } from '../../models/board-model';
 import { ButtonModel } from '../../models/button-model';
 import { BoardSetModel } from '../../models/boardset-model';
-import { SentenceModel, EntityModel, PhraseModel, WordModel } from '../../models/sentence-model';
+import { SentenceModel, EntityModel, PhraseModel, WordModel, CharacterModel } from '../../models/sentence-model';
 import { LanguageInterface, EnglishModel } from '../../models/language-model';
 
 @Component({
@@ -239,6 +238,11 @@ export class HomePage {
 
   }
 
+  public async addCharacter(char){
+
+    this.message.add(new CharacterModel(char));
+  }
+
   public displayMessage():string{
     if (this.message !== undefined){
       return this.message.toString();
@@ -249,11 +253,11 @@ export class HomePage {
   public async removeLastWord(){
     this.message.removeLast();
 
-    if (this.message.length() === 0) {
+    if (this.message.length() === 0 && !this.currentBoard.isKeyboard()) {
       this.isCorrect = -1;
     }
 
-    if (this.message.length() > 0 && this.grammarCheck){
+    if (this.message.length() > 0 && this.grammarCheck && !this.currentBoard.isKeyboard()){
       this.isCorrect = (await this.lang.check(this.message)) ? 1 : 0;
     }
 

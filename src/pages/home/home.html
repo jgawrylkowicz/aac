@@ -90,15 +90,28 @@
           </ng-template>
 
           <ng-template #phrase>
-            <button class="board-button" [ngStyle]="{'background': button.getBackgroundColor()}" ion-button (click)='addWord(button.getLabel())'>
 
+            <div *ngIf="this.currentBoard.isKeyboard() && button.getLabel().length == 1; then character else word"></div>
 
-              <img class="board-button__img" src="{{button.getImageURL()}}" >
+            <ng-template #word>
+              <button class="board-button" [ngStyle]="{'background': button.getBackgroundColor()}" ion-button (click)='addWord(button.getLabel())'>
 
-                <!-- <ion-img class="board-button__img" src="{{button.getImageURL()}}"></ion-img> -->
+                <img class="board-button__img" src="{{button.getImageURL()}}" >
 
                 <div class="board-button__label" [ngStyle] ="{'font-size' : this.getFontSize() }" > {{button.getLabel()}} </div>
-            </button>
+              </button>
+            </ng-template>
+
+            <ng-template #character>
+
+              <button class="board-button" [ngStyle]="{'background': button.getBackgroundColor()}" ion-button (click)='addCharacter(button.getLabel())'>
+
+                <img class="board-button__img--char" src="{{button.getImageURL()}}" >
+              </button>
+
+            </ng-template>
+
+
           </ng-template>
 
         </ng-template>

@@ -13,16 +13,13 @@ export class BoardModel{
 
   constructor(board?:any, path?:string, settings?: any){
 
-
     if (board){
       this.id = board.id;
-      this.grid = BoardModel.transform(board, path, settings);
+      this.grid = this.transform(board, path, settings);
     } else {
       this.id = undefined;
       this.grid = new Array<Array<ButtonModel>>();
     }
-
-
 
   }
 
@@ -50,7 +47,11 @@ export class BoardModel{
     return max;
   }
 
-  private static transform(board, path, settings):Array<Array<ButtonModel>>{
+  public isKeyboard(){
+    return false;
+  }
+
+  private transform(board, path, settings):Array<Array<ButtonModel>>{
     let grid = new Array<Array<ButtonModel>>();
     if (board.grid && board.grid.order){
 
@@ -60,7 +61,7 @@ export class BoardModel{
         for(let j = 0; j < board.grid.order[i].length; j++){
           let index = board.grid.order[i][j];
           if (index !== null){
-            let button:ButtonModel = BoardModel.createButton(board,index,path,settings);
+            let button:ButtonModel = this.createButton(board,index,path,settings);
             if (button !== undefined){
               grid[i].push(button);
             }
@@ -77,7 +78,7 @@ export class BoardModel{
     }
   }
 
-  private static createButton(board, id:number, path, settings):ButtonModel{
+  private createButton(board, id:number, path, settings):ButtonModel{
 
     if (board.buttons && board.buttons.length){
       for (let button of board.buttons){
@@ -106,6 +107,19 @@ export class BoardModel{
     if (this.grid != undefined){
       return (this.grid.length == 0);
     } else return false;
+  }
+
+}
+
+
+export class KeyboardModel extends BoardModel{
+
+  constructor(board?:any, path?:string, settings?: any){
+    super(board, path, settings);
+  }
+
+  public isKeyboard(){
+    return true;
   }
 
 }

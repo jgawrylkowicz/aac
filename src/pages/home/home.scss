@@ -149,6 +149,22 @@ page-home {
     right: 0;
   }
 
+  img.board-button__img--char ,
+  .board-button__img--char > img{
+    max-height: calc(100% - 3rem);
+    height: auto;
+    width: auto;
+    z-index: -1;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    position: absolute;
+    top: 33%;
+    left: 0;
+    right: 0;
+  }
+
 
   .board-button__label{
     text-transform: none;
