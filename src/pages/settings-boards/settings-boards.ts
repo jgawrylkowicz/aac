@@ -72,6 +72,11 @@ export class SettingsBoardsPage {
   }
 }
 
+public selectBoard(board:any){
+  this.boardSet = board;
+}
+
+
 private presentToast() {
   let toast = this.toastCtrl.create({
     message: 'Settings were saved successfully',

@@ -13,13 +13,13 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item>
+    <!-- <ion-item>
       <ion-label>Board set</ion-label>
       <ion-select [(ngModel)]="this.boardSet">
         <ion-option *ngFor="let b of this.boardSets" value="{{b}}"> {{b}}</ion-option>
 
       </ion-select>
-    </ion-item>
+    </ion-item> -->
     <ion-item>
       <ion-label>Font size</ion-label>
       <div item-end>
@@ -33,4 +33,44 @@
       </ion-range>
     </ion-item>
   </ion-list>
+
+  <ion-card *ngFor="let b of this.boardSets">
+    <img src="../assets/screenshots/{{b}}.png"/>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row justify-content-between>
+          <ion-col>
+            <ion-card-title>
+              {{b}}
+            </ion-card-title>
+          </ion-col>
+          <ion-col col-auto>
+            <div *ngIf="b === this.boardSet; then selected else notSelected"></div>
+            <ng-template #selected>
+              <button ion-button disabled item-end >
+                Selected
+              </button>
+            </ng-template>
+            <ng-template #notSelected>
+              <button ion-button item-end (click)="selectBoard(b)">
+                Select
+              </button>
+            </ng-template>
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+
+
+      <!-- <p>
+        The most popular industrial group ever, and largely
+        responsible for bringing the music to a mass audience.
+      </p> -->
+
+    </ion-card-content>
+
+  </ion-card>
+
+
 </ion-content>

@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { SettingsPage } from '../settings/settings';
 import { PreferencesProvider } from '../../providers/preferences/preferences';
 import { SettingsBoardsPage } from '../settings-boards/settings-boards';
-import { SettingsListPage } from '../settings-list/settings-list';
 import { SettingsLangPage } from '../settings-lang/settings-lang';
 import { SettingsBoardsPageModule } from '../settings-boards/settings-boards.module';
 

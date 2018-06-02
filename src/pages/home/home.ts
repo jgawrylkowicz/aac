@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { SettingsPage } from '../settings/settings';
 import { Events } from 'ionic-angular';
 
 import { Platform } from 'ionic-angular';
