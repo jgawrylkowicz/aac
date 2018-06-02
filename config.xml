@@ -99,4 +99,5 @@
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
     <plugin name="cordova-plugin-app-preferences" spec="^0.99.3" />
     <plugin name="cordova-plugin-tts" spec="^0.2.3" />
+    <allow-navigation href="http://10.0.0.13:8100" />
 </widget>

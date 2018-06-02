@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PreferencesProvider } from '../../providers/preferences/preferences';
 import { Events } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
+import { Platform } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -20,8 +21,10 @@ export class SettingsBoardsPage {
     public navParams: NavParams,
     public prefProvider: PreferencesProvider,
     public events: Events,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public platform: Platform
   ) {
+    this.fontSize = 100;
   }
 
   async ionViewDidLoad() {
@@ -76,6 +79,25 @@ public selectBoard(board:any){
   this.boardSet = board;
 }
 
+public async getScreenshotURL(boardName?:string){
+
+  if (boardName != null) return '';
+  if (await this.platform.ready()) {
+
+    if (this.platform.is("cordova")){
+      if ( this.platform.is("ios") || this.platform.is("android") ) {
+        return '../www/assets/screenshots/'+ boardName +'.png';
+      } else {
+        return '../assets/cache/' + boardName + '.png';
+      }
+    } else {
+      return '../assets/cache/' + boardName +'.png';
+    }
+
+  }
+
+}
+
 
 private presentToast() {
   let toast = this.toastCtrl.create({
@@ -89,6 +111,11 @@ private presentToast() {
   });
 
   toast.present();
+}
+
+public getFontSize():string{
+  let value =  (this.fontSize / 100) * 1.75;
+  return value + "rem";
 }
 
 }

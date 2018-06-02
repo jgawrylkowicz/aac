@@ -6,23 +6,19 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>Settings</ion-title>
+    <ion-title>Boards</ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
   <ion-list>
-    <!-- <ion-item>
-      <ion-label>Board set</ion-label>
-      <ion-select [(ngModel)]="this.boardSet">
-        <ion-option *ngFor="let b of this.boardSets" value="{{b}}"> {{b}}</ion-option>
-
-      </ion-select>
-    </ion-item> -->
+    <ion-item>
+        Adjust the font size of the button labels
+      </ion-item>
     <ion-item>
       <ion-label>Font size</ion-label>
-      <div item-end>
+      <div item-end [ngStyle] ="{'font-size' : this.getFontSize() }">
         {{this.fontSize}}%
       </div>
     </ion-item>
@@ -34,8 +30,18 @@
     </ion-item>
   </ion-list>
 
+  <ion-item>
+    Choose one of the boards below.
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Current board set</ion-label>
+    <div item-end>
+      {{this.boardSet}}
+    </div>
+  </ion-item>
   <ion-card *ngFor="let b of this.boardSets">
-    <img src="../assets/screenshots/{{b}}.png"/>
+    <img [src]="'../assets/screenshots/' + b + '.png'"/>
     <ion-card-content>
       <ion-grid>
         <ion-row justify-content-between>
