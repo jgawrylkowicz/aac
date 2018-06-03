@@ -27,7 +27,7 @@ export class PreferencesProvider {
     this.defaultBoardSet = "default-material";
     this.defaultFontSize = 100;
     this.defaultFontWeight = 400;
-    this.defaultButtonSize = 85;
+    this.defaultButtonSize = 100;
     this.defaultLanguage = "en";
     this.defaultGrammarCheck = false;
     this.defaultAutoCorrectLevel = 0;
@@ -37,6 +37,21 @@ export class PreferencesProvider {
 
   ionViewDidLoad() {
 
+  }
+
+  public async restoreDefaults(){
+    try {
+      await this.setCurrentBoardSet(this.defaultBoardSet);
+      await this.setFontSize(this.defaultFontSize);
+      await this.setFontWeight(this.defaultFontWeight);
+      await this.setButtonSize(this.defaultButtonSize);
+      await this.setLanguage(this.defaultLanguage);
+      await this.setGrammarCheck(this.defaultGrammarCheck);
+      await this.setAutoCorrectLevel(this.defaultAutoCorrectLevel);
+      await this.setWordPrediction(this.defaultWordPrediction);
+    } catch {
+      console.error("The default settings could not be restored");
+    }
   }
 
   public async getCurrentBoardSet():Promise<string>{

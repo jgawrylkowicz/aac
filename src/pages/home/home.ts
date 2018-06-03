@@ -66,7 +66,7 @@ export class HomePage {
       }
       this.fontSize = 100;
       this.fontWeight = 400;
-      this.buttonSize = 85;
+      this.buttonSize = 100;
 
       // preload images
       // imageLoader.preload('http://path.to/image.jpg');

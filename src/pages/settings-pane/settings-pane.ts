@@ -6,6 +6,8 @@ import { SettingsBoardsPage } from '../settings-boards/settings-boards';
 import { SettingsLangPage } from '../settings-lang/settings-lang';
 import { SettingsBoardsPageModule } from '../settings-boards/settings-boards.module';
 import { SettingsAccessibilityPage } from '../settings-accessibility/settings-accessibility';
+import { AlertController } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
 
 //TODO navigation does not work as it should
 // when compressed the content should allow the user
@@ -27,7 +29,10 @@ export class SettingsPanePage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    public prefProvider: PreferencesProvider) {
+    public prefProvider: PreferencesProvider,
+    public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
+  ) {
 
     this.root = SettingsBoardsPage;
     this.pages = [{title:"Boards",
@@ -45,6 +50,46 @@ export class SettingsPanePage {
 
   public openPage(p) {
     this.contentCtrl.setRoot(p.link);
+  }
+
+  public presentConfirmRestore() {
+    let alert = this.alertCtrl.create({
+      title: 'Confirm',
+      message: 'Do you want restore the default settings?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            //console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Restore',
+          cssClass: "danger",
+          handler: () => {
+            this.prefProvider.restoreDefaults();
+            this.presentToast();
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  private presentToast() {
+    let toast = this.toastCtrl.create({
+      message: 'Settings were restored successfully',
+      duration: 3000,
+      position: 'top'
+    });
+
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    toast.present();
+
   }
 
 }

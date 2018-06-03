@@ -11,7 +11,11 @@
         <button menuClose ion-item *ngFor="let p of pages"
          (click)="openPage(p)" >
         {{p.title}}
-      </button>
+        </button>
+        <button  ion-item (click)="presentConfirmRestore()" >
+          <ion-icon color="danger" name="refresh" item-start></ion-icon>
+          <span class="danger">Restore defaults</span>
+        </button>
       </ion-list>
     </ion-content>
   </ion-menu>
