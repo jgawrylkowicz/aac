@@ -12,25 +12,8 @@
 
 
 <ion-content padding>
-  <ion-list>
-    <ion-item>
-        Adjust the font size of the button labels
-      </ion-item>
-    <ion-item>
-      <ion-label>Font size</ion-label>
-      <div item-end [ngStyle] ="{'font-size' : this.getFontSize() }">
-        {{this.fontSize}}%
-      </div>
-    </ion-item>
-    <ion-item no-lines>
-      <ion-range min="85" max="150"  step="5"  snaps="true" [(ngModel)]="this.fontSize">
-          <ion-label range-left>85%</ion-label>
-          <ion-label range-right>150%</ion-label>
-      </ion-range>
-    </ion-item>
-  </ion-list>
 
-  <ion-item>
+  <ion-item class="info">
     Choose one of the boards below.
   </ion-item>
 
@@ -40,7 +23,7 @@
       {{this.boardSet}}
     </div>
   </ion-item>
-  <ion-card *ngFor="let b of this.boardSets">
+  <ion-card class="board-card" *ngFor="let b of this.boardSets">
     <img [src]="'../assets/screenshots/' + b + '.png'"/>
     <ion-card-content>
       <ion-grid>

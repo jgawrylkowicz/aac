@@ -1,0 +1,70 @@
+<!--
+  Generated template for the SettingsAccessibilityPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Accessibility</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+    <ion-item class="info">
+      Adjust the font size of the button labels
+    </ion-item>
+    <ion-item>
+      <ion-label>Font size</ion-label>
+      <div item-end [ngStyle] ="{'font-size' : this.getFontSize() }">
+        {{this.fontSize}}%
+      </div>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-range min="100" max="130"  step="5" pin="true" snaps="true" [(ngModel)]="this.fontSize">
+        <ion-label [ngStyle] ="{'font-size' : '1.75rem' }" range-left>100%</ion-label>
+        <ion-label [ngStyle] ="{'font-size' : '2.25rem' }" range-right>130%</ion-label>
+      </ion-range>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-item class="info">
+        Adjust the font weight of the button labels
+    </ion-item>
+    <ion-item>
+      <ion-label>Font weight</ion-label>
+      <div item-end [ngStyle] ="{'font-weight' : this.fontWeight }">
+        {{this.fontWeight}}
+      </div>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-range min="400" max="800"  step="100" pin="true"  snaps="true" [(ngModel)]="this.fontWeight">
+        <ion-label range-left>Regular</ion-label>
+        <ion-label [ngStyle] ="{'font-weight' : 800 }" range-right>Bold</ion-label>
+      </ion-range>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-item class="info">
+      Adjust the size of the top buttons
+    </ion-item>
+    <ion-item>
+      <ion-label>Button size</ion-label>
+      <div item-end>
+        {{this.buttonSize}}px
+      </div>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-range min="60" max="120"  step="10" pin="true" snaps="true" [(ngModel)]="this.buttonSize">
+        <ion-label range-left>60px</ion-label>
+        <ion-label range-right>120px</ion-label>
+      </ion-range>
+    </ion-item>
+  </ion-list>
+</ion-content>

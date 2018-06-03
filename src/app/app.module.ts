@@ -20,6 +20,7 @@ import { HomePage } from '../pages/home/home';
 import { SettingsPanePage } from '../pages/settings-pane/settings-pane';
 import { SettingsBoardsPage } from '../pages/settings-boards/settings-boards';
 import { SettingsLangPage } from '../pages/settings-lang/settings-lang';
+import { SettingsAccessibilityPage } from '../pages/settings-accessibility/settings-accessibility';
 import { BoardsProvider } from '../providers/boards/boards';
 import { PreferencesProvider } from '../providers/preferences/preferences';
 
@@ -34,6 +35,7 @@ import { IonicImageLoader } from 'ionic-image-loader';
     SettingsBoardsPage,
     SettingsPanePage,
     SettingsLangPage,
+    SettingsAccessibilityPage
   ],
   imports: [
     BrowserModule,
@@ -54,6 +56,7 @@ import { IonicImageLoader } from 'ionic-image-loader';
     SettingsBoardsPage,
     SettingsPanePage,
     SettingsLangPage,
+    SettingsAccessibilityPage
   ],
   providers: [
     StatusBar,

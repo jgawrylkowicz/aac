@@ -5,6 +5,7 @@ import { PreferencesProvider } from '../../providers/preferences/preferences';
 import { SettingsBoardsPage } from '../settings-boards/settings-boards';
 import { SettingsLangPage } from '../settings-lang/settings-lang';
 import { SettingsBoardsPageModule } from '../settings-boards/settings-boards.module';
+import { SettingsAccessibilityPage } from '../settings-accessibility/settings-accessibility';
 
 //TODO navigation does not work as it should
 // when compressed the content should allow the user
@@ -33,8 +34,8 @@ export class SettingsPanePage {
                   link: SettingsBoardsPage},
                   {title:"Language & Speech",
                   link: SettingsLangPage},
-                  {title:"Other",
-                  link: SettingsLangPage}];
+                  {title:"Accessibility",
+                  link: SettingsAccessibilityPage}];
 
   }
 
@@ -43,7 +44,6 @@ export class SettingsPanePage {
   }
 
   public openPage(p) {
-    //this.root = p.link;
     this.contentCtrl.setRoot(p.link);
   }
 

@@ -10,6 +10,8 @@ export class PreferencesProvider {
   private boardSets:any[];
   private defaultLanguage:string;
   private defaultFontSize:number;
+  private defaultFontWeight:number;
+  private defaultButtonSize:number;
   private defaultBoardSet:string;
   private defaultGrammarCheck:boolean;
   private defaultAutoCorrectLevel:number;
@@ -24,6 +26,8 @@ export class PreferencesProvider {
     this.boardSets = ["default-material", "communikate-20", "keyboard", "60-core"]
     this.defaultBoardSet = "default-material";
     this.defaultFontSize = 100;
+    this.defaultFontWeight = 400;
+    this.defaultButtonSize = 85;
     this.defaultLanguage = "en";
     this.defaultGrammarCheck = false;
     this.defaultAutoCorrectLevel = 0;
@@ -110,6 +114,52 @@ export class PreferencesProvider {
           else resolve(this.defaultFontSize);
         })
         .catch( err => resolve(this.defaultFontSize))
+      }
+    });
+
+  }
+
+  public async getFontWeight():Promise<number>{
+
+    return new Promise<number>((resolve,reject )=> {
+
+      if (this.platform.is("cordova")){
+        this.appPreferences.fetch("fontWeight")
+        .then( data => {
+          if (data != null) resolve(Number.parseInt(data));
+          else resolve(this.defaultFontWeight);
+        })
+        .catch( err => resolve(this.defaultFontWeight))
+      } else {
+        this.storage.get("fontWeight")
+        .then( data => {
+          if (data != null) resolve(Number.parseInt(data));
+          else resolve(this.defaultFontWeight);
+        })
+        .catch( err => resolve(this.defaultFontWeight))
+      }
+    });
+
+  }
+
+  public async getButtonSize():Promise<number>{
+
+    return new Promise<number>((resolve,reject )=> {
+
+      if (this.platform.is("cordova")){
+        this.appPreferences.fetch("buttonSize")
+        .then( data => {
+          if (data != null) resolve(Number.parseInt(data));
+          else resolve(this.defaultButtonSize);
+        })
+        .catch( err => resolve(this.defaultButtonSize))
+      } else {
+        this.storage.get("buttonSize")
+        .then( data => {
+          if (data != null) resolve(Number.parseInt(data));
+          else resolve(this.defaultButtonSize);
+        })
+        .catch( err => resolve(this.defaultButtonSize))
       }
     });
 
@@ -251,6 +301,28 @@ export class PreferencesProvider {
     } else {
       if (await this.storage.ready()){
         this.storage.set("fontSize", percent.toString());
+      }
+    }
+  }
+
+  public async setFontWeight(percent:number){
+
+    if (this.platform.is("cordova")){
+      this.appPreferences.store("fontWeight", percent.toString());
+    } else {
+      if (await this.storage.ready()){
+        this.storage.set("fontWeight", percent.toString());
+      }
+    }
+  }
+
+  public async setButtonSize(percent:number){
+
+    if (this.platform.is("cordova")){
+      this.appPreferences.store("buttonSize", percent.toString());
+    } else {
+      if (await this.storage.ready()){
+        this.storage.set("buttonSize", percent.toString());
       }
     }
   }

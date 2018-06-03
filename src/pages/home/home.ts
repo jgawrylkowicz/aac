@@ -37,6 +37,8 @@ export class HomePage {
 
   prediction:any;
   fontSize:number;
+  fontWeight:number;
+  buttonSize:number;
   currentBoardName:string;
 
   constructor(
@@ -63,6 +65,8 @@ export class HomePage {
         columns: 5
       }
       this.fontSize = 100;
+      this.fontWeight = 400;
+      this.buttonSize = 85;
 
       // preload images
       // imageLoader.preload('http://path.to/image.jpg');
@@ -75,6 +79,14 @@ export class HomePage {
 
       events.subscribe('fontSize:changed', (fontSize, time) => {
         this.fontSize = fontSize;
+      });
+
+      events.subscribe('fontWeight:changed', (fontWeight, time) => {
+        this.fontWeight = fontWeight;
+      });
+
+      events.subscribe('buttonSize:changed', (buttonSize, time) => {
+        this.buttonSize = buttonSize;
       });
 
       events.subscribe('language:changed', (language, time) => {

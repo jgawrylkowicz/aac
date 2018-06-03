@@ -7,13 +7,15 @@ import { Platform } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-settings-boards',
-  templateUrl: 'settings-boards.html',
+  selector: 'page-settings-accessibility',
+  templateUrl: 'settings-accessibility.html',
 })
-export class SettingsBoardsPage {
+export class SettingsAccessibilityPage {
 
-  public boardSets:any[];
-  public boardSet:string;
+  public fontSize:number;
+  public fontWeight:number;
+  public buttonSize:number;
+
 
   constructor(
     public navCtrl: NavController,
@@ -24,12 +26,15 @@ export class SettingsBoardsPage {
     public platform: Platform
   ) {
 
+    this.fontSize = 100;
+    this.fontWeight = 400;
+    this.buttonSize = 85;
+
   }
 
   async ionViewDidLoad() {
     await this.loadPrefernces();
   }
-
 
   async ionViewWillUnload(){
     await this.savePrefernces();
@@ -38,8 +43,9 @@ export class SettingsBoardsPage {
   public async loadPrefernces(){
 
     try{
-      this.boardSets = this.prefProvider.getBoardsetsNames();
-      this.boardSet = await this.prefProvider.getCurrentBoardSet();
+      this.fontSize = await this.prefProvider.getFontSize();
+      this.fontWeight = await this.prefProvider.getFontWeight();
+      this.buttonSize = await this.prefProvider.getButtonSize();
     } catch {
       console.log("Loading the preferences has failed");
     }
@@ -52,9 +58,22 @@ export class SettingsBoardsPage {
     try{
 
       let isChanged:boolean = false;
-      if (this.boardSet !== await this.prefProvider.getCurrentBoardSet()) {
-        await this.prefProvider.setCurrentBoardSet(this.boardSet);
-        this.events.publish('boardSet:changed', this.boardSet, Date.now());
+
+      if (this.fontSize !== await this.prefProvider.getFontSize()){
+        await this.prefProvider.setFontSize(this.fontSize);
+        this.events.publish('fontSize:changed', this.fontSize, Date.now());
+        isChanged = true;
+      }
+
+      if (this.fontWeight !== await this.prefProvider.getFontWeight()){
+        await this.prefProvider.setFontWeight(this.fontWeight);
+        this.events.publish('fontWeight:changed', this.fontWeight, Date.now());
+        isChanged = true;
+      }
+
+      if (this.buttonSize !== await this.prefProvider.getButtonSize()){
+        await this.prefProvider.setButtonSize(this.buttonSize);
+        this.events.publish('buttonSize:changed', this.buttonSize, Date.now());
         isChanged = true;
       }
 
@@ -65,29 +84,6 @@ export class SettingsBoardsPage {
     } catch {
       console.log("Saving the preferences has failed");
     }
-  }
-
-  public selectBoard(board:any){
-    this.boardSet = board;
-  }
-
-  public async getScreenshotURL(boardName?:string){
-
-    if (boardName != null) return '';
-    if (await this.platform.ready()) {
-
-      if (this.platform.is("cordova")){
-        if ( this.platform.is("ios") || this.platform.is("android") ) {
-          return '../www/assets/screenshots/'+ boardName +'.png';
-        } else {
-          return '../assets/cache/' + boardName + '.png';
-        }
-      } else {
-        return '../assets/cache/' + boardName +'.png';
-      }
-
-    }
-
   }
 
 
@@ -105,5 +101,9 @@ export class SettingsBoardsPage {
     toast.present();
   }
 
+  public getFontSize():string{
+    let value =  (this.fontSize / 100) * 1.75;
+    return value + "rem";
+  }
 
 }
