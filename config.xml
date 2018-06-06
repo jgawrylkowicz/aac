@@ -82,6 +82,7 @@
     <allow-navigation href="http://192.168.1.7:8100" />
     <allow-navigation href="http://192.168.1.8:8100" />
     <allow-navigation href="http://169.254.136.22:8100" />
+    <allow-navigation href="http://10.0.0.13:8100" />
     <engine name="browser" spec="5.0.3" />
     <engine name="android" spec="6.3.0" />
     <engine name="ios" spec="4.5.4" />
@@ -99,5 +100,4 @@
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
     <plugin name="cordova-plugin-app-preferences" spec="^0.99.3" />
     <plugin name="cordova-plugin-tts" spec="^0.2.3" />
-    <allow-navigation href="http://10.0.0.13:8100" />
 </widget>

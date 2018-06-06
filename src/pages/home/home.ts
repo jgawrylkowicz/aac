@@ -3,7 +3,7 @@ import { NavController } from 'ionic-angular';
 import { Events } from 'ionic-angular';
 
 import { Platform } from 'ionic-angular';
-import { ImageLoader } from 'ionic-image-loader';
+//import { ImageLoader } from 'ionic-image-loader';
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 
 import { BoardsProvider } from '../../providers/boards/boards';
@@ -44,7 +44,6 @@ export class HomePage {
   constructor(
     public navCtrl: NavController,
     public events: Events,
-    private imageLoader: ImageLoader,
     public plt: Platform,
     public boardsProvider: BoardsProvider,
     public prefProvider: PreferencesProvider,

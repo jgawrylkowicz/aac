@@ -1,15 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { SettingsPage } from '../settings/settings';
 import { PreferencesProvider } from '../../providers/preferences/preferences';
 import { SettingsBoardsPage } from '../settings-boards/settings-boards';
 import { SettingsLangPage } from '../settings-lang/settings-lang';
-import { SettingsBoardsPageModule } from '../settings-boards/settings-boards.module';
 import { SettingsAccessibilityPage } from '../settings-accessibility/settings-accessibility';
 import { AlertController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 
-//TODO navigation does not work as it should
+// TODO navigation does not work as it should
 // when compressed the content should allow the user
 // to go back to the list
 

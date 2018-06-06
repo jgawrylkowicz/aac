@@ -32,10 +32,10 @@ import { IonicImageLoader } from 'ionic-image-loader';
   declarations: [
     MyApp,
     HomePage,
-    SettingsBoardsPage,
     SettingsPanePage,
+    SettingsBoardsPage,
+    SettingsAccessibilityPage,
     SettingsLangPage,
-    SettingsAccessibilityPage
   ],
   imports: [
     BrowserModule,
@@ -53,10 +53,10 @@ import { IonicImageLoader } from 'ionic-image-loader';
   entryComponents: [
     MyApp,
     HomePage,
-    SettingsBoardsPage,
     SettingsPanePage,
-    SettingsLangPage,
-    SettingsAccessibilityPage
+    SettingsBoardsPage,
+    SettingsAccessibilityPage,
+    SettingsLangPage
   ],
   providers: [
     StatusBar,

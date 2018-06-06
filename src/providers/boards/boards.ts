@@ -29,7 +29,8 @@ export class BoardsProvider {
 
   boardSets:Array<BoardSetModel>;
   currentBoardSet:BoardSetModel;
-  path:string; // path to the unzipped board with all the assets
+  pathToSettings:string; // path to the unzipped board with all the assets
+  pathToImages:string; // path to the images for the frontened
   loadingMessage:string;
   currentBoardName:string;
   loading;
@@ -70,7 +71,7 @@ export class BoardsProvider {
 
     let boardSet = undefined;
     try {
-      //boardSet = await this.loadBoardSetFromStorage(name);
+      boardSet = await this.loadBoardSetFromStorage(name);
     } catch {
       console.log("getBoardSet(): No boards have been saved before");
     }
@@ -84,7 +85,7 @@ export class BoardsProvider {
       } catch {
         console.log("getBoardSet(): Loading failed");
       }
-      //this.saveBoardSetToStorage(this.currentBoardSet, true);
+      this.saveBoardSetToStorage(this.currentBoardSet, true);
     }
 
     return new Promise<BoardSetModel> ((resolve, reject )=> {
@@ -314,20 +315,24 @@ export class BoardsProvider {
     // name = default-material || communikate-20
     // if (name === undefined) name = 'communikate-20.obz';
     let settingsFile:string = 'manifest.json';
-    let url:string;
+    let pathToSettings:string;
+    let pathToImages:string;
     try {
       // TODO that function works but the URL has to be normalized for the frontend first
-      // url = await this.getBoardSettingsURL(file);
+      // pathToSettings = await this.getBoardSettingsURL(file);
 
       if (this.platform.is("cordova")){
 
         if ( this.platform.is("ios") || this.platform.is("android") ) {
-          url = this.file.applicationDirectory + 'www/assets/cache/'+ name +'/';
+          pathToSettings = this.file.applicationDirectory + 'www/assets/cache/'+ name +'/';
+          pathToImages = '../assets/cache/'+ name +'/';
         } else {
-          url = 'assets/cache/' + name + '/';
+          pathToSettings = 'assets/cache/' + name + '/';
+          pathToImages = '../assets/cache/'+ name +'/';
         }
       } else {
-        url = 'assets/cache/' + name +'/';
+        pathToSettings = 'assets/cache/' + name +'/';
+        pathToImages = '../assets/cache/'+ name +'/';
       }
 
 
@@ -338,21 +343,22 @@ export class BoardsProvider {
       });
     }
 
-    console.log("url", await url);
+    console.log("pathToSettings", await pathToSettings);
 
-    if ( (await url !== undefined && await url !== null ) && settingsFile ) {
+    if ( (await pathToSettings !== undefined && await pathToSettings !== null ) && settingsFile ) {
 
-      console.log("getBoardSettings(): URL to board set has been resolved", url);
-      this.path = url; // url is need to get images later on
+      console.log("getBoardSettings(): URL to board set has been resolved", pathToSettings);
+      this.pathToSettings = pathToSettings; // pathToSettings is need to get images later on
+      this.pathToImages = pathToImages;
 
       return new Promise<any>( (resolve, reject )=> {
         if (this.platform.is("ios") || this.platform.is("android")){
-          this.file.readAsBinaryString(url, settingsFile)
+          this.file.readAsBinaryString(pathToSettings, settingsFile)
           .then( data => resolve(JSON.parse(data)) )
           .catch(err => console.log("getBoardSettings(): Error while reading the data from the board settings file"));
         } else {
 
-          this.http.get(url + settingsFile)
+          this.http.get(pathToSettings + settingsFile)
           .map(res =>
             res.json()).subscribe(data => {
               resolve(data);
@@ -466,13 +472,13 @@ export class BoardsProvider {
 
     //check if the file exists
     return new Promise<Array<any>>((resolve,reject) => {
-      if (filename && this.path){
+      if (filename && this.pathToSettings){
         if (this.platform.is("ios") || this.platform.is("android")){
-          this.file.readAsBinaryString(this.path, filename)
+          this.file.readAsBinaryString(this.pathToSettings, filename)
           .then( data => resolve(JSON.parse(data)) )
           .catch(err => console.log("Error while reading the data from the board settings file"));
         } else {
-          this.http.get(this.path + filename)
+          this.http.get(this.pathToSettings + filename)
           .map(res =>
             res.json()).subscribe(data => {
               //console.log(data);
@@ -521,15 +527,15 @@ export class BoardsProvider {
 
             let transformedBoard;
             if (this.isKeyboard(board)){
-              transformedBoard = new KeyboardModel(board, this.path, boardSettings);
+              transformedBoard = new KeyboardModel(board, this.pathToImages, boardSettings);
             } else {
-              transformedBoard = new BoardModel(board, this.path, boardSettings);
+              transformedBoard = new BoardModel(board, this.pathToImages, boardSettings);
             }
 
             if (transformedBoard !== undefined) boards.push(transformedBoard);
           }
 
-          let boardSet:BoardSetModel = new BoardSetModel(this.extractNameFromPath(), this.path, boards);
+          let boardSet:BoardSetModel = new BoardSetModel(this.extractNameFromPath(), this.pathToSettings, boards);
           resolve(boardSet);
         } catch {
           console.log("loadBoardSet(): Error: Unzipping of a boardset was interrupted.")
@@ -542,9 +548,9 @@ export class BoardsProvider {
 
   // extracts the name of the board set from the path
   private extractNameFromPath(){
-    if (! this.path) return null;
+    if (! this.pathToSettings) return null;
 
-    let boardSetName = this.path;
+    let boardSetName = this.pathToSettings;
 
     if (boardSetName.charAt(boardSetName.length - 1) === "/" || boardSetName.charAt(boardSetName.length - 1) === "/" ){
       boardSetName = boardSetName.slice(0, -1);
@@ -566,8 +572,7 @@ export class BoardsProvider {
       }
     }
 
-    if (numOfLetters > 5) {
-      console.log(true);
+    if (numOfLetters > 7) {
       return true;
     } else return false;
 

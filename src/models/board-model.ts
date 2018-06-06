@@ -2,8 +2,6 @@ import { ButtonModel } from "./button-model";
 import { DirectoryModel } from "./button-model";
 import { PhraseModel } from "./button-model";
 import { Platform } from 'ionic-angular';
-//import { normalizeUrl } from "ionic-angular/navigation/deep-linker";
-
 
 export class BoardModel{
 
@@ -88,7 +86,7 @@ export class BoardModel{
             // Url for images from the assets folder
             // "../assets/cache/communikate-20/images/...
             let image_url:string = settings.paths.images[button.image_id];
-            let image_path:string = '../' + path + image_url;
+            let image_path:string = path + image_url;
 
             if (button.load_board){
               return new DirectoryModel(button.id, image_path, button.label, button.border_color, button.background_color,button.load_board.id );

@@ -35,7 +35,6 @@ export class BoardSetModel{
   }
 
   public getNumOfColumns():number{
-    let max:number = 0;
     let board = this.getBoardByIndex(0);
     return board.getNumOfColumns();
   }

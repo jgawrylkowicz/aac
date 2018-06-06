@@ -269,11 +269,9 @@ class EnglishAdapter implements EntityAdapterInterface{
   // ) Right paren               )
 
   // TODO some words are tagged incorrectly. For example "like" is tagged a s preposition
-  private wordExtracter:Lexer;
   private wordTagger: Tagger;
 
   constructor(){
-    this.wordExtracter = new Lexer();
     this.wordTagger = new Tagger();
   }
 
