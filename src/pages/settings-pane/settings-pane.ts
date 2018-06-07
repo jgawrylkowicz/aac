@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { PreferencesProvider } from '../../providers/preferences/preferences';
 import { SettingsBoardsPage } from '../settings-boards/settings-boards';
 import { SettingsLangPage } from '../settings-lang/settings-lang';
@@ -11,7 +11,6 @@ import { ToastController } from 'ionic-angular';
 // when compressed the content should allow the user
 // to go back to the list
 
-@IonicPage()
 @Component({
   selector: 'page-settings-pane',
   templateUrl: 'settings-pane.html',

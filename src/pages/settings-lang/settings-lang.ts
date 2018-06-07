@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { PreferencesProvider } from '../../providers/preferences/preferences';
 import { Events } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 
 
-@IonicPage()
+
 @Component({
   selector: 'page-settings-lang',
   templateUrl: 'settings-lang.html',
