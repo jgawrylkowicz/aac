@@ -23,6 +23,10 @@ This thesis presents the development process of an Augmentative and Alternative 
 
 ## Screenshots
 
+![alt text](https://github.com/jgawrylkowicz/aac/blob/master/img/default-material.png "default-material")
+![alt text](https://github.com/jgawrylkowicz/aac/blob/master/img/final_settings.png "settings")
+![alt text](https://github.com/jgawrylkowicz/aac/blob/master/img/grammar-correct.png "grammar-correct")
+![alt text](https://github.com/jgawrylkowicz/aac/blob/master/img/grammar-incorrect.png "grammar-correct")
 
 
 ## Installation
